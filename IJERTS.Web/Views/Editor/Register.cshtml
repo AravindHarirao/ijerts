@@ -1,0 +1,93 @@
+﻿
+@{
+    @model IJERTS.Objects.Users
+    ViewData["Title"] = "Register";
+}
+
+<h4>Register</h4>
+<br />
+@using (Html.BeginForm("Register", "Editor", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+<div style="padding-left:8px">
+    <div class="row">
+        <label class="control-label col-md-3">First Name</label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @maxlength = 150, @placeholder = "First Name", @name = "Password", @autocomplete = "off" })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+    <br />
+    <div class="row">
+        <label class="control-label col-md-3">Last Name</label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @maxlength = 150, @placeholder = "Last Name", @name = "LastName", @autocomplete = "off" })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+    <br />
+    <div class="row">
+        <label class="control-label col-md-3">Email Address</label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @maxlength = 150, @placeholder = "Email Address", @name = "Email", @autocomplete = "off" })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+    <br />
+    <div class="row">
+        <label class="control-label col-md-3">Mobile No</label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @maxlength = 15, @placeholder = "Phone No", @name = "Phone", @autocomplete = "off" })
+            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+    <br />
+    <div class="row">
+        <label class="control-label col-md-3">Organisation</label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Organisation, new { @class = "form-control", @maxlength = 150, @placeholder = "Organisation", @name = "Organisation", @autocomplete = "off" })
+            @Html.ValidationMessageFor(model => model.Organisation, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+    <br />
+    <div class="row">
+        <label class="control-label col-md-3">Qualification</label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Qualification, new { @class = "form-control", @maxlength = 150, @placeholder = "Qualification", @name = "Qualification", @autocomplete = "off" })
+            @Html.ValidationMessageFor(model => model.Qualification, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+    <br />
+    <div class="row">
+        <label class="control-label col-md-3">Position</label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Position, new { @class = "form-control", @maxlength = 150, @placeholder = "Position", @name = "Position", @autocomplete = "off" })
+            @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+    <br />
+    <div class="row">
+        <label class="control-label col-md-3">Specialization</label>
+        <div class="col-md-4">
+            @Html.DropDownListFor(model => model.SpecializationId, (IEnumerable<SelectListItem>)ViewBag.Specialization, "Select", new { @class = "form-control" })
+            @Html.HiddenFor(model => model.Specialization)
+        </div>
+        <div class="col-sm-5"></div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" id="Submit" class="btn btn-default" onclick="location.href='@Url.Action("Register", "Editor")'" />
+            </div>
+        </div>
+    </div>
+</div>
+}

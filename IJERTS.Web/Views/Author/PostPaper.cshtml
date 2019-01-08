@@ -1,0 +1,122 @@
+﻿
+@{
+    @model IJERTS.Objects.Paper
+    ViewData["Title"] = "PostPaper";
+}
+
+<h4><span>Submit Paper</span></h4>
+@using (Html.BeginForm("PostPaper", "Author", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+<div style="padding-left:8px">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.MainTitle, htmlAttributes: new { @class = "control-label col-md-3", @style= "padding-left:0px !important"})
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.MainTitle, new { htmlAttributes = new { @class = "form-control"} })
+            @Html.ValidationMessageFor(model => model.MainTitle, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-9"></div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.ShortDesc, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.ShortDesc, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ShortDesc, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
+        </div>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Tags, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Tags, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-1">
+            <label id="lblFileName">Browse</label>
+        </div>
+        <div class="col-md-11">
+            <input type="file" id="PaperPath" name="PaperPath" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+            <label id="lblFileName">Authors</label>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3" style="padding:2px 2px 2px 2px"><label id="lblFirstNameCaption">First Name</label></div>
+        <div class="col-md-3" style="padding:2px 2px 2px 2px"><label id="lblFirstNameCaption">Last Name</label></div>
+        <div class="col-md-4" style="padding:2px 2px 2px 2px"><label id="lblFirstNameCaption">Department</label></div>
+        <div class="col-md-2" style="padding:9px 2px 2px 2px"><label id="lblFirstNameCaption">Organisation</label></div>
+    </div>
+    <div class="row">
+        <div class="col-md-3" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorFirstName1" class="form-control text-box single-line " style="width:130px" /></div>
+        <div class="col-md-3" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorLastName1" id="AuthorLastName1" class="form-control text-box single-line " style="width:130px" /></div>
+        <div class="col-md-4" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorDepartment1" id="AuthorDepartment1" class="form-control text-box single-line " style="width:170px" /></div>
+        <div class="col-md-2" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorOrganisation1" id="AuthorOrganisation1" class="form-control text-box single-line " style="width:200px" /></div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorFirstName2" id="AuthorFirstName2" class="form-control text-box single-line" style="width:130px" /></div>
+        <div class="col-md-3" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorLastName2" id="AuthorLastName2" class="form-control text-box single-line" style="width:130px" /></div>
+        <div class="col-md-4" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorDepartment2" id="AuthorDepartment2" class="form-control text-box single-line" style="width:170px" /></div>
+        <div class="col-md-2" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorOrganisation2" id="AuthorOrganisation2" class="form-control text-box single-line" style="width:200px" /></div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorFirstName3" id="AuthorFirstName3" class="form-control text-box single-line" style="width:130px" /></div>
+        <div class="col-md-3" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorLastName3" id="AuthorLastName3" class="form-control text-box single-line" style="width:130px" /></div>
+        <div class="col-md-4" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorDepartment3" id="AuthorDepartment3" class="form-control text-box single-line" style="width:170px" /></div>
+        <div class="col-md-2" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorOrganisation3" id="AuthorOrganisation3" class="form-control text-box single-line" style="width:200px" /></div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorFirstName4" id="AuthorFirstName4" class="form-control text-box single-line" style="width:130px" /></div>
+        <div class="col-md-3" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorLastName4" id="AuthorLastName4" class="form-control text-box single-line" style="width:130px" /></div>
+        <div class="col-md-4" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorDepartment4" id="AuthorDepartment4" class="form-control text-box single-line" style="width:170px" /></div>
+        <div class="col-md-2" style="padding:2px 2px 2px 2px"><input type="text" name="AuthorOrganisation4" id="AuthorOrganisation4" class="form-control text-box single-line" style="width:200px" /></div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-1" style="padding-left:0px !important">
+                <input type="submit" value="Post Paper" id="postPaper" class="btn btn-default" onclick="location.href='@Url.Action("Author", "PostPaper")'" />
+            </div>
+            <div class="col-md-11"></div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-10">
+                <label id="lblError" class="text-danger"> @TempData["PaperPostingFailed"]</label>
+            </div>
+        </div>
+    </div>
+</div>
+}

@@ -1,0 +1,97 @@
+﻿
+@{
+    @model IJERTS.Objects.ContactUs
+    ViewData["Title"] = "Contact";
+}
+<h2>Contact Us</h2>
+
+
+<div>
+    We invite your suggestions or queries, please feel free to contact us.
+    <br><br>
+    <h4>Email</h4>
+    <a href="mailto:editor@ijerts.org">editor@ijerts.org</a>
+    <br><br>
+    <h4>Contact Form</h4><br>
+    @using (Html.BeginForm("ValidateContactUs", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @id = "frmContactUs", @class = "login-form", @autocomplete = "off" }))
+    {
+        @Html.AntiForgeryToken()
+    <div style="padding-left:8px">
+        <div class="row">
+            <label class="control-label col-md-3">Full Name <span class="required"> * </span></label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.FullName, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "Full Name", @name = "FullName", @tabindex = "1", @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="control-label col-md-3">Email Id <span class="required"> * </span></label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "Email Id", @name = "EmailAddress", @tabindex = "2", @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="control-label col-md-3">Message <span class="required"> * </span></label>
+            <div class="col-md-4">
+                @Html.TextAreaFor(model => Model.EmailMessage, new { @class = "form-control textvalidationCheck", @id = "EmailMessage", @datainputmsg = "errEmailMessage", @tabindex = "3", @maxlength = 1000, @row = 5, @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.EmailMessage, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="Submit" id="Submit" class="btn btn-default" onclick="location.href='@Url.Action("ValidateContactUs", "Home")'" />
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label id="lblError" class="text-danger"> @TempData["ContactUsMessage"]</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+
+@*<address>
+        The International Journal of Engineering Research and Technology Science<br /><br />
+
+        ISSN: 1234-5678
+        Lorem ipsum<br />
+        Block 1, Door No AG, Lorem ipsum apart, Lorem ipsum street, Lorem ipsum.<br />
+        <abbr title="Phone">P:</abbr>
+        +91 98401 50001/02/03
+    </address>
+
+    <address>
+        <strong>Support:</strong> <a href="mailto:support@ijerts.org">support@ijerts.org</a><br />
+    </address>
+
+    <div>
+        <h4>Mail Support</h4>
+        Authors can communicate any time to IJERTS through mail. Our mail id is reachus@ijerts.org
+        <br>
+        If author have registration ID then kindly mention it in the subject field of the mail.
+        <br>
+    </div>
+
+
+    <div>
+        <h4>Call Support</h4>
+        Call support will be available on following mentioned time only:
+        <br>
+        Monday to Saturday: 5:30 To 8:00 PM
+        <br>
+        Sunday: 10:00 AM To 1:00 PM and 5:00 To 6:30 PM
+    </div>*@
