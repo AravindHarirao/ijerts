@@ -160,5 +160,28 @@ namespace IJERTS.DAL
 
             return paper;
         }
+
+        public int PostComments(int paperId, string comments, int userId)
+        {
+
+            string queryPaper = " INSERT INTO `ijerts`.papercomments(PaperId, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
+                + " VALUES(?paperId, ?comments, 1, 1, ?userId, now()); ";
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.Add(new MySqlParameter("?PaperId", paperId));
+            cmd.Parameters.Add(new MySqlParameter("?comments", comments));
+            cmd.Parameters.Add(new MySqlParameter("?userId", userId));
+
+
+            using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+            {
+                cmd.Connection = con;
+                con.Open();
+                cmd.CommandText = queryPaper;
+                var reader = cmd.ExecuteNonQuery();
+            }
+
+            return 0;
+        }
     }
 }

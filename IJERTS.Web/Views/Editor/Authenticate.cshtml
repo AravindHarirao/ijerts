@@ -8,7 +8,7 @@
 <br />
 
 @*@using (Html.BeginForm("Login", "Login", FormMethod.Post))*@
-@using (Html.BeginForm("ValidateLogin", "Login", FormMethod.Post, new { enctype = "multipart/form-data", @id = "frmLogin", @class = "login-form", @autocomplete = "off" }))
+@using (Html.BeginForm("ValidateLogin", "Editor", FormMethod.Post, new { enctype = "multipart/form-data", @id = "frmLogin", @class = "login-form", @autocomplete = "off" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.UserType, new { @id = @ViewBag.UserType })
@@ -35,7 +35,7 @@
         <div class="row">
             <div class="form-group">
                 <div class="col-md-10">
-                    <input type="submit" value="Login" id="Login" class="btn btn-default" onclick="location.href='@Url.Action("ValidateLogin", "Login")'" />
+                    <input type="submit" value="Login" id="Login" class="btn btn-default" onclick="location.href='@Url.Action("ValidateLogin", "Editor")'" />
                 </div>
             </div>
         </div>

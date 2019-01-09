@@ -67,7 +67,7 @@ namespace IJERTS.Web.Controllers
                     _login.InsertLoginHistory(userLoginHistory);
 
                     TempData["UserLoginFailed"] = "Logged in Successfully.";
-                    return RedirectToAction("Index", "Author");
+                    return RedirectToAction("Index", "Editor");
                 }
             }
             else
@@ -78,11 +78,11 @@ namespace IJERTS.Web.Controllers
         }
 
 
-        public ActionResult UpdatePaper(Paper paper, string txtComments, string Approver)
+        public ActionResult UpdatePaper(Paper paper, int txtPaperId, string txtComments, string Approver)
         {
-            string txt = txtComments;
-            string app = Approver;
-            return View();
+            _editor.PostComments(txtPaperId, txtComments, int.Parse(HttpContext.Session["UserId"].ToString()));
+            TempData["PaperPostingFailed"] = "Comments posted successfully";
+            return View("PaperDetails", paper);
         }
 
         public ActionResult GetPaperDetails(int id)

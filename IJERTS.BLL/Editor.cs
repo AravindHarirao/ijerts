@@ -39,5 +39,10 @@ namespace IJERTS.BLL
         {
             return _editorRepository.GetPaperDetails(id);
         }
+
+        public int PostComments(int paperId, string comments, int userId)
+        {
+            return _editorRepository.PostComments(paperId, comments, userId);
+        }
     }
 }
