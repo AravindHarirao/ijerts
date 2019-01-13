@@ -20,13 +20,15 @@
 
     @foreach (var item in Model)
     {
-        <div class="row">
-            <div class="col-md-2"><p>@item.PaperId</p></div>
-            <div class="col-md-2"><p>@item.MainTitle</p></div>
-            <div class="col-md-2"><p>@item.Status.Status</p></div>
-            <div class="col-md-2"><p>@item.CreatedBy</p></div>
-            <div class="col-md-2"><p>@item.CreatedDateTime.ToShortDateString()</p></div>           
-        </div>
+    <div class="row">
+        <div class="col-md-2"><p>@item.PaperId</p></div>
+        <div class="col-md-2"><p>@item.MainTitle</p></div>
+        <div class="col-md-2"><p>@item.Status.Status</p></div>
+        <div class="col-md-2"><p>@item.CreatedBy</p></div>
+        <div class="col-md-2"><p>@item.CreatedDateTime.ToShortDateString()</p></div>
+        <p>@Html.ActionLink("Details", "GetPaperDetails", "Author", new { id = @item.PaperId }, null)</p>
+
+    </div>
     }
 
 </div>

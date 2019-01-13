@@ -276,6 +276,7 @@
     <Content Include="Views\Home\CallforPaper.cshtml" />
     <Content Include="Views\Author\TrackMyPaper.cshtml" />
     <Content Include="Views\Editor\Authenticate.cshtml" />
+    <Content Include="Views\Author\PaperDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

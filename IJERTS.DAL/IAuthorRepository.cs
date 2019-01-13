@@ -12,8 +12,14 @@ namespace IJERTS.DAL
         void Register(Users user);
 
         void GetAllUsers(List<Users> users);
+
         int PostPapers(Paper paper);
 
         List<Paper> TrackMyPaper(int userId);
+
+        Paper GetPaperDetails(int id);
+
+
+        List<Specialisation> GetSpecialisation();
     }
 }

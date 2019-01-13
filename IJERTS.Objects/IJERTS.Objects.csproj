@@ -50,6 +50,7 @@
     <Compile Include="PaperAuthors.cs" />
     <Compile Include="PaperStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Specialisation.cs" />
     <Compile Include="UserLoginHistory.cs" />
     <Compile Include="Users.cs" />
   </ItemGroup>

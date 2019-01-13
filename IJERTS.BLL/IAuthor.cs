@@ -16,5 +16,12 @@ namespace IJERTS.BLL
         int PostPapers(Paper paper);
 
         List<Paper> TrackMyPaper(int userId);
+
+        Paper GetPaperDetails(int id);
+
+
+        List<Specialisation> GetSpecialisation();
+
+
     }
 }

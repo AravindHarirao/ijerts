@@ -33,5 +33,16 @@ namespace IJERTS.BLL
             return _authorRepo.TrackMyPaper(userId);
         }
 
+        public Paper GetPaperDetails(int id)
+        {
+            return _authorRepo.GetPaperDetails(id);
+        }
+
+        public List<Specialisation> GetSpecialisation()
+        {
+            return _authorRepo.GetSpecialisation();
+        }
+
+
     }
 }

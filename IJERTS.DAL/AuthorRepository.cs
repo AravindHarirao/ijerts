@@ -207,5 +207,80 @@ namespace IJERTS.DAL
             }
 
         }
+
+        public Paper GetPaperDetails(int id)
+        {
+            Paper paper = new Paper();
+            List<PaperAuthors> lstPaperAuth = new List<PaperAuthors>();
+            string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,CreatedBy, CreatedDateTime,  CompleteFilePath, FileName, "
+                                + " AuthorFirstName, AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject from ijerts.Papers PAP "
+                                + " INNER JOIN ijerts.authors AUT ON "
+                                + " PAP.PaperId = AUT.PaperID "
+                                + " WHERE PAP.PaperId = ?PaperId ";
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.Add(new MySqlParameter("?PaperId", id));
+
+            using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+            {
+                cmd.Connection = con;
+                con.Open();
+                cmd.CommandText = queryPaper;
+
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    PaperAuthors auth = new PaperAuthors();
+                    paper.PaperId = Convert.ToInt32(reader["PaperId"]);
+                    paper.MainTitle = reader["MainTitle"].ToString();
+                    paper.ShortDesc = reader["ShortDesc"].ToString();
+                    paper.CreatedBy = reader["CreatedBy"].ToString();
+                    paper.Subject = Convert.ToString(reader["Subject"]);
+                    paper.Tags = Convert.ToString(reader["Tags"]);
+                    paper.PaperPath = Convert.ToString(reader["CompleteFilePath"]);
+                    paper.FileName = Convert.ToString(reader["FileName"]);
+                    paper.PaperPath = string.Format("{0}\\{1}", paper.PaperPath, paper.FileName);
+                    paper.CreatedDateTime = Convert.ToDateTime(reader["CreatedDateTime"].ToString());
+
+                    auth.AuthorFirstName = Convert.ToString(reader["AuthorFirstName"]);
+                    auth.AuthorLastName = Convert.ToString(reader["AuthorLastName"]);
+                    auth.Department = Convert.ToString(reader["AuthorDepartment"]);
+                    auth.Organisation = Convert.ToString(reader["AuthorOrganisation"]);
+                    auth.Subject = Convert.ToString(reader["AuthorSubject"]);
+
+                    lstPaperAuth.Add(auth);
+                }
+
+                paper.Authors = lstPaperAuth;
+            }
+
+            return paper;
+        }
+
+        public List<Specialisation> GetSpecialisation()
+        {
+            string queryPaper = "SELECT * FROM ijerts.specialisation where IsActive = 1";
+            List<Specialisation> specialisationList = new List<Specialisation>();
+
+            MySqlCommand cmd = new MySqlCommand();
+
+            using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+            {
+                cmd.Connection = con;
+                con.Open();
+                cmd.CommandText = queryPaper;
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Specialisation objSpecialiation = new Specialisation();
+                    objSpecialiation.specialisationId = Convert.ToInt32(reader["specialisationId"]);
+                    objSpecialiation.specialisation = reader["specialisation"].ToString();
+                    objSpecialiation.IsActive = Convert.ToInt32(reader["IsActive"]);
+                    specialisationList.Add(objSpecialiation);
+                }
+            }
+
+            return specialisationList;
+        }
     }
 }
