@@ -212,10 +212,11 @@ namespace IJERTS.DAL
         {
             Paper paper = new Paper();
             List<PaperAuthors> lstPaperAuth = new List<PaperAuthors>();
-            string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,CreatedBy, CreatedDateTime,  CompleteFilePath, FileName, "
-                                + " AuthorFirstName, AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject from ijerts.Papers PAP "
+            string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,PAP.CreatedBy, PAP.CreatedDateTime,  CompleteFilePath, FileName, "
+                                + " AuthorFirstName, AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject, comments from ijerts.Papers PAP "
                                 + " INNER JOIN ijerts.authors AUT ON "
                                 + " PAP.PaperId = AUT.PaperID "
+                                + " INNER JOIN ijerts.papercomments CMT ON  PAP.PaperId = CMT.PaperID "
                                 + " WHERE PAP.PaperId = ?PaperId ";
 
             MySqlCommand cmd = new MySqlCommand();
@@ -231,6 +232,8 @@ namespace IJERTS.DAL
                 while (reader.Read())
                 {
                     PaperAuthors auth = new PaperAuthors();
+                    PaperComments comments = new PaperComments();
+
                     paper.PaperId = Convert.ToInt32(reader["PaperId"]);
                     paper.MainTitle = reader["MainTitle"].ToString();
                     paper.ShortDesc = reader["ShortDesc"].ToString();
@@ -248,6 +251,8 @@ namespace IJERTS.DAL
                     auth.Organisation = Convert.ToString(reader["AuthorOrganisation"]);
                     auth.Subject = Convert.ToString(reader["AuthorSubject"]);
 
+                    comments.Comments = Convert.ToString(reader["comments"]);
+                    paper.Comments = comments;
                     lstPaperAuth.Add(auth);
                 }
 
