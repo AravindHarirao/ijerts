@@ -10,74 +10,32 @@ namespace IJERTS.Web.Controllers
 {
     public class EditorController : BaseController
     {
-
         IEditor _editor = new Editor();
         ILogin _login = new Login();
-
+        IReview _review = new Review();
 
         // GET: /<controller>/
         [HttpGet]
         public ActionResult Index()
         {
-            ActionResult result = this.CheckEditorToken();
+            ActionResult result = this.ValidateEditorToken();
             if (result != null)
             {
                 return result;
             }
+
+            //Getting the Papers
             List<Paper> papers = _editor.GetAllPapers();
+
+            //Getting the Reviwer 
+            List<Users> reviewers = _review.GetAllReviewers();
+
+            var objResults = new Tuple<List<Paper>, List<Users>>(papers, reviewers);
+
             ViewBag.UserType = "Editor";
-            return View("Dashboard", papers);
+            return View("Dashboard", objResults);
         }
-        public ActionResult Authenticate()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult ValidateLogin(Users users)
-        {
-            //TODO - Need to pass the Session
-            users.SessionId = Guid.NewGuid().ToString();
-            users.Password = IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
-            Users objUsers = _login.ValidateEditorLogin(users);
-            if (!string.IsNullOrEmpty(objUsers.Email))
-            {
-                if (IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey).Equals(objUsers.Password))
-                {
-                    TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
-                    return View("Login");
-                }
-                else
-                {
-                    HttpContext.Session["UserId"] = objUsers.UserId.ToString();
-                    HttpContext.Session["FirstName"] = objUsers.FirstName.ToString();
-                    HttpContext.Session["LastName"] = objUsers.LastName.ToString();
-                    //var claims = new List<Claim>
-                    //{
-                    //    new Claim(ClaimTypes.Email, objUsers.Email)
-                    //};
-
-                    //ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
-                    //ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-
-                    //await HttpContext.SignInAsync(principal);
-                    UserLoginHistory userLoginHistory = new UserLoginHistory();
-                    userLoginHistory.UserId = objUsers.UserId;
-                    userLoginHistory.SessionId = HttpContext.Session.SessionID;
-                    _login.InsertLoginHistory(userLoginHistory);
-
-                    TempData["UserLoginFailed"] = "Logged in Successfully.";
-                    return RedirectToAction("Index", "Editor");
-                }
-            }
-            else
-            {
-                TempData["UserLoginFailed"] = "Invalid Username or Password. Please try again.";
-                return View("Login");
-            }
-        }
-
-
+        
         public ActionResult UpdatePaper(Paper paper, int txtPaperId, string txtComments, string Approver)
         {
             _editor.PostComments(txtPaperId, txtComments, int.Parse(HttpContext.Session["UserId"].ToString()));
@@ -89,7 +47,7 @@ namespace IJERTS.Web.Controllers
         {
             Paper paper = new Paper();
 
-            ActionResult result = this.CheckEditorToken();
+            ActionResult result = this.ValidateEditorToken();
             if (result != null)
             {
                 return result;
@@ -102,12 +60,6 @@ namespace IJERTS.Web.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            //ActionResult result = this.CheckToken();
-            //if (result != null)
-            //{
-            //    return result;
-            //}
-
             CommonCode commonCode = new CommonCode();
             commonCode.GroupId = 5;
             List<Tuple<int, string>> lstSpecialization = _editor.GetSpecialization(commonCode);
@@ -124,12 +76,6 @@ namespace IJERTS.Web.Controllers
         [HttpPost]
         public ActionResult Register(Users user)
         {
-            //ActionResult result = this.CheckToken();
-            //if (result != null)
-            //{
-            //    return result;
-            //}
-
             user.UserActivationValue = Guid.NewGuid().ToString();
             user.Password = IJERTSEncryptioncs.Encrypt(CommonHelper.GenerateDynamicPassword(), CommonHelper.SaltPassword, CommonHelper.EncryptKey);
 
@@ -140,17 +86,32 @@ namespace IJERTS.Web.Controllers
             return View("CompleteRegister");
         }
 
-        public FileResult Download(string file)
+        public FileResult DownloadAuthorPaper(Int32 PaperId, string PaperFileName)
         {
-            byte[] fileBytes = System.IO.File.ReadAllBytes(file);
-            var response = new FileContentResult(fileBytes, "application/octet-stream");
-            response.FileDownloadName = Path.GetFileName(file) ;
-            return response;
+            string sUploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");
+            string sFileName = sUploadedPath + PaperFileName;
+            if(!string.IsNullOrEmpty(sFileName))
+            {
+                if (System.IO.File.Exists(sFileName))
+                {
+                    string fileExtension = Path.GetExtension(sFileName);
+                    return this.File(sFileName, "application/" + fileExtension, PaperFileName);
+                }
+                else
+                {
+                    return this.File(Path.Combine(Server.MapPath("~/UploadedFiles/"), "FileNotExists.txt"), "application/txt", "FileNotExists.txt");
+                }
+            }
+            else
+            {
+                return this.File(Path.Combine(Server.MapPath("~/UploadedFiles/"), "FileNotExists.txt"), "application/txt", "FileNotExists.txt");
+            }
         }
 
         public ActionResult EditorialBoard()
         {
             return View();
         }
+
     }
 }

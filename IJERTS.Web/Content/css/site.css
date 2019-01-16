@@ -59,7 +59,7 @@ body {
             color: #000000;
             display: block;
             transition: .3s background-color;
-            padding: 0 20px;
+            padding: 0 15px;
         }
 
             .nav ul li a:hover {

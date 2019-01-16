@@ -82,9 +82,10 @@ namespace IJERTS.DAL
         {
             List<Paper> lstPaperCollection = new List<Paper>();
 
-            string queryPaper = "select PAP.PaperId, MainTitle, ShortDesc, CreatedBy, CreatedDateTime from ijerts.Papers PAP "
-                                    + "INNER JOIN ijerts.authors AUT ON "
-                                    + "PAP.PaperId = AUT.PaperID";
+            //string queryPaper = "select PAP.PaperId, MainTitle, ShortDesc, CreatedBy, CreatedDateTime from Papers PAP "
+            //                        + "INNER JOIN authors AUT ON "
+            //                        + "PAP.PaperId = AUT.PaperID";
+            string queryPaper = "select PaperId, MainTitle, ShortDesc, CreatedBy, CreatedDateTime from Papers";
             MySqlCommand cmd = new MySqlCommand();
 
             using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
@@ -110,15 +111,13 @@ namespace IJERTS.DAL
             }
         }
 
-
-
         public Paper GetPaperDetails(int id)
         {
             Paper paper = new Paper();
             List<PaperAuthors> lstPaperAuth = new List<PaperAuthors>();
             string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,CreatedBy, CreatedDateTime,  CompleteFilePath, FileName, "
-                                + " AuthorFirstName, AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject from ijerts.Papers PAP "
-                                + " INNER JOIN ijerts.authors AUT ON "
+                                + " AuthorFirstName, AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject from Papers PAP "
+                                + " INNER JOIN authors AUT ON "
                                 + " PAP.PaperId = AUT.PaperID "
                                 + " WHERE PAP.PaperId = ?PaperId ";
 

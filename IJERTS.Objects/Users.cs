@@ -31,19 +31,23 @@ namespace IJERTS.Objects
 
         public string Position { get; set; }
 
+        public string Department { get; set; }
+
         public int AddressId { get; set; }
 
         public int SpecializationGroupId { get; set; }
 
         public int SpecializationId { get; set; }
 
-        public string Specialization { get; set; }
+        public string Specialisation { get; set; }
 
         public string UserType { get; set; }
 
         public string UserActivationValue { get; set; }
 
         public bool UserActivated { get; set; }
+
+        public string ResumeFileName { get; set; }
 
     }
 }

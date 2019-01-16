@@ -1,6 +1,5 @@
-﻿
+﻿@model Tuple<List<IJERTS.Objects.Paper>, List<IJERTS.Objects.Users>> 
 @{
-    @model IEnumerable<IJERTS.Objects.Paper>
     ViewData["Title"] = "Dashboard";
 }
 
@@ -8,57 +7,20 @@
 <br />
 
 <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#managepaper">Manage Papaers</a></li>
+    <li class="active"><a data-toggle="tab" href="#managepaper">Manage Papers</a></li>
     <li><a data-toggle="tab" href="#managereviewer">Manage Reviewer</a></li>
     <li><a data-toggle="tab" href="#managequeries">Manage Queries</a></li>
 </ul>
 
 <div class="tab-content">
     <div id="managepaper" class="tab-pane fade in active">
-        <div>
-            <div class="row">
-                <div class="col-md-2">Paper Id</div>
-                <div class="col-md-2">Title</div>
-                <div class="col-md-2">Short Desc</div>
-                <div class="col-md-2">Created by</div>
-                <div class="col-md-2">Created on</div>
-                <div class="col-md-2">Details</div>
-
-            </div>
-
-            @foreach (var item in Model)
-            {
-                <div class="row">
-                    <div class="col-md-2"><p>@item.PaperId</p></div>
-                    <div class="col-md-2"><p>@item.MainTitle</p></div>
-                    <div class="col-md-2"><p>@item.ShortDesc</p></div>
-                    <div class="col-md-2"><p>@item.CreatedBy</p></div>
-                    <div class="col-md-2"><p>@item.CreatedDateTime.ToShortDateString()</p></div>
-                    <div class="col-md-2">
-                        <p>@Html.ActionLink("Details", "GetPaperDetails", "Editor", new { id = @item.PaperId }, null)</p>
-                    </div>
-                </div>
-            }
-
-        </div>
+        @Html.Partial("_ManagePaper", Model.Item1)
     </div>
     <div id="managereviewer" class="tab-pane fade">
-        <div>
-            <div class="row">
-                <div class="col-md-2">Reviewer Id</div>
-                <div class="col-md-2">Full Name</div>
-                <div class="col-md-2">Department</div>
-                <div class="col-md-2">Organisation</div>
-                <div class="col-md-2">Specilisation</div>
-                <div class="col-md-2">Active</div>
-
-            </div>
-
-        </div>
+        @Html.Partial("_ManageReviewer", Model.Item2)
     </div>
     <div id="menu2" class="tab-pane fade">
-        <h3>Menu 2</h3>
-        <p>Some content in menu 2.</p>
+        @Html.Partial("_ManageQueries")
     </div>
 </div>
 

@@ -167,12 +167,12 @@ namespace IJERTS.DAL
         public List<Paper> TrackMyPaper(int userId)
         {
             List<Paper> papers = new List<Paper>();
-            string queryPaper = "SELECT * FROM ijerts.papers inner join "
+            string queryPaper = "SELECT * FROM papers inner join "
                 + " (SELECT PaperId, StatusId, Max(StatusId), UserID, `Status`, CreatedBy, CreatedDatetime FROM PaperStatus "
                 + " GROUP BY PaperId, UserID "
                 + " ) AA ON AA.PaperID = AA.PaperId "
                 + " WHERE AA.StatusID = ( "
-                + "SELECT MAX(StatusID) FROM PaperStatus) AND ijerts.papers.UserId = ?UserId";
+                + "SELECT MAX(StatusID) FROM PaperStatus) AND papers.UserId = ?UserId";
 
 
             MySqlCommand cmd = new MySqlCommand();
@@ -213,10 +213,10 @@ namespace IJERTS.DAL
             Paper paper = new Paper();
             List<PaperAuthors> lstPaperAuth = new List<PaperAuthors>();
             string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,PAP.CreatedBy, PAP.CreatedDateTime,  CompleteFilePath, FileName, "
-                                + " AuthorFirstName, AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject, comments from ijerts.Papers PAP "
-                                + " INNER JOIN ijerts.authors AUT ON "
+                                + " AuthorFirstName, AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject, comments from Papers PAP "
+                                + " INNER JOIN authors AUT ON "
                                 + " PAP.PaperId = AUT.PaperID "
-                                + " INNER JOIN ijerts.papercomments CMT ON  PAP.PaperId = CMT.PaperID "
+                                + " INNER JOIN papercomments CMT ON  PAP.PaperId = CMT.PaperID "
                                 + " WHERE PAP.PaperId = ?PaperId ";
 
             MySqlCommand cmd = new MySqlCommand();
@@ -264,7 +264,7 @@ namespace IJERTS.DAL
 
         public List<Specialisation> GetSpecialisation()
         {
-            string queryPaper = "SELECT * FROM ijerts.specialisation where IsActive = 1";
+            string queryPaper = "SELECT * FROM specialisation where IsActive = 1";
             List<Specialisation> specialisationList = new List<Specialisation>();
 
             MySqlCommand cmd = new MySqlCommand();

@@ -18,7 +18,7 @@
         <script src="@Url.Content("~/Scripts/custom.js")" type="text/javascript"></script>
         <script src="@Url.Content("~/Scripts/jquery.js")" type="text/javascript"></script>
         <script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
-        <script src="@Url.Content("~/Scripts/site.js")"></script>
+        @*<script src="@Url.Content("~/Scripts/site.js")"></script>*@
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -39,7 +39,7 @@
         <script src="@Url.Content("~/Scripts/custom.js")" type="text/javascript"></script>
         <script src="@Url.Content("~/Scripts/jquery.js")" type="text/javascript"></script>
 
-        <script src="@Url.Content("~/Scripts/site.js")"></script>
+        @*<script src="@Url.Content("~/Scripts/site.js")"></script>*@
 
     </environment>
 </head>
@@ -95,7 +95,6 @@
                         <li class="home">
                             <a href="@Url.Action("EditorialBoard", "Editor")" class="">Editorial Board</a>
                             <ul>
-                                <li class="programs">@*<a href="@Url.Action("Register", "Editor")" class="">Register</a>*@</li>
                                 <li class="events"><a href="@Url.Action("Index", "Editor")" class="">Dashboard</a></li>
                             </ul>
                         </li>
@@ -109,8 +108,9 @@
                         <li class="resources">
                             <a href="#" class="active">Login</a>
                             <ul>
-                                <li class="resources"><a href="@Url.Action("Authenticate", "Login")" class="active">Login for Authors</a></li>
-                                <li class="resources"><a href="@Url.Action("LoginReviewers", "Login")" class="active">Login for Reviewers</a></li>
+                                <li class="resources"><a href="@Url.Action("AuthorLogin", "Login")" class="active">Authors Login</a></li>
+                                <li class="resources"><a href="@Url.Action("EditorLogin", "Login")" class="active">Editors Login</a></li>
+                                <li class="resources"><a href="@Url.Action("ReviewerLogin", "Login")" class="active">Reviewers Login</a></li>
                             </ul>
                         </li>
 

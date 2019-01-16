@@ -1,0 +1,22 @@
+﻿@model IEnumerable<IJERTS.Objects.Paper>
+<div>
+    <div class="row">
+        <div class="col-md-2">Title</div>
+        <div class="col-md-2">Short Desc</div>
+        <div class="col-md-2">Created by</div>
+        <div class="col-md-2">Created on</div>
+        <div class="col-md-2">Details</div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-md-2"><p>@item.MainTitle</p></div>
+            <div class="col-md-2"><p>@item.ShortDesc</p></div>
+            <div class="col-md-2"><p>@item.CreatedBy</p></div>
+            <div class="col-md-2"><p>@item.CreatedDateTime.ToShortDateString()</p></div>
+            <div class="col-md-2">
+                <p>@Html.ActionLink("Details", "GetPaperDetails", "Editor", new { id = @item.PaperId }, null)</p>
+            </div>
+        </div>
+    }
+</div>

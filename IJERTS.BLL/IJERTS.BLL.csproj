@@ -46,8 +46,10 @@
     <Compile Include="IAuthor.cs" />
     <Compile Include="IEditor.cs" />
     <Compile Include="ILogin.cs" />
+    <Compile Include="IReview.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Review.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IJERTS.DAL\IJERTS.DAL.csproj">

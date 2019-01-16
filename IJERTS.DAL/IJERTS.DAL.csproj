@@ -63,8 +63,10 @@
     <Compile Include="IAuthorRepository.cs" />
     <Compile Include="IEditorRepository.cs" />
     <Compile Include="ILoginRepository.cs" />
+    <Compile Include="IReviewRepository.cs" />
     <Compile Include="LoginRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReviewRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IJERTS.Common\IJERTS.Common.csproj">

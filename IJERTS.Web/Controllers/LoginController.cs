@@ -17,9 +17,133 @@ namespace IJERTS.Web.Controllers
         }
 
         //[OutputCache(Location = OutputCacheLocation.None, NoStore = true)]
-        public ActionResult Authenticate(string returnUrl = "")
+        public ActionResult AuthorLogin(string returnUrl = "")
         {
-            return View("Login");
+            TempData["UserLoginFailed"] = "";
+            return View("AuthorLogin");
+        }
+        
+        public ActionResult EditorLogin(string returnUrl = "")
+        {
+            TempData["UserLoginFailed"] = "";
+            return View("EditorLogin");
+        }
+
+        public ActionResult ReviewerLogin(string returnUrl = "")
+        {
+            TempData["UserLoginFailed"] = "";
+            return View("ReviewerLogin");
+        }
+
+        [HttpPost]
+        public ActionResult ValidateAuthorLogin(Users users)
+        {
+            //TODO - Need to pass the Session
+            users.SessionId = Guid.NewGuid().ToString();
+            users.Password = IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+            users.UserType = "A";
+            Users objUsers = _login.ValidateLogin(users);
+            if (!string.IsNullOrEmpty(objUsers.Email))
+            {
+                if (IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey).Equals(objUsers.Password))
+                {
+                    TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
+                    return View("Login");
+                }
+                else
+                {
+                    HttpContext.Session["UserId"] = objUsers.UserId.ToString();
+                    HttpContext.Session["FirstName"] = objUsers.FirstName.ToString();
+                    HttpContext.Session["LastName"] = objUsers.LastName.ToString();
+
+                    UserLoginHistory userLoginHistory = new UserLoginHistory();
+                    userLoginHistory.UserId = objUsers.UserId;
+                    userLoginHistory.SessionId = HttpContext.Session.SessionID;
+                    _login.InsertLoginHistory(userLoginHistory);
+
+                    TempData["UserLoginFailed"] = "Logged in Successfully.";
+                    return RedirectToAction("Index", "Author");
+                }
+            }
+            else
+            {
+                TempData["UserLoginFailed"] = "Invalid Username or Password. Please try again.";
+                return View("Login");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ValidateEditorLogin(Users users)
+        {
+            //TODO - Need to pass the Session
+            users.SessionId = Guid.NewGuid().ToString();
+            users.Password = IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+            users.UserType = "E";
+            Users objUsers = _login.ValidateLogin(users);
+            if (!string.IsNullOrEmpty(objUsers.Email))
+            {
+                if (IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey).Equals(objUsers.Password))
+                {
+                    TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
+                    return View("Login");
+                }
+                else
+                {
+                    HttpContext.Session["UserId"] = objUsers.UserId.ToString();
+                    HttpContext.Session["FirstName"] = objUsers.FirstName.ToString();
+                    HttpContext.Session["LastName"] = objUsers.LastName.ToString();
+                    
+                    UserLoginHistory userLoginHistory = new UserLoginHistory();
+                    userLoginHistory.UserId = objUsers.UserId;
+                    userLoginHistory.SessionId = HttpContext.Session.SessionID;
+                    _login.InsertLoginHistory(userLoginHistory);
+
+                    TempData["UserLoginFailed"] = "Logged in Successfully.";
+                    return RedirectToAction("Index", "Editor");
+                }
+            }
+            else
+            {
+                TempData["UserLoginFailed"] = "Invalid Username or Password. Please try again.";
+                return View("Login");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ValidateReviewerLogin(Users users)
+        {
+            //TODO - Need to pass the Session
+            users.SessionId = Guid.NewGuid().ToString();
+            users.Password = IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+            users.UserType = "R";
+            Users objUsers = _login.ValidateLogin(users);
+            if (!string.IsNullOrEmpty(objUsers.Email))
+            {
+                if (IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey).Equals(objUsers.Password))
+                {
+                    TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
+                    return View("Login");
+                }
+                else
+                {
+                    HttpContext.Session["UserId"] = objUsers.UserId.ToString();
+                    HttpContext.Session["FirstName"] = objUsers.FirstName.ToString();
+                    HttpContext.Session["LastName"] = objUsers.LastName.ToString();
+                    
+                    UserLoginHistory userLoginHistory = new UserLoginHistory();
+                    userLoginHistory.UserId = objUsers.UserId;
+                    userLoginHistory.SessionId = HttpContext.Session.SessionID;
+                    _login.InsertLoginHistory(userLoginHistory);
+
+                    TempData["UserLoginFailed"] = "Logged in Successfully.";
+                    return RedirectToAction("Index", "Review");
+                }
+            }
+            else
+            {
+                TempData["UserLoginFailed"] = "Invalid Username or Password. Please try again.";
+                return View("Login");
+            }
         }
 
         [HttpPost]
@@ -65,7 +189,7 @@ namespace IJERTS.Web.Controllers
                 return View("Login");
             }
         }
-
+        
         [HttpGet]
         public  ActionResult AuthenticateActivation()
         {

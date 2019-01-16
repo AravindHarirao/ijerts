@@ -1,0 +1,51 @@
+﻿
+@{
+    @model IJERTS.Objects.Users
+    ViewBag.Title = "EditorLogin";
+    ViewData["Title"] = "EditorLogin";
+}
+
+<h4>Editor Login</h4>
+<br />
+
+@using (Html.BeginForm("ValidateEditorLogin", "Login", FormMethod.Post, new { enctype = "multipart/form-data", @id = "frmLogin", @class = "login-form", @autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.UserType, new { @id = @ViewBag.UserType })
+    <div style="padding-left:8px">
+        <div class="row">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "Username", @name = "Username", @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-4">
+                @Html.PasswordFor(model => Model.Password, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "Password", @name = "Password", @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="Login" id="Login" class="btn btn-default" onclick="location.href='@Url.Action("ValidateEditorLogin", "Login")'" />
+                    @*<p>Still not Registered? Click <a href="@Url.Action("Register", "Author")" class="active">here</a> to Register</p>*@
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label id="lblError" class="text-danger"> @TempData["UserLoginFailed"]</label>
+                </div>
+            </div>
+        </div>
+    </div>
+}

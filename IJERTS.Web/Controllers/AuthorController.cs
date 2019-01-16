@@ -18,7 +18,7 @@ namespace IJERTS.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            //ActionResult result = this.CheckToken();
+            //ActionResult result = this.ValidateAuthorToken();
             //if (result != null)
             //{
             //    return result;
@@ -30,7 +30,7 @@ namespace IJERTS.Web.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            //ActionResult result = this.CheckToken();
+            //ActionResult result = this.ValidateAuthorToken();
             //if (result != null)
             //{
             //    return result;
@@ -42,7 +42,7 @@ namespace IJERTS.Web.Controllers
         [HttpPost]
         public ActionResult Register(Users user)
         {
-            //ActionResult result = this.CheckToken();
+            //ActionResult result = this.ValidateAuthorToken();
             //if (result != null)
             //{
             //    return result;
@@ -62,7 +62,7 @@ namespace IJERTS.Web.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult PostPaper()
         {
-            ActionResult result = this.CheckToken();
+            ActionResult result = this.ValidateAuthorToken();
             if (result != null)
             {
                 return result;
@@ -92,7 +92,7 @@ namespace IJERTS.Web.Controllers
             string AuthorFirstName3, string AuthorLastName3, string AuthorDepartment3, string AuthorOrganisation3,
             string AuthorFirstName4, string AuthorLastName4, string AuthorDepartment4, string AuthorOrganisation4)
         {
-            ActionResult result = this.CheckToken();
+            ActionResult result = this.ValidateAuthorToken();
             if (result != null)
             {
                 return result;
@@ -100,17 +100,15 @@ namespace IJERTS.Web.Controllers
 
             try
             {
-
                 Paper newPaper = new Paper();
                 List<PaperAuthors> authors = new List<PaperAuthors>();
                 paper.CreatedBy = HttpContext.Session["FirstName"].ToString();
                 paper.UpdatedBy = HttpContext.Session["FirstName"].ToString();
                 newPaper = paper;
 
-                string uploadedPath = Path.Combine(Server.MapPath("../"), "UploadedFiles");
+                string uploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");
                 string filePath = Path.Combine(uploadedPath, PaperPath.FileName);
-
-
+                
                 paper.FileName = Path.GetFileName(PaperPath.FileName);
                 paper.PaperPath = uploadedPath;
 
@@ -161,17 +159,12 @@ namespace IJERTS.Web.Controllers
 
                 List<Specialisation> specialisations = _author.GetSpecialisation();
                 ViewData["Subject"] = new SelectList((System.Collections.IEnumerable)specialisations, "specialisation", "specialisation");
-
                 ViewData["PaperPostingFailed"] = "Paper posted successfully.";
-
             }
-
             catch (Exception ex)
             {
                 ViewData["PaperPostingFailed"] = "Error in posting paper. Please contact administrator";
-               
             }
-
             return View();
         }
 
@@ -179,7 +172,7 @@ namespace IJERTS.Web.Controllers
         {
             List<Paper> papers = new List<Paper>();
 
-            ActionResult result = this.CheckToken();
+            ActionResult result = this.ValidateAuthorToken();
             if (result != null)
             {
                 return result;
@@ -193,7 +186,7 @@ namespace IJERTS.Web.Controllers
         {
             Paper paper = new Paper();
 
-            ActionResult result = this.CheckEditorToken();
+            ActionResult result = this.ValidateEditorToken();
             if (result != null)
             {
                 return result;

@@ -59,14 +59,14 @@ namespace IJERTS.Web.Controllers
         /// <returns>
         /// Returns login index else null
         /// </returns>
-        public ActionResult CheckToken()
+        public ActionResult ValidateAuthorToken()
         {
             if (HttpContext.Session["UserId"] == null)
             {
                 HttpContext.Session.Abandon();
                 HttpContext.Session.Clear();                
 
-                return this.RedirectToAction("Authenticate", "Login");
+                return this.RedirectToAction("AuthorLogin", "Login");
             }
             else
             {
@@ -74,14 +74,14 @@ namespace IJERTS.Web.Controllers
             }
         }
 
-        public ActionResult CheckEditorToken()
+        public ActionResult ValidateEditorToken()
         {
             if (HttpContext.Session["UserId"] == null)
             {
                 HttpContext.Session.Abandon();
                 HttpContext.Session.Clear();
 
-                return this.RedirectToAction("Authenticate", "Editor");
+                return this.RedirectToAction("EditorLogin", "Login");
             }
             else
             {
@@ -89,5 +89,19 @@ namespace IJERTS.Web.Controllers
             }
         }
 
+        public ActionResult ValidateReviewerToken()
+        {
+            if (HttpContext.Session["UserId"] == null)
+            {
+                HttpContext.Session.Abandon();
+                HttpContext.Session.Clear();
+
+                return this.RedirectToAction("ReviewerLogin", "Login");
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

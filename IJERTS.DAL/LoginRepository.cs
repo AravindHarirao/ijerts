@@ -13,7 +13,7 @@ namespace IJERTS.DAL
 
         public Users ValidateLogin(Users users)
         {
-            string queryLogin = "SELECT UserId, FirstName, LastName, Email, Phone, Password, IsActive FROM users where IsActive = 1 AND Email = ?Email";
+            string queryLogin = "SELECT UserId, FirstName, LastName, Email, Phone, Password, IsActive FROM users where IsActive = 1 AND Email = ?Email AND UserType = ?UserType";
             Users user = new Users();
             try
             {
@@ -21,6 +21,7 @@ namespace IJERTS.DAL
 
                 cmd.Parameters.Add(new MySqlParameter("?Email", users.Email));
                 cmd.Parameters.Add(new MySqlParameter("?Password", users.Password));
+                cmd.Parameters.Add(new MySqlParameter("?UserType", users.UserType));
 
                 using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
                 {

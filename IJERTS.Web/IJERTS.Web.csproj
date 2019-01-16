@@ -183,6 +183,7 @@
     <Content Include="Scripts\cufon-yui.js" />
     <Content Include="Scripts\cuf_run.js" />
     <Content Include="Scripts\custom.js" />
+    <None Include="Properties\PublishProfiles\IJERTS.Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\IJERTS.Publish.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -200,6 +201,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <None Include="Scripts\_references.js" />
+    <Content Include="UploadedFiles\FileNotExists.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +279,17 @@
     <Content Include="Views\Author\TrackMyPaper.cshtml" />
     <Content Include="Views\Editor\Authenticate.cshtml" />
     <Content Include="Views\Author\PaperDetails.cshtml" />
+    <Content Include="Views\Review\Register.cshtml" />
+    <Content Include="Views\Review\CompleteRegister.cshtml" />
+    <Content Include="UploadedFiles\CompExam_CityEnggCollege.pdf" />
+    <Content Include="UploadedFiles\license.rtf" />
+    <Content Include="Views\Login\AuthorLogin.cshtml" />
+    <Content Include="Views\Login\ReviewerLogin.cshtml" />
+    <Content Include="Views\Login\EditorLogin.cshtml" />
+    <Content Include="Views\Editor\_ManagePaper.cshtml" />
+    <Content Include="Views\Editor\_ManageReviewer.cshtml" />
+    <Content Include="Views\Editor\_ManageQueries.cshtml" />
+    <Content Include="Views\Review\ReviewDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -286,6 +299,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="UploadedFiles\AuthorPapers\" />
+    <Folder Include="UploadedFiles\ReviewerResume\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>

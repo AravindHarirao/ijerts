@@ -1,0 +1,141 @@
+﻿
+@{
+    @model IJERTS.Objects.Users
+    ViewBag.Title = "ReviewDetails";
+}
+
+<h4>Reviewer Details</h4>
+<br />
+
+<div style="padding-left:8px">
+    @using (Html.BeginForm("UpdateReviewer", "Review", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label col-md-3">First Name</label>
+            </div>
+            <div class="col-md-4">
+                <input type="text" value="@Model.UserId" name="txtPaperId" style="visibility:hidden" />
+                @Html.DisplayTextFor(model => model.FirstName)
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label col-md-3">Last Name</label>
+            </div>
+            <div class="col-md-4">
+                @Html.DisplayTextFor(model => model.LastName)
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label col-md-3">Email Address</label>
+            </div>
+            <div class="col-md-4">
+                @Html.DisplayTextFor(model => model.Email)
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label col-md-3">Mobile No</label>
+            </div>
+            <div class="col-md-4">
+                @Html.DisplayTextFor(model => model.Phone)
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label col-md-3">Organisation</label>
+            </div>
+            <div class="col-md-4">
+                @Html.DisplayTextFor(model => model.Organisation)
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label col-md-3">Qualification</label>
+            </div>
+            <div class="col-md-4">
+                @Html.DisplayTextFor(model => model.Qualification)
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label col-md-3">Department</label>
+            </div>
+            <div class="col-md-4">
+                @Html.DisplayTextFor(model => model.Department)
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label col-md-3">Position</label>
+            </div>
+            <div class="col-md-4">
+                @Html.DisplayTextFor(model => model.Position)
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label col-md-3">Specialisation</label>
+            </div>
+            <div class="col-md-4">
+                @Html.DisplayTextFor(model => model.Specialisation)
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <label id="lblFileName">Resume</label>
+            </div>
+            <div class="col-md-10">
+                <a style="color:#fff;" class="btn btn-primary btn-xs downloadResume" data-userid="@Model.UserId" data-resumefilename="@Model.ResumeFileName" href="#" title="Download Reviewer Resume">
+                    Download
+                </a>
+            </div>
+        </div>
+        <br />
+    }
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-2" style="padding-left:0px !important">
+                <input type="submit" value="Back" id="btnBack" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Editor")'" />
+            </div>
+            <div class="col-md-10"></div>
+        </div>
+    </div>
+    <br />
+</div>
+<div class="hidden">
+    @using (@Html.BeginForm("DownloadResume", "Review", FormMethod.Post))
+    {
+        @Html.Hidden("UserId");
+        @Html.Hidden("ResumeFileName");
+        <button type="submit" class="hidden" id="btnDownloadResume"></button>
+    }
+</div>
+<script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
+<script>
+    $(document).on('click', '.downloadResume', function () {
+        $("#UserId").val($(this).attr('data-userid'));
+        $("#ResumeFileName").val($(this).attr('data-resumefilename'));
+        $('#btnDownloadResume').click();
+    });
+</script>
