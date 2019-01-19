@@ -1,4 +1,60 @@
-﻿<div>
-    <h3>Menu 2</h3>
-    <p>Some content in menu 2.</p>
+﻿@model IEnumerable<IJERTS.Objects.Queries>
+<div>
+    <div class="row">
+        <div class="col-md-2">Full Name</div>
+        <div class="col-md-2">Department</div>
+        <div class="col-md-2">Organisation</div>
+        <div class="col-md-2">Specilisation</div>
+        <div class="col-md-2">Active</div>
+        <div class="col-md-2">Details</div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-md-2"><p>@item.FirstName @item.FirstName</p></div>
+            <div class="col-md-2"><p>@item.LastName</p></div>
+            <div class="col-md-2"><p>@item.Email</p></div>
+            <div class="col-md-2"><p>@item.QueryText</p></div>
+        </div>
+    }
 </div>
+<div class="hidden">
+    @using (Html.BeginForm("ActivateDeActivateReviewer", "Review", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("UserId")
+        @Html.Hidden("FirstName")
+        @Html.Hidden("LastName")
+        @Html.Hidden("Email")
+        @Html.Hidden("Type")
+        <button class="hidden" id="btnActivateReviewer" type="Submit"></button>
+    }
+</div>
+<script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
+<script>
+
+    $(document).on('click', '.ActivateReviewer', function () {
+        var userid = $(this).attr("data-userid");
+        var firstname = $(this).attr("data-firstname");
+        var lastname = $(this).attr("data-lastname");
+        var email = $(this).attr("data-email");
+        $('#UserId').val(userid);
+        $('#FirstName').val(firstname);
+        $('#LastName').val(lastname);
+        $('#Email').val(email);
+        $('#Type').val('A');
+        $('#btnActivateReviewer').click();
+    });
+
+    $(document).on('click', '.DeActivateReviewer', function () {
+        var userid = $(this).attr("data-userid");
+        var firstname = $(this).attr("data-firstname");
+        var lastname = $(this).attr("data-lastname");
+        var email = $(this).attr("data-email");
+        $('#UserId').val(userid);
+        $('#FirstName').val(firstname);
+        $('#LastName').val(lastname);
+        $('#Email').val(email);
+        $('#Type').val('D');
+        $('#btnActivateReviewer').click();
+    });
+</script>

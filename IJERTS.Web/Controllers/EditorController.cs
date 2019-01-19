@@ -13,7 +13,7 @@ namespace IJERTS.Web.Controllers
         IEditor _editor = new Editor();
         ILogin _login = new Login();
         IReview _review = new Review();
-
+        
         // GET: /<controller>/
         [HttpGet]
         public ActionResult Index()
@@ -30,7 +30,9 @@ namespace IJERTS.Web.Controllers
             //Getting the Reviwer 
             List<Users> reviewers = _review.GetAllReviewers();
 
-            var objResults = new Tuple<List<Paper>, List<Users>>(papers, reviewers);
+            List<Queries> queries = _editor.GetQueries();
+
+            var objResults = new Tuple<List<Paper>, List<Users>, List<Queries>>(papers, reviewers, queries);
 
             ViewBag.UserType = "Editor";
             return View("Dashboard", objResults);

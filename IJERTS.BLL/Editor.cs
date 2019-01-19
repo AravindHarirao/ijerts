@@ -44,5 +44,11 @@ namespace IJERTS.BLL
         {
             return _editorRepository.PostComments(paperId, comments, userId);
         }
+
+        public List<Queries> GetQueries()
+        {
+            IHomeRepository homeRepository = new HomeRepository();
+            return (homeRepository.GetQueries());
+        }
     }
 }

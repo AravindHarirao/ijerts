@@ -43,5 +43,43 @@ namespace IJERTS.DAL
             return result;
         }
 
+        public List<Queries> GetQueries()
+        {
+            string queryText = "SELECT FirstName, LastName, Email, QueryText from `ijerts`.queries " +
+                                         " WHERE `QueryStatus` = 'NEW' ORDER BY CreatedOn ASC ";
+            List<Queries> queries = new List<Queries>();
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand();
+
+                using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.CommandText = queryText;
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Queries query = new Queries();
+                        query.FirstName = reader.GetString("FirstName");
+                        query.LastName= reader.GetString("LastName");
+                        query.Email = reader.GetString("Email");
+
+                        queries.Add(query);
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return queries;
+        }
+
+
+        
     }
 }

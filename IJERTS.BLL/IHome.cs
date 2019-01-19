@@ -10,5 +10,6 @@ namespace IJERTS.BLL
     public interface IHome
     {
         int PostQuery(Queries query);
+
     }
 }

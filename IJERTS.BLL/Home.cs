@@ -17,5 +17,10 @@ namespace IJERTS.BLL
         {
             return (homeRepository.PostQuery(query));
         }
+
+        
+
+
+
     }
 }
