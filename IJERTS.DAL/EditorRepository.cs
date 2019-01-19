@@ -160,16 +160,26 @@ namespace IJERTS.DAL
             return paper;
         }
 
-        public int PostComments(int paperId, string comments, int userId)
+        public int PostComments(int paperId, string comments, int userId, int approverId)
         {
 
             string queryPaper = " INSERT INTO `ijerts`.papercomments(PaperId, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
                 + " VALUES(?paperId, ?comments, 1, 1, ?userId, now()); ";
 
+            string queryApprover = "INSERT INTO `ijerts`.`papersapprovers`  " +
+                                    "(PaperId, ApproverId, IsActive, CreatedDateTime, CreatedBy, UpdatedDatetime, UpdatedBy) " +
+                                    " VALUES " +
+                                    "(?PaperId, ?ApproverId, 1, now(), ?UserId, now(), ?UserId); ";
+
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.Add(new MySqlParameter("?PaperId", paperId));
             cmd.Parameters.Add(new MySqlParameter("?comments", comments));
             cmd.Parameters.Add(new MySqlParameter("?userId", userId));
+
+            MySqlCommand cmdApprover = new MySqlCommand();
+            cmdApprover.Parameters.Add(new MySqlParameter("?PaperId", paperId));
+            cmdApprover.Parameters.Add(new MySqlParameter("?ApproverId", approverId));
+            cmdApprover.Parameters.Add(new MySqlParameter("?UserId", userId));
 
 
             using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
@@ -178,6 +188,12 @@ namespace IJERTS.DAL
                 con.Open();
                 cmd.CommandText = queryPaper;
                 var reader = cmd.ExecuteNonQuery();
+
+                cmdApprover.Connection = con;
+                cmdApprover.CommandText = queryApprover;
+                if (con.State != System.Data.ConnectionState.Closed) con.Close();
+                con.Open();
+                reader = cmdApprover.ExecuteNonQuery();
             }
 
             return 0;

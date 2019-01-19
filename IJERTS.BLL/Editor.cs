@@ -40,9 +40,9 @@ namespace IJERTS.BLL
             return _editorRepository.GetPaperDetails(id);
         }
 
-        public int PostComments(int paperId, string comments, int userId)
+        public int PostComments(int paperId, string comments, int userId, int approverId)
         {
-            return _editorRepository.PostComments(paperId, comments, userId);
+            return _editorRepository.PostComments(paperId, comments, userId, approverId);
         }
 
         public List<Queries> GetQueries()

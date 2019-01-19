@@ -19,7 +19,7 @@ namespace IJERTS.BLL
 
         Paper GetPaperDetails(int id);
 
-        int PostComments(int paperId, string comments, int userId);
+        int PostComments(int paperId, string comments, int userId, int approverId);
 
         List<Queries> GetQueries();
 

@@ -40,7 +40,7 @@ namespace IJERTS.Web.Controllers
         
         public ActionResult UpdatePaper(Paper paper, int txtPaperId, string txtComments, string Approver)
         {
-            _editor.PostComments(txtPaperId, txtComments, int.Parse(HttpContext.Session["UserId"].ToString()));
+            _editor.PostComments(txtPaperId, txtComments, int.Parse(HttpContext.Session["UserId"].ToString()), int.Parse(Approver));
             TempData["PaperPostingFailed"] = "Comments posted successfully";
             return View("PaperDetails", paper);
         }
@@ -56,6 +56,9 @@ namespace IJERTS.Web.Controllers
             }
 
             paper = _editor.GetPaperDetails(id);
+
+            List<Users> reviewers = _review.GetAllReviewers().FindAll(x => x.UserActivated == true);
+
             return View("PaperDetails", paper);
         }
 

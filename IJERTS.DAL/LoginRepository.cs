@@ -13,7 +13,7 @@ namespace IJERTS.DAL
 
         public Users ValidateLogin(Users users)
         {
-            string queryLogin = "SELECT UserId, FirstName, LastName, Email, Phone, Password, IsActive FROM users where IsActive = 1 AND Email = ?Email AND UserType = ?UserType";
+            string queryLogin = "SELECT UserId, FirstName, LastName, Email, Phone, Password, UserType, IsActive FROM users where IsActive = 1 AND Email = ?Email AND UserType = ?UserType";
             Users user = new Users();
             try
             {
@@ -34,6 +34,7 @@ namespace IJERTS.DAL
                         user.UserId = Convert.ToInt64(reader.GetString("UserId"));
                         user.FirstName = reader.GetString("FirstName");
                         user.LastName = reader.GetString("LastName");
+                        user.UserType = reader.GetString("UserType");
                         user.Email = reader.GetString("Email");
                         user.Phone = reader.GetString("Phone");
                         user.Password = reader.GetString("Password");

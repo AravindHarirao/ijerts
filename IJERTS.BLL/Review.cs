@@ -38,5 +38,7 @@ namespace IJERTS.BLL
         {
             return _reviewRepository.GetReviewerDetails(userId);
         }
+
+
     }
 }

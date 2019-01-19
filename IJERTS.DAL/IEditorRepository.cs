@@ -19,6 +19,6 @@ namespace IJERTS.DAL
 
         Paper GetPaperDetails(int id);
 
-        int PostComments(int paperId, string comments, int userId);
+        int PostComments(int paperId, string comments, int userId, int approverId);
     }
 }

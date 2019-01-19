@@ -55,6 +55,7 @@ namespace IJERTS.Web.Controllers
                     HttpContext.Session["UserId"] = objUsers.UserId.ToString();
                     HttpContext.Session["FirstName"] = objUsers.FirstName.ToString();
                     HttpContext.Session["LastName"] = objUsers.LastName.ToString();
+                    HttpContext.Session["UserType"] = objUsers.UserType.ToString();
 
                     UserLoginHistory userLoginHistory = new UserLoginHistory();
                     userLoginHistory.UserId = objUsers.UserId;
@@ -92,7 +93,8 @@ namespace IJERTS.Web.Controllers
                     HttpContext.Session["UserId"] = objUsers.UserId.ToString();
                     HttpContext.Session["FirstName"] = objUsers.FirstName.ToString();
                     HttpContext.Session["LastName"] = objUsers.LastName.ToString();
-                    
+                    HttpContext.Session["UserType"] = objUsers.UserType.ToString();
+
                     UserLoginHistory userLoginHistory = new UserLoginHistory();
                     userLoginHistory.UserId = objUsers.UserId;
                     userLoginHistory.SessionId = HttpContext.Session.SessionID;
@@ -129,6 +131,7 @@ namespace IJERTS.Web.Controllers
                     HttpContext.Session["UserId"] = objUsers.UserId.ToString();
                     HttpContext.Session["FirstName"] = objUsers.FirstName.ToString();
                     HttpContext.Session["LastName"] = objUsers.LastName.ToString();
+                    HttpContext.Session["UserType"] = objUsers.UserType.ToString();
                     
                     UserLoginHistory userLoginHistory = new UserLoginHistory();
                     userLoginHistory.UserId = objUsers.UserId;

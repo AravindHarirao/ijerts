@@ -83,6 +83,10 @@ namespace IJERTS.Web.Controllers
 
                 return this.RedirectToAction("EditorLogin", "Login");
             }
+            else if (!HttpContext.Session["UserId"].ToString().Equals("E"))
+            {
+                return this.RedirectToAction("EditorLogin", "Login");
+            }
             else
             {
                 return null;
@@ -98,6 +102,11 @@ namespace IJERTS.Web.Controllers
 
                 return this.RedirectToAction("ReviewerLogin", "Login");
             }
+            else if (!HttpContext.Session["UserId"].ToString().Equals("R"))
+            {
+                return this.RedirectToAction("EditorLogin", "Login");
+            }
+
             else
             {
                 return null;
