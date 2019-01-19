@@ -29,6 +29,7 @@ namespace IJERTS.Web.Controllers
 
             //Getting the Reviwer 
             List<Users> reviewers = _review.GetAllReviewers();
+            ViewData["Reviewers"] = new SelectList((System.Collections.IEnumerable)reviewers, "UserId", string.Format("{0}, {1}", LastName, FirstName));
 
             List<Queries> queries = _editor.GetQueries();
 

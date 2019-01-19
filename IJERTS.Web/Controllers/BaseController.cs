@@ -83,7 +83,7 @@ namespace IJERTS.Web.Controllers
 
                 return this.RedirectToAction("EditorLogin", "Login");
             }
-            else if (!HttpContext.Session["UserId"].ToString().Equals("E"))
+            else if (!HttpContext.Session["UserType"].ToString().Equals("E"))
             {
                 return this.RedirectToAction("EditorLogin", "Login");
             }
@@ -102,7 +102,7 @@ namespace IJERTS.Web.Controllers
 
                 return this.RedirectToAction("ReviewerLogin", "Login");
             }
-            else if (!HttpContext.Session["UserId"].ToString().Equals("R"))
+            else if (!HttpContext.Session["UserType"].ToString().Equals("R"))
             {
                 return this.RedirectToAction("EditorLogin", "Login");
             }

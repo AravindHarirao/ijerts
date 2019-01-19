@@ -183,6 +183,8 @@
     <Content Include="Scripts\cufon-yui.js" />
     <Content Include="Scripts\cuf_run.js" />
     <Content Include="Scripts\custom.js" />
+    <Content Include="Downloads\IJERTS-CopyrightForm_v1.0.docx" />
+    <Content Include="Downloads\IJERTS-ManuscriptTemplate_v1.0.doc" />
     <None Include="Properties\PublishProfiles\IJERTS.Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\IJERTS.Publish.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -291,6 +293,7 @@
     <Content Include="Views\Editor\_ManageQueries.cshtml" />
     <Content Include="Views\Review\ReviewDetails.cshtml" />
     <Content Include="Views\Home\Queries.cshtml" />
+    <Content Include="Views\Home\Downloads.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

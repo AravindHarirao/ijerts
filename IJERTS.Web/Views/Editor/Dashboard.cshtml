@@ -1,4 +1,4 @@
-﻿@model Tuple<List<IJERTS.Objects.Paper>, List<IJERTS.Objects.Users>> 
+﻿@model Tuple<List<IJERTS.Objects.Paper>, List<IJERTS.Objects.Users>, List<IJERTS.Objects.Queries>> 
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -20,7 +20,7 @@
         @Html.Partial("_ManageReviewer", Model.Item2)
     </div>
     <div id="menu2" class="tab-pane fade">
-        @Html.Partial("_ManageQueries")
+        @Html.Partial("_ManageQueries", Model.Item3)
     </div>
 </div>
 
