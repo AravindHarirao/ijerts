@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Queries";
+    @model IJERTS.Objects.Queries
+
+}
+
+<h4>Contact us</h4>
+<br />
+
+<div style="padding-left:8px">
+    @using (Html.BeginForm("Queries", "Home", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
+            </div>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "FirstName", @name = "FirstName", @autocomplete = "off" })
+
+                @Html.DisplayTextFor(model => model.FirstName)
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
+            </div>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "LastName", @name = "LastName", @autocomplete = "off" })
+
+                @Html.DisplayTextFor(model => model.LastName)
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
+            </div>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "Email", @name = "Email", @autocomplete = "off" })
+
+                @Html.DisplayTextFor(model => model.Email)
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.QueryText, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
+            </div>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.QueryText, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "Query", @name = "QueryText", @autocomplete = "off" })
+                @Html.DisplayTextFor(model => model.QueryText)
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+        <br />
+        
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-2" style="padding-left:0px !important">
+                    <input type="submit" value="Submit" />
+                </div>
+                
+                <div class="col-md-10"></div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label id="lblError" class="text-danger"> @TempData["QueryStatus"]</label>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+

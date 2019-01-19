@@ -290,6 +290,7 @@
     <Content Include="Views\Editor\_ManageReviewer.cshtml" />
     <Content Include="Views\Editor\_ManageQueries.cshtml" />
     <Content Include="Views\Review\ReviewDetails.cshtml" />
+    <Content Include="Views\Home\Queries.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

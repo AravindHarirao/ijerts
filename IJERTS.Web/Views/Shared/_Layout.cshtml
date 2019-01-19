@@ -109,7 +109,7 @@
                             <a href="#" class="active">Login</a>
                             <ul>
                                 <li class="resources"><a href="@Url.Action("AuthorLogin", "Login")" class="active">Authors Login</a></li>
-                                <li class="resources"><a href="@Url.Action("EditorLogin", "Login")" class="active">Editors Login</a></li>
+                                @*<li class="resources"><a href="@Url.Action("EditorLogin", "Login")" class="active">Editors Login</a></li>*@
                                 <li class="resources"><a href="@Url.Action("ReviewerLogin", "Login")" class="active">Reviewers Login</a></li>
                             </ul>
                         </li>
@@ -146,6 +146,7 @@
                             <li><a href="@Url.Action("FAQ", "Home")">Downloads</a></li>
 
                             <li><a href="@Url.Action("FAQ", "Home")">FAQ</a></li>
+                            <li><a href="@Url.Action("Queries", "Home")">Contact us</a></li>
                             @if (Session["UserId"] != null)
                             {
                                 <li><a href="@Url.Action("ChangePassword", "Login")">Change Password</a></li>

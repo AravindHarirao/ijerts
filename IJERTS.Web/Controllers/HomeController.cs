@@ -1,11 +1,13 @@
 ﻿using IJERTS.Common;
 using IJERTS.Objects;
 using System.Web.Mvc;
+using IJERTS.BLL;
 
 namespace IJERTS.Web.Controllers
 {
     public class HomeController : Controller
     {
+        IHome home = new Home();
         public ActionResult Index()
         {
             return View();
@@ -64,8 +66,30 @@ namespace IJERTS.Web.Controllers
             return View();
         }
 
+        public ActionResult Queries()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Queries(Queries query)
+        {
+            int result = home.PostQuery(query);
+            if (result == 0)
+            {
+                TempData["QueryStatus"] = "Query posted successfully. We will contact you shortly";
+            }
+            else
+            {
+                TempData["QueryStatus"] = "Error in posting Query. Please contact administrator";
+
+            }
+            return View();
+        }
+
         public ActionResult Error()
         {
+
             return View();
             //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.Trace.TraceMode });
         }

@@ -58,10 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthorRepository.cs" />
+    <Compile Include="HomeRepository.cs" />
     <Compile Include="DBConnection.cs" />
     <Compile Include="EditorRepository.cs" />
     <Compile Include="IAuthorRepository.cs" />
     <Compile Include="IEditorRepository.cs" />
+    <Compile Include="IHomeRepository.cs" />
     <Compile Include="ILoginRepository.cs" />
     <Compile Include="IReviewRepository.cs" />
     <Compile Include="LoginRepository.cs" />
