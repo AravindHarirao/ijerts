@@ -163,37 +163,69 @@ namespace IJERTS.DAL
         public int PostComments(int paperId, string comments, int userId, int approverId)
         {
 
-            string queryPaper = " INSERT INTO `ijerts`.papercomments(PaperId, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
+            string queryComments = " INSERT INTO `ijerts`.papercomments(PaperId, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
                 + " VALUES(?paperId, ?comments, 1, 1, ?userId, now()); ";
+
+            string queryCommentsStatusUpdate = "UPDATE `ijerts`.paperStatus SET `status` = 'COMMENTS ADDED' WHERE paperID = ?paperID";
+
 
             string queryApprover = "INSERT INTO `ijerts`.`papersapprovers`  " +
                                     "(PaperId, ApproverId, IsActive, CreatedDateTime, CreatedBy, UpdatedDatetime, UpdatedBy) " +
                                     " VALUES " +
                                     "(?PaperId, ?ApproverId, 1, now(), ?UserId, now(), ?UserId); ";
 
+            string queryApproverStatusUpdate = "UPDATE `ijerts`.paperStatus SET `status` = 'REVIEW IN PROGRESS' WHERE paperID = ?paperID";
+
+
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.Add(new MySqlParameter("?PaperId", paperId));
             cmd.Parameters.Add(new MySqlParameter("?comments", comments));
             cmd.Parameters.Add(new MySqlParameter("?userId", userId));
+            cmd.CommandText = queryComments;
+
+            MySqlCommand cmdComments = new MySqlCommand();
+            cmdComments.Parameters.Add(new MySqlParameter("?PaperId", paperId));
+            cmdComments.CommandText = queryCommentsStatusUpdate;
 
             MySqlCommand cmdApprover = new MySqlCommand();
             cmdApprover.Parameters.Add(new MySqlParameter("?PaperId", paperId));
             cmdApprover.Parameters.Add(new MySqlParameter("?ApproverId", approverId));
             cmdApprover.Parameters.Add(new MySqlParameter("?UserId", userId));
+            cmdApprover.CommandText = queryApprover;
 
+            MySqlCommand cmdApproverStatus = new MySqlCommand();
+            cmdApproverStatus.Parameters.Add(new MySqlParameter("?PaperId", paperId));
+            cmdApproverStatus.CommandText = queryApproverStatusUpdate;
 
             using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
             {
-                cmd.Connection = con;
-                con.Open();
-                cmd.CommandText = queryPaper;
-                var reader = cmd.ExecuteNonQuery();
+                if (!string.IsNullOrEmpty(comments.Trim()))
+                {
+                    if (con.State != System.Data.ConnectionState.Closed) con.Close();
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.ExecuteNonQuery();
 
-                cmdApprover.Connection = con;
-                cmdApprover.CommandText = queryApprover;
-                if (con.State != System.Data.ConnectionState.Closed) con.Close();
-                con.Open();
-                reader = cmdApprover.ExecuteNonQuery();
+                    if (con.State != System.Data.ConnectionState.Closed) con.Close();
+                    con.Open();
+                    cmdComments.Connection = con;
+                    cmdComments.ExecuteNonQuery();
+
+                }
+
+                if (approverId != -1)
+                {
+                    if (con.State != System.Data.ConnectionState.Closed) con.Close();
+                    cmdApprover.Connection = con;
+                    con.Open();
+                    cmdApprover.ExecuteNonQuery();
+
+                    if (con.State != System.Data.ConnectionState.Closed) con.Close();
+                    cmdApproverStatus.Connection = con;
+                    con.Open();
+                    cmdApproverStatus.ExecuteNonQuery();
+
+                }
             }
 
             return 0;

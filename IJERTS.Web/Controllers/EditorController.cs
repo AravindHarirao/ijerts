@@ -39,10 +39,17 @@ namespace IJERTS.Web.Controllers
             return View("Dashboard", objResults);
         }
         
-        public ActionResult UpdatePaper(Paper paper, int txtPaperId, string txtComments, string Approver)
+        public ActionResult UpdatePaper(Paper paper, int txtPaperId, string txtComments, string Reviewers)
         {
-            _editor.PostComments(txtPaperId, txtComments, int.Parse(HttpContext.Session["UserId"].ToString()), int.Parse(Approver));
+            int reviewerId = string.IsNullOrEmpty(Reviewers.Trim()) ? -1 : int.Parse(Reviewers.Trim());
+            _editor.PostComments(txtPaperId, txtComments, int.Parse(HttpContext.Session["UserId"].ToString()), reviewerId);
             TempData["PaperPostingFailed"] = "Comments posted successfully";
+
+            paper = _editor.GetPaperDetails(txtPaperId);
+            List<Users> reviewers = _review.GetAllReviewers();
+
+            ViewData["Reviewers"] = new SelectList((System.Collections.IEnumerable)reviewers, "UserId", "FirstName");
+
             return View("PaperDetails", paper);
         }
 
@@ -58,7 +65,8 @@ namespace IJERTS.Web.Controllers
 
             paper = _editor.GetPaperDetails(id);
 
-            List<Users> reviewers = _review.GetAllReviewers().FindAll(x => x.UserActivated == true);
+            List<Users> reviewers = _review.GetAllReviewers();
+            ViewData["Reviewers"] = new SelectList((System.Collections.IEnumerable)reviewers, "UserId", "FirstName");
 
             return View("PaperDetails", paper);
         }

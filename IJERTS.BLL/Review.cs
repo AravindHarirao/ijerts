@@ -39,6 +39,16 @@ namespace IJERTS.BLL
             return _reviewRepository.GetReviewerDetails(userId);
         }
 
+        public List<Paper> GetAssignedPaper(Int32 userId)
+        {
+            return _reviewRepository.GetAssignedPaper(userId);
+        }
+
+        public int UpdatePaperStatus(int userId, int paperId, string Comments, string Approve)
+        {
+            return _reviewRepository.UpdatePaperStatus(userId, paperId, Comments, Approve);
+        }
+
 
     }
 }

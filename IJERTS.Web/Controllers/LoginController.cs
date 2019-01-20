@@ -139,7 +139,7 @@ namespace IJERTS.Web.Controllers
                     _login.InsertLoginHistory(userLoginHistory);
 
                     TempData["UserLoginFailed"] = "Logged in Successfully.";
-                    return RedirectToAction("Index", "Review");
+                    return RedirectToAction("Dashboard", "Review");
                 }
             }
             else

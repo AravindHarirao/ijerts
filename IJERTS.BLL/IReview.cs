@@ -18,5 +18,10 @@ namespace IJERTS.BLL
         void ActivateDeActivateReviewer(Users user);
 
         Users GetReviewerDetails(Int32 userId);
+
+        List<Paper> GetAssignedPaper(Int32 userId);
+
+        int UpdatePaperStatus(int userId, int paperId, string Comments, string Approve);
+
     }
 }

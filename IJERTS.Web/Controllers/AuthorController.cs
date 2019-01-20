@@ -186,7 +186,7 @@ namespace IJERTS.Web.Controllers
         {
             Paper paper = new Paper();
 
-            ActionResult result = this.ValidateEditorToken();
+            ActionResult result = this.ValidateAuthorToken();
             if (result != null)
             {
                 return result;

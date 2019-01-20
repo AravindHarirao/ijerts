@@ -143,5 +143,94 @@ namespace IJERTS.Web.Controllers
             }
         }
 
+        public ActionResult Dashboard()
+        {
+            IEditor _editor = new Editor();
+
+            ActionResult result = this.ValidateReviewerToken();
+            if (result != null)
+            {
+                return result;
+            }
+
+            List<Paper> assignedPapers = new List<Paper>();
+
+            assignedPapers = _review.GetAssignedPaper((int) UserId);
+
+            List<Users> reviewers = _review.GetAllReviewers();
+
+            return View("Dashboard", assignedPapers);
+
+        }
+
+        public ActionResult GetPaperDetails(int id)
+        {
+            IEditor _editor = new Editor();
+            Paper paper = new Paper();
+
+            ActionResult result = this.ValidateReviewerToken();
+            if (result != null)
+            {
+                return result;
+            }
+
+            paper = _editor.GetPaperDetails(id);
+
+            List<Users> reviewers = _review.GetAllReviewers();
+            ViewData["ApproveStatus"] = new SelectList(
+                    new List<SelectListItem>
+                                        {
+                                            new SelectListItem { Selected = true, Text = string.Empty, Value = "-1"},
+                                            new SelectListItem { Selected = false, Text = "Approves", Value = "Approved"},
+                                            new SelectListItem { Selected = false, Text = "Rejected", Value = "Rejected"},
+                                        }, "Value", "Text", 1); 
+
+            return View("PaperDetails", paper);
+        }
+
+        public ActionResult UpdatePaperStatus(string txtPaperId, string txtComments, string ApproveStatus)
+        {
+            IEditor _editor = new Editor();
+            Paper paper = new Paper();
+
+            ApproveStatus = ApproveStatus.Trim().Equals("-1") ? string.Empty : ApproveStatus.Trim();
+
+            _review.UpdatePaperStatus((int)UserId, int.Parse(txtPaperId), txtComments, ApproveStatus);
+            paper = _editor.GetPaperDetails(int.Parse(txtPaperId));
+
+            ViewData["ApproveStatus"] = new SelectList(
+                                        new List<SelectListItem>
+                                                {
+                                                                new SelectListItem { Selected = true, Text = string.Empty, Value = "-1"},
+                                                                new SelectListItem { Selected = false, Text = "Approves", Value = "Approved"},
+                                                                new SelectListItem { Selected = false, Text = "Rejected", Value = "Rejected"},
+                                                }, "Value", "Text", 1);
+
+            TempData["UpdateStatusResuslt"] = "Details updated successfully.";
+            return View("PaperDetails", paper);
+        }
+
+        public FileResult DownloadAuthorPaper(Int32 PaperId, string PaperFileName)
+        {
+            string sUploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");
+            string sFileName = sUploadedPath + PaperFileName;
+            if (!string.IsNullOrEmpty(sFileName))
+            {
+                if (System.IO.File.Exists(sFileName))
+                {
+                    string fileExtension = Path.GetExtension(sFileName);
+                    return this.File(sFileName, "application/" + fileExtension, PaperFileName);
+                }
+                else
+                {
+                    return this.File(Path.Combine(Server.MapPath("~/UploadedFiles/"), "FileNotExists.txt"), "application/txt", "FileNotExists.txt");
+                }
+            }
+            else
+            {
+                return this.File(Path.Combine(Server.MapPath("~/UploadedFiles/"), "FileNotExists.txt"), "application/txt", "FileNotExists.txt");
+            }
+        }
+
     }
 }

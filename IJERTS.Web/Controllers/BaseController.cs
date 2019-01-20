@@ -104,7 +104,7 @@ namespace IJERTS.Web.Controllers
             }
             else if (!HttpContext.Session["UserType"].ToString().Equals("R"))
             {
-                return this.RedirectToAction("EditorLogin", "Login");
+                return this.RedirectToAction("ReviewerLogin", "Login");
             }
 
             else

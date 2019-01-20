@@ -75,7 +75,7 @@ namespace IJERTS.DAL
             string queryPaper = "select us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
                                 + " us.Position, us.Department, us.UserActivated, sp.specialisation "
                                 + " from Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
-                                + " WHERE UserActivated = 0 AND UserType = 'R' AND (us.UserActivationValue is null OR us.UserActivationValue != 'False') ";
+                                + " WHERE UserActivated = 1 AND UserType = 'R' AND (us.UserActivationValue is null OR us.UserActivationValue != 'False') ";
             MySqlCommand cmd = new MySqlCommand();
             using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
             {
@@ -172,6 +172,89 @@ namespace IJERTS.DAL
                 }
             }
             return objUsers;
+        }
+
+        public List<Paper> GetAssignedPaper(int UserId)
+        {
+            List<Paper> lstPaperCollection = new List<Paper>();
+
+            //string queryPaper = "select PAP.PaperId, MainTitle, ShortDesc, CreatedBy, CreatedDateTime from Papers PAP "
+            //                        + "INNER JOIN authors AUT ON "
+            //                        + "PAP.PaperId = AUT.PaperID";
+            string queryPaper = "SELECT * FROM `ijerts`.`papers` PAP INNER JOIN papersapprovers APP" +
+                                    " ON PAP.PaperID = APP.PaperId " +
+                                    " WHERE ApproverID = ?UserId ";
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.Add(new MySqlParameter("?UserId", UserId));
+
+
+            using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+            {
+                cmd.Connection = con;
+                con.Open();
+                cmd.CommandText = queryPaper;
+
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Paper objPaper = new Paper();
+                    objPaper.PaperId = Convert.ToInt32(reader["PaperId"]);
+                    objPaper.MainTitle = reader["MainTitle"].ToString();
+                    objPaper.ShortDesc = reader["ShortDesc"].ToString();
+                    objPaper.CreatedBy = reader["CreatedBy"].ToString();
+                    objPaper.CreatedDateTime = Convert.ToDateTime(reader["CreatedDateTime"].ToString());
+                    lstPaperCollection.Add(objPaper);
+                }
+
+                return lstPaperCollection;
+
+            }
+        }
+
+        public int UpdatePaperStatus(int userId, int paperId, string Comments, string Approve)
+        {
+            int result = 0;
+
+            if (!string.IsNullOrEmpty(Approve))
+            {
+                string queryPaperStatus = "UPDATE `ijerts`.paperStatus SET `status` = ?Approve WHERE paperID = ?PaperID";
+
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Parameters.Add(new MySqlParameter("?PaperId", paperId));
+                cmd.Parameters.Add(new MySqlParameter("?Approve", Approve));
+
+                using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.CommandText = queryPaperStatus;
+                    cmd.ExecuteNonQuery();
+                }
+
+            }
+            if (!string.IsNullOrEmpty(Comments.Trim()))
+            {
+                string queryPaper = " INSERT INTO `ijerts`.papercomments(PaperId, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
+                                + " VALUES(?paperId, ?comments, 1, 1, ?userId, now()); ";
+
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Parameters.Add(new MySqlParameter("?UserId", userId));
+                cmd.Parameters.Add(new MySqlParameter("?PaperId", paperId));
+                cmd.Parameters.Add(new MySqlParameter("?comments", Comments));
+
+                using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.CommandText = queryPaper;
+                    cmd.ExecuteNonQuery();
+                }
+
+            }
+
+            return result;
+
         }
 
     }
