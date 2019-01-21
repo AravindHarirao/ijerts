@@ -176,7 +176,7 @@ namespace IJERTS.Web.Controllers
 
             paper = _editor.GetPaperDetails(id);
 
-            List<Users> reviewers = _review.GetAllReviewers();
+            List<Users> reviewers = _review.GetAllReviewersForPaper(paper.PaperId);
             ViewData["ApproveStatus"] = new SelectList(
                     new List<SelectListItem>
                                         {

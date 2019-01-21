@@ -29,6 +29,12 @@ namespace IJERTS.BLL
             return _reviewRepository.GetAllReviewers();
         }
 
+        public List<Users> GetAllReviewersForPaper(int paperId)
+        {
+            return _reviewRepository.GetAllReviewersForPaper(paperId);
+        }
+
+
         public void ActivateDeActivateReviewer(Users user)
         {
             _reviewRepository.ActivateDeActivateReviewer(user);

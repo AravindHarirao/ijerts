@@ -76,7 +76,18 @@ namespace IJERTS.DAL
                                 + " us.Position, us.Department, us.UserActivated, sp.specialisation "
                                 + " from Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
                                 + " WHERE UserActivated = 1 AND UserType = 'R' AND (us.UserActivationValue is null OR us.UserActivationValue != 'False') ";
+
+            //string queryPaper = "select us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
+            //                            + " us.Position, us.Department, us.UserActivated, sp.specialisation "
+            //                            + "from Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
+            //                            + "inner join papers PAP on pap.subject = sp.specialisation "
+            //                            + "WHERE UserActivated = 1 AND UserType = 'R' AND(us.UserActivationValue is null OR us.UserActivationValue != 'False') "
+            //                            + "AND PAP.PaperId = ?paperId";
+
+
+
             MySqlCommand cmd = new MySqlCommand();
+
             using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
             {
                 cmd.Connection = con;
@@ -104,6 +115,51 @@ namespace IJERTS.DAL
 
             }
         }
+
+        public List<Users> GetAllReviewersForPaper(int paperId)
+        {
+            List<Users> lstReviewers = new List<Users>();
+
+            string queryPaper = "select us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
+                                         + " us.Position, us.Department, us.UserActivated, sp.specialisation "
+                                         + "from Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
+                                         + "inner join papers PAP on pap.subject = sp.specialisation "
+                                         + "WHERE UserActivated = 1 AND UserType = 'R' AND(us.UserActivationValue is null OR us.UserActivationValue != 'False') "
+                                         + "AND PAP.PaperId = ?paperId";
+
+
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.Add(new MySqlParameter("?PaperId", paperId));
+
+            using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+            {
+                cmd.Connection = con;
+                con.Open();
+                cmd.CommandText = queryPaper;
+
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Users objUsers = new Users();
+                    objUsers.UserId = Convert.ToInt32(reader["UserId"]);
+                    objUsers.FirstName = reader["FirstName"].ToString();
+                    objUsers.LastName = reader["LastName"].ToString();
+                    objUsers.Email = reader["Email"].ToString();
+                    objUsers.Phone = reader["Phone"].ToString();
+                    objUsers.Organisation = reader["Organisation"].ToString();
+                    objUsers.Qualification = reader["Qualification"].ToString();
+                    objUsers.Position = reader["Position"].ToString();
+                    objUsers.Department = reader["Department"].ToString();
+                    objUsers.Specialisation = reader["specialisation"].ToString();
+                    lstReviewers.Add(objUsers);
+                }
+
+                return lstReviewers;
+
+            }
+        }
+
 
         public void ActivateDeActivateReviewer(Users user)
         {

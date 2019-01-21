@@ -46,7 +46,7 @@ namespace IJERTS.Web.Controllers
             TempData["PaperPostingFailed"] = "Comments posted successfully";
 
             paper = _editor.GetPaperDetails(txtPaperId);
-            List<Users> reviewers = _review.GetAllReviewers();
+            List<Users> reviewers = _review.GetAllReviewersForPaper(paper.PaperId);
 
             ViewData["Reviewers"] = new SelectList((System.Collections.IEnumerable)reviewers, "UserId", "FirstName");
 
@@ -65,7 +65,7 @@ namespace IJERTS.Web.Controllers
 
             paper = _editor.GetPaperDetails(id);
 
-            List<Users> reviewers = _review.GetAllReviewers();
+            List<Users> reviewers = _review.GetAllReviewersForPaper(paper.PaperId);
             ViewData["Reviewers"] = new SelectList((System.Collections.IEnumerable)reviewers, "UserId", "FirstName");
 
             return View("PaperDetails", paper);

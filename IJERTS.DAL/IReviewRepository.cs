@@ -15,6 +15,9 @@ namespace IJERTS.DAL
 
         List<Users> GetAllReviewers();
 
+        List<Users> GetAllReviewersForPaper(int paperId);
+
+
         void ActivateDeActivateReviewer(Users user);
         
         Users GetReviewerDetails(Int32 userId);
