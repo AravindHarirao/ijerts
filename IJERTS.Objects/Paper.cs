@@ -16,6 +16,11 @@ namespace IJERTS.Objects
         public string Tags { get; set; }
         public string PaperPath { get; set; }
         public string FileName { get; set; }
+
+        public string DeclarationPaperPath { get; set; }
+        public string DeclarationFileName { get; set; }
+
+
         public List<PaperAuthors> Authors { get; set; }
 
         public PaperStatus Status { get; set; }

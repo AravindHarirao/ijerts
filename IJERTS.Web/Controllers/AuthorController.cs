@@ -86,7 +86,7 @@ namespace IJERTS.Web.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult PostPaper(Paper paper, HttpPostedFileBase PaperPath,
+        public ActionResult PostPaper(Paper paper, HttpPostedFileBase PaperPath, HttpPostedFileBase DeclaraionPaperPath,
             string AuthorFirstName1, string AuthorLastName1, string AuthorDepartment1, string AuthorOrganisation1,
             string AuthorFirstName2, string AuthorLastName2, string AuthorDepartment2, string AuthorOrganisation2,
             string AuthorFirstName3, string AuthorLastName3, string AuthorDepartment3, string AuthorOrganisation3,
@@ -107,10 +107,13 @@ namespace IJERTS.Web.Controllers
                 newPaper = paper;
 
                 string uploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");
-                string filePath = Path.Combine(uploadedPath, PaperPath.FileName);
-                
                 paper.FileName = Path.GetFileName(PaperPath.FileName);
                 paper.PaperPath = uploadedPath;
+
+                string declarationPath = Server.MapPath("~/UploadedFiles/Declaration/");
+                paper.DeclarationFileName = string.Format("Declaration_{0}", Path.GetFileName(DeclaraionPaperPath.FileName));
+                paper.DeclarationPaperPath = declarationPath;
+
 
                 if (!string.IsNullOrEmpty(AuthorFirstName1))
                 {
@@ -156,6 +159,7 @@ namespace IJERTS.Web.Controllers
                 newPaper.UserId = int.Parse(HttpContext.Session["UserId"].ToString());
                 _author.PostPapers(paper);
                 PaperPath.SaveAs(Path.Combine(paper.PaperPath, paper.FileName));
+                DeclaraionPaperPath.SaveAs(Path.Combine(paper.DeclarationPaperPath, paper.DeclarationFileName));
 
                 List<Specialisation> specialisations = _author.GetSpecialisation();
                 ViewData["Subject"] = new SelectList((System.Collections.IEnumerable)specialisations, "specialisation", "specialisation");

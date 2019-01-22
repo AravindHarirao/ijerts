@@ -115,7 +115,7 @@ namespace IJERTS.DAL
         {
             Paper paper = new Paper();
             List<PaperAuthors> lstPaperAuth = new List<PaperAuthors>();
-            string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,CreatedBy, CreatedDateTime,  CompleteFilePath, FileName, "
+            string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,CreatedBy, CreatedDateTime,  CompleteFilePath, FileName, CompleteDeclarationFilePath, DeclarationFileName, "
                                 + " AuthorFirstName, AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject from Papers PAP "
                                 + " INNER JOIN authors AUT ON "
                                 + " PAP.PaperId = AUT.PaperID "
@@ -144,6 +144,10 @@ namespace IJERTS.DAL
                     paper.FileName = Convert.ToString(reader["FileName"]);
                     paper.PaperPath = string.Format("{0}\\{1}", paper.PaperPath, paper.FileName);
                     paper.CreatedDateTime = Convert.ToDateTime(reader["CreatedDateTime"].ToString());
+                    paper.DeclarationFileName = Convert.ToString(reader["DeclarationFileName"]);
+                    paper.DeclarationPaperPath = Convert.ToString(reader["CompleteDeclarationFilePath"]);
+                    paper.DeclarationPaperPath = string.Format("{0}\\{1}", paper.DeclarationPaperPath, paper.DeclarationFileName);
+
 
                     auth.AuthorFirstName = Convert.ToString(reader["AuthorFirstName"]);
                     auth.AuthorLastName = Convert.ToString(reader["AuthorLastName"]);

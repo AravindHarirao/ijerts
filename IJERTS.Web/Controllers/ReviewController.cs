@@ -181,7 +181,7 @@ namespace IJERTS.Web.Controllers
                     new List<SelectListItem>
                                         {
                                             new SelectListItem { Selected = true, Text = string.Empty, Value = "-1"},
-                                            new SelectListItem { Selected = false, Text = "Approves", Value = "Approved"},
+                                            new SelectListItem { Selected = false, Text = "Approved", Value = "Approved"},
                                             new SelectListItem { Selected = false, Text = "Rejected", Value = "Rejected"},
                                         }, "Value", "Text", 1); 
 
@@ -202,7 +202,7 @@ namespace IJERTS.Web.Controllers
                                         new List<SelectListItem>
                                                 {
                                                                 new SelectListItem { Selected = true, Text = string.Empty, Value = "-1"},
-                                                                new SelectListItem { Selected = false, Text = "Approves", Value = "Approved"},
+                                                                new SelectListItem { Selected = false, Text = "Approved", Value = "Approved"},
                                                                 new SelectListItem { Selected = false, Text = "Rejected", Value = "Rejected"},
                                                 }, "Value", "Text", 1);
 

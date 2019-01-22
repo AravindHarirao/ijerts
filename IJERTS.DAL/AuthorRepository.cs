@@ -88,11 +88,11 @@ namespace IJERTS.DAL
         {
             int errorCount = 0;
             string queryPaper = "INSERT INTO Papers(UserId, MainTitle, ShortDesc, Subject, Tags, CompleteFilePath, FileName,"
-                                + "CreatedBy, CreatedDateTime, UpdatedBy, UpdatedDateTime)"
+                                + "CreatedBy, CreatedDateTime, UpdatedBy, UpdatedDateTime, CompleteDeclarationFilePath, DeclarationFileName)"
                                 + "Values"
                                 + "("
                                 + "?UserId, ?MainTitle, ?ShortDesc, ?Subject, ?Tags, ?CompleteFilePath,"
-                                + "?FileName, ?CreatedBy, Now(), ?UpdatedBy, Now()"
+                                + "?FileName, ?CreatedBy, Now(), ?UpdatedBy, Now(), ?CompleteDeclarationFilePath, ?DeclarationFileName"
                                 + ");";
 
             string queryMaxPaperId = "SELECT MAX(Paperid) from Papers";
@@ -117,6 +117,9 @@ namespace IJERTS.DAL
                 cmd.Parameters.Add(new MySqlParameter("?FileName", paper.FileName));
                 cmd.Parameters.Add(new MySqlParameter("?CreatedBy", paper.CreatedBy));
                 cmd.Parameters.Add(new MySqlParameter("?UpdatedBy", paper.UpdatedBy));
+                cmd.Parameters.Add(new MySqlParameter("?CompleteDeclarationFilePath", paper.DeclarationPaperPath));
+                cmd.Parameters.Add(new MySqlParameter("?DeclarationFileName", paper.DeclarationFileName));
+
 
 
 
@@ -212,7 +215,7 @@ namespace IJERTS.DAL
         {
             Paper paper = new Paper();
             List<PaperAuthors> lstPaperAuth = new List<PaperAuthors>();
-            string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,PAP.CreatedBy, PAP.CreatedDateTime,  CompleteFilePath, FileName, "
+            string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,PAP.CreatedBy, PAP.CreatedDateTime,  CompleteFilePath, FileName, CompleteDeclarationFilePath, DeclarationFileName, "
                                 + " AuthorFirstName, AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject, comments from Papers PAP "
                                 + " INNER JOIN authors AUT ON "
                                 + " PAP.PaperId = AUT.PaperID "
@@ -244,6 +247,9 @@ namespace IJERTS.DAL
                     paper.FileName = Convert.ToString(reader["FileName"]);
                     paper.PaperPath = string.Format("{0}\\{1}", paper.PaperPath, paper.FileName);
                     paper.CreatedDateTime = Convert.ToDateTime(reader["CreatedDateTime"].ToString());
+                    paper.DeclarationFileName = Convert.ToString(reader["DeclarationFileName"]);
+                    paper.DeclarationPaperPath = Convert.ToString(reader["CompleteDeclarationFilePath"]);
+                    paper.DeclarationPaperPath = string.Format("{0}\\{1}", paper.DeclarationPaperPath, paper.DeclarationFileName);
 
                     auth.AuthorFirstName = Convert.ToString(reader["AuthorFirstName"]);
                     auth.AuthorLastName = Convert.ToString(reader["AuthorLastName"]);
