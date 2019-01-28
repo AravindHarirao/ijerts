@@ -23,5 +23,9 @@ namespace IJERTS.Objects
         public string UpdatedBy { get; set; }
 
         public string SessionId { get; set; }
+
+        public short ResultCode { get; set; }
+
+        public string ResultMessage { get; set; }
     }
 }

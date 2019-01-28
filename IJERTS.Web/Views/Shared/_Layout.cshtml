@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - JournelWeb</title>
-
     <environment include="Development">
         <link rel="stylesheet" href="@Url.Content("~/Content/lib/bootstrap/dist/css/bootstrap.css")" />
         <link rel="stylesheet" href="@Url.Content("~/Content/css/site.css")" />
@@ -25,7 +24,6 @@
               asp-fallback-href="@Url.Content("~/Content/lib/bootstrap/dist/css/bootstrap.min.css")"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="@Url.Content("~/Content/css/site.min.css")" asp-append-version="true" />
-
         <link rel="stylesheet" href="@Url.Content("~/Content/lib/bootstrap/dist/css/bootstrap.css")" />
         <link rel="stylesheet" href="@Url.Content("~/Content/css/site.css")" />
         <link href="@Url.Content("~/Content/css/style.css")" rel="stylesheet" type="text/css" />
@@ -38,10 +36,58 @@
         <script src="@Url.Content("~/Scripts/jquery.js")" type="text/javascript"></script>
         <script src="@Url.Content("~/Scripts/custom.js")" type="text/javascript"></script>
         <script src="@Url.Content("~/Scripts/jquery.js")" type="text/javascript"></script>
-
         @*<script src="@Url.Content("~/Scripts/site.js")"></script>*@
-
     </environment>
+    <style>
+        /*h1 span{
+            color: #00518c;
+        }
+        h1 small{
+            color:#464647;
+        }
+        .nav ul li a{
+            color:#00518c;
+            font-weight: 700;
+            text-decoration:underline;
+        }
+        .nav ul li a:hover{
+            background-color:#00518c;
+            color:#fff;
+        }
+        .nav li ul{
+            margin-top: 2px;
+        }
+       .nav ul li ul li{         
+           background-color:#464647;
+       }
+       .nav ul li ul li a{
+           color:#fff;
+       }
+       .nav ul li ul li:last-child{
+           border:none;
+       }
+       .right li{
+           border-bottom: 1px dashed #00518c;
+       }
+       .right li a{
+           color: #e8232b;
+       }
+       .right .blog{
+           border: 1px dashed #00518c;
+       }*/
+       .form-control{
+           border: 1px solid #00518c;
+           border-radius: 10px;
+       }
+       .btn{
+           border-radius: 10px;
+           background-color:#00518c;
+           color:#fff;
+       }
+       .req {
+            color: #e8232b;
+        }
+    </style>
 </head>
 <body>
     <div class="main">
@@ -59,25 +105,17 @@
                         </tr>
                     </table>
                 </div>
-                @*<div class="menu">
-            <ul>
-                <li><a href="@Url.Action("Index", "Home")" class="active"><span>Home</span></a></li>
-                <li><a href="@Url.Action("Index", "Author")"><span>Authors</span></a></li>
-                <li><a href="@Url.Action("Index", "Editor")"><span>Editorial</span></a></li>
-                <li><a href="@Url.Action("ResearachArea", "Home")"><span> Research Area</span></a></li>
-            </ul>
-        </div>*@
                 <div class="nav" style="padding-top:100px; padding-left:100px">
                     <!-- Start of Nav Bar -->
                     <ul>
                         <li class="home">
                             <a href="@Url.Action("Index", "Home")" class="active">Home</a>
                             <ul>
-                                <li class="programs"><a href="@Url.Action("CallforPaper", "Home")" class="">Call for papers</a></li>
+                                <li class="programs"><a href="@Url.Action("CallforPaper", "Home")" class="">Call for Papers</a></li>
                             </ul>
                         </li>
                         <li class="home">
-                            <a href="@Url.Action("About", "Home")" class="active">About us</a>
+                            <a href="@Url.Action("About", "Home")" class="active">About Us</a>
                         </li>
                         <li class="home">
                             <a href="@Url.Action("Index", "Author")" class="">Author</a>
@@ -85,12 +123,10 @@
                                 <li class="events"><a href="@Url.Action("PublicationCharges", "Author")" class="active">Publication Charges</a></li>
                                 <li class="events"><a href="@Url.Action("AuthorResponsibility", "Author")" class="active">Author Responsibility</a></li>
 
-                                <li class="events"><a href="@Url.Action("PostPaper", "Author")" class="active">Post paper</a></li>
+                                <li class="events"><a href="@Url.Action("PostPaper", "Author")" class="active">Post Paper</a></li>
                                 <li class="events"><a href="@Url.Action("TrackMyPaper", "Author")" class="active">Track My Paper</a></li>
                                 <li class="events"><a href="https://smallseotools.com/plagiarism-checker/" target="_blank" class="active">Check Plagarism</a></li>
-
                             </ul>
-
                         </li>
                         <li class="home">
                             <a href="@Url.Action("EditorialBoard", "Editor")" class="">Editorial Board</a>
@@ -122,31 +158,22 @@
         <div class="body">
             <div class="body_resize">
                 <div class="left">
-                    @*<h3><span>Welcome</span> </h3>*@
                     <p>
                         @RenderBody()
                     </p>
-                   
-
                 </div>
                 <div class="right">
                     <div class="blog">
                         <h2><span>Quick</span> Links</h2>
                         <ul>
                             <li><a href="@Url.Action("Index", "Home")">Home</a></li>
-
-
-                            <li><a href="@Url.Action("CallforPaper", "Home")">Call for papers</a></li>
+                            <li><a href="@Url.Action("CallforPaper", "Home")">Call for Papers</a></li>
                             <li><a href="@Url.Action("ResearachArea", "Home")">Latest Issues</a></li>
-                            <li>
-                                <a href="@Url.Action("ResearachArea", "Home")">Previous Issues</a>
-                            </li>
-
+                            <li><a href="@Url.Action("ResearachArea", "Home")">Previous Issues</a></li>
                             <li><a href="@Url.Action("ResearachArea", "Home")">Research Area</a></li>
                             <li><a href="@Url.Action("Downloads", "Home")">Downloads</a></li>
-
                             <li><a href="@Url.Action("FAQ", "Home")">FAQ</a></li>
-                            <li><a href="@Url.Action("Queries", "Home")">Contact us</a></li>
+                            <li><a href="@Url.Action("Queries", "Home")">Contact Us</a></li>
                             @if (Session["UserId"] != null)
                             {
                                 <li><a href="@Url.Action("ChangePassword", "Login")">Change Password</a></li>

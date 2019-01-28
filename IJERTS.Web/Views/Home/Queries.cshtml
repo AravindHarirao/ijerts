@@ -5,6 +5,21 @@
 
 }
 
+<style>
+    .form-control{
+        border: 1px solid #00518c;
+        border-radius: 10px;
+    }
+    .btn{
+        border-radius: 10px;
+        background-color:#00518c;
+        color:#fff;
+    }
+    .req {
+        color: #e8232b;
+    }
+</style>
+
 <h4>Contact us</h4>
 <br />
 
@@ -12,60 +27,48 @@
     @using (Html.BeginForm("Queries", "Home", FormMethod.Post))
     {
         <div class="row">
-            <div class="col-md-2">
-                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
-            </div>
+            <label class="control-label col-md-3">First Name&nbsp;<span class="req">*</span></label>
             <div class="col-md-4">
                 @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "FirstName", @name = "FirstName", @autocomplete = "off" })
-
                 @Html.DisplayTextFor(model => model.FirstName)
             </div>
             <div class="col-md-6"></div>
         </div>
         <br />
         <div class="row">
-            <div class="col-md-2">
-                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
-            </div>
+            <label class="control-label col-md-3">Last Name&nbsp;<span class="req">*</span></label>
             <div class="col-md-4">
                 @Html.TextBoxFor(model => model.LastName, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "LastName", @name = "LastName", @autocomplete = "off" })
-
                 @Html.DisplayTextFor(model => model.LastName)
             </div>
             <div class="col-md-6"></div>
         </div>
         <br />
         <div class="row">
-            <div class="col-md-2">
-                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
-            </div>
+            <label class="control-label col-md-3">Email Address&nbsp;<span class="req">*</span></label>
             <div class="col-md-4">
                 @Html.TextBoxFor(model => model.Email, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "Email", @name = "Email", @autocomplete = "off" })
-
                 @Html.DisplayTextFor(model => model.Email)
             </div>
             <div class="col-md-6"></div>
         </div>
         <br />
         <div class="row">
-            <div class="col-md-2">
-                @Html.LabelFor(model => model.QueryText, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
-            </div>
+            <label class="control-label col-md-3">Query&nbsp;<span class="req">*</span></label>
             <div class="col-md-4">
-                @Html.TextBoxFor(model => model.QueryText, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 150, @placeholder = "Query", @name = "QueryText", @autocomplete = "off" })
+                @Html.TextAreaFor(model => model.QueryText, new { @class = "form-control form-control-solid placeholder-no-fix disablecopypaste", @maxlength = 1000, @row = 4, @placeholder = "Query", @name = "QueryText", @autocomplete = "off" })
                 @Html.DisplayTextFor(model => model.QueryText)
             </div>
             <div class="col-md-6"></div>
         </div>
         <br />
-        
-
         <div class="row">
             <div class="form-group">
                 <div class="col-md-2" style="padding-left:0px !important">
-                    <input type="submit" value="Submit" />
+                    <button class="btn btn-mod btn-block btn-small btnSave" id="btnSave" style="width:75px">Submit</button>
+                    <button type="submit" class="btn btn-mod btn-block btn-small hidden" id="btnSubmit">Submit</button>
                 </div>
-                
+
                 <div class="col-md-10"></div>
             </div>
         </div>
@@ -79,6 +82,44 @@
         </div>
     }
 </div>
+<script type="text/javascript">
 
+    $(".btnSave").click(function (event) {
+        error = 0;
+        event.preventDefault();
 
+        var emailId = $("#Email").val();
+        var emailexpression = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
 
+        if ($("input[name='FirstName']").val().trim() == "") {
+            alert('Please enter the First Name');
+            $("#FirstName").focus();
+            return false;
+        }
+        else if ($("input[name='LastName']").val().trim() == "") {
+            alert('Please enter the Last Name');
+            $("#LastName").focus();
+            return false;
+        }
+        else if ($("input[name='Email']").val().trim() == "") {
+            alert('Please enter the Email Address');
+            $("#Email").focus();
+            return false;
+        }
+        else if (!emailexpression.test(emailId)) {
+            alert('Please enter the valid Email Address');
+            $("#Email").focus();
+            return false;
+        }
+        else if ($("input[name='QueryText']").val().trim() == "") {
+            alert('Please enter the Query');
+            $("#QueryText").focus();
+            return false;
+        }
+        else
+        {
+            $("#btnSubmit").click();
+            return true;
+        }
+    });
+</script>

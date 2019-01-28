@@ -9,7 +9,7 @@ namespace IJERTS.BLL
 {
     public interface IReview
     {
-        void Register(Users user);
+        Users Register(Users user);
 
         List<Tuple<int, string>> GetSpecialization(CommonCode commonCode);
 

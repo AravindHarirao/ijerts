@@ -35,12 +35,15 @@ namespace IJERTS.Web.Controllers
             }
             ViewBag.Specialization = new SelectList(lstSpec, "Value", "Text");
 
+            TempData["ReviewerUserExists"] = "";
             return View();
         }
 
         [HttpPost]
         public ActionResult Register(Users user, HttpPostedFileBase UploadResume)
         {
+            Users objUser = new Users();
+
             user.UserType = "R";
 
             string uploadedPath = Server.MapPath("~/UploadedFiles/ReviewerResume");
@@ -57,12 +60,29 @@ namespace IJERTS.Web.Controllers
 
             UploadResume.SaveAs(Path.Combine(uploadedPath, user.ResumeFileName));
 
-            _review.Register(user);
+            objUser = _review.Register(user);
 
-            TempData["ReviewerRegisterHeading"] = "Registration Completed!";
-            TempData["ReviewerRegisterMessage"] = "Thank you for registering with us. Your Registration is successfull and you can Review after approval.";
+            if(objUser.ResultMessage.ToUpper().Equals("SUCCESS"))
+            {
+                TempData["ReviewerRegisterHeading"] = "Registration Completed!";
+                TempData["ReviewerRegisterMessage"] = "Thank you for registering with us. Your Registration is successfull and you can Review after approval.";
 
-            return View("CompleteRegister");
+                return View("CompleteRegister");
+            }
+            else
+            {
+                CommonCode commonCode = new CommonCode();
+                List<Tuple<int, string>> lstSpecialization = _review.GetSpecialization(commonCode);
+                List<SelectListItem> lstSpec = new List<SelectListItem>();
+                foreach (var specialization in lstSpecialization)
+                {
+                    lstSpec.Add(new SelectListItem { Value = specialization.Item1.ToString(), Text = specialization.Item2 });
+                }
+                ViewBag.Specialization = new SelectList(lstSpec, "Value", "Text");
+
+                TempData["ReviewerUserExists"] = "Reviewer Email Address already registered with us. Please try again...";
+                return View();
+            }
         }
 
         [HttpPost]

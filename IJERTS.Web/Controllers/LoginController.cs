@@ -236,6 +236,7 @@ namespace IJERTS.Web.Controllers
         [HttpGet]
         public ActionResult ChangePassword()
         {
+            TempData["UserLoginFailed"] = "";
             return View();
         }
 

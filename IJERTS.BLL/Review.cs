@@ -12,9 +12,9 @@ namespace IJERTS.BLL
     {
         IReviewRepository _reviewRepository = new ReviewRepository();
 
-        public void Register(Users user)
+        public Users Register(Users user)
         {
-            _reviewRepository.Register(user);
+            return _reviewRepository.Register(user);
         }
 
         public List<Tuple<int, string>> GetSpecialization(CommonCode commonCode)

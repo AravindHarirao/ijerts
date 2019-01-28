@@ -1,31 +1,48 @@
 ﻿@model IEnumerable<IJERTS.Objects.Users>
+<br />
 <div>
-    <div class="row">
-        <div class="col-md-2">Full Name</div>
-        <div class="col-md-2">Department</div>
-        <div class="col-md-2">Organisation</div>
-        <div class="col-md-2">Specilisation</div>
-        <div class="col-md-2">Active</div>
-        <div class="col-md-2">Details</div>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover" id="sample_1">
+            <tr>
+                <th>
+                    <center>Full Name</center>
+                </th>
+                <th>
+                    <center>Department</center>
+                </th>
+                <th>
+                    <center>Organisation</center>
+                </th>
+                <th>
+                    <center>Specilisation</center>
+                </th>
+                <th>
+                    <center>Active</center>
+                </th>
+                <th>
+                    <center>Details</center>
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><p>@item.FirstName @item.LastName</p></td>
+                    <td><p>@item.Department</p></td>
+                    <td><p>@item.Organisation</p></td>
+                    <td><p>@item.Specialisation</p></td>
+                    <td>
+                        <p>
+                            <a href="#" class="color ActivateReviewer" data-userid="@item.UserId" data-firstname="@item.FirstName" data-lastname="@item.LastName" data-email="@item.Email">Activate</a>/
+                            <a href="#" class="color DeActivateReviewer" data-userid="@item.UserId" data-firstname="@item.FirstName" data-lastname="@item.LastName" data-email="@item.Email">De-Activate</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p>@Html.ActionLink("Details", "GetReviewerDetails", "Review", new { userId = @item.UserId }, null)</p>
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
-    @foreach (var item in Model)
-    {
-        <div class="row">
-            <div class="col-md-2"><p>@item.FirstName @item.LastName</p></div>
-            <div class="col-md-2"><p>@item.Department</p></div>
-            <div class="col-md-2"><p>@item.Organisation</p></div>
-            <div class="col-md-2"><p>@item.Specialisation</p></div>
-            <div class="col-md-2">
-                <p>
-                    <a href="#" class="color ActivateReviewer" data-userid="@item.UserId" data-firstname="@item.FirstName" data-lastname="@item.LastName" data-email="@item.Email">Activate</a>/
-                    <a href="#" class="color DeActivateReviewer" data-userid="@item.UserId" data-firstname="@item.FirstName" data-lastname="@item.LastName" data-email="@item.Email">De-Activate</a>
-                </p>
-            </div>
-            <div class="col-md-2">
-                <p>@Html.ActionLink("Details", "GetReviewerDetails", "Review", new { userId = @item.UserId }, null)</p>
-            </div>
-        </div>
-    }
 </div>
 <div class="hidden">
     @using (Html.BeginForm("ActivateDeActivateReviewer", "Review", FormMethod.Post, new { enctype = "multipart/form-data" }))

@@ -9,7 +9,7 @@ namespace IJERTS.DAL
 {
     public interface IReviewRepository
     {
-        void Register(Users user);
+        Users Register(Users user);
 
         List<Tuple<int, string>> GetSpecialization(CommonCode commonCode);
 
