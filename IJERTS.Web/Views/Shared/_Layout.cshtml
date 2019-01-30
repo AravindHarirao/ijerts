@@ -78,6 +78,7 @@
        .form-control{
            border: 1px solid #00518c;
            border-radius: 10px;
+           width:275px;
        }
        .btn{
            border-radius: 10px;
@@ -141,6 +142,8 @@
 
                             </ul>
                         </li>
+                        @if (Session["UserId"] == null)
+                        {
                         <li class="resources">
                             <a href="#" class="active">Login</a>
                             <ul>
@@ -149,7 +152,7 @@
                                 <li class="resources"><a href="@Url.Action("ReviewerLogin", "Login")" class="active">Reviewers Login</a></li>
                             </ul>
                         </li>
-
+                        }
                     </ul>
                 </div>
                 <div class="clr"></div>
