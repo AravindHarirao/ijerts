@@ -3,33 +3,41 @@
     ViewData["Title"] = "TrackMyPaper";
 }
 
-
 <h4>Dashboard</h4>
 <br />
 
 <div>
-    <div class="row">
-        <div class="col-md-2">Paper Id</div>
-        <div class="col-md-2">Title</div>
-        <div class="col-md-2">Status</div>
-        <div class="col-md-2">Created by</div>
-        <div class="col-md-2">Created on</div>
-        <div class="col-md-2">Details</div>
-
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover" id="sample_1">
+            <tr>
+                <th>
+                    <center>Title</center>
+                </th>
+                <th>
+                    <center>Status</center>
+                </th>
+                <th>
+                    <center>Created By</center>
+                </th>
+                <th>
+                    <center>Created On</center>
+                </th>
+                <th>
+                    <center>Details</center>
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><p>@item.MainTitle</p></td>
+                    <td><p>@item.Status.Status</p></td>
+                    <td><p>@item.CreatedBy</p></td>
+                    <td><p>@item.CreatedDateTime.ToShortDateString()</p></td>
+                    <td>
+                        <p>@Html.ActionLink("Details", "GetPaperDetails", "Author", new { id = @item.PaperId }, null)</p>
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
-
-    @foreach (var item in Model)
-    {
-    <div class="row">
-        <div class="col-md-2"><p>@item.PaperId</p></div>
-        <div class="col-md-2"><p>@item.MainTitle</p></div>
-        <div class="col-md-2"><p>@item.Status.Status</p></div>
-        <div class="col-md-2"><p>@item.CreatedBy</p></div>
-        <div class="col-md-2"><p>@item.CreatedDateTime.ToShortDateString()</p></div>
-        <p>@Html.ActionLink("Details", "GetPaperDetails", "Author", new { id = @item.PaperId }, null)</p>
-
-    </div>
-    }
-
 </div>
-
