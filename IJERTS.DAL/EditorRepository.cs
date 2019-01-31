@@ -167,8 +167,8 @@ namespace IJERTS.DAL
         public int PostComments(int paperId, string comments, int userId, int approverId)
         {
 
-            string queryComments = " INSERT INTO `ijerts`.papercomments(PaperId, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
-                + " VALUES(?paperId, ?comments, 1, 1, ?userId, now()); ";
+            string queryComments = " INSERT INTO `ijerts`.papercomments(PaperId, UserType, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
+                + " VALUES(?paperId, 1, ?comments, 1, 1, ?userId, now()); ";
 
             string queryCommentsStatusUpdate = "UPDATE `ijerts`.paperStatus SET `status` = 'COMMENTS ADDED' WHERE paperID = ?paperID";
 
