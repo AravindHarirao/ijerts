@@ -334,5 +334,43 @@ namespace IJERTS.Common
                 return "Error"; //ex.Message.ToString();
             }
         }
+
+        public static string AnswerQuery(Queries Query)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.To.Add(Query.Email);
+                //mail.To.Add("senthilavs@gmail.com");
+                mail.From = new MailAddress(sFromEmailAddress);
+                mail.Subject = "Regd your recent query.";
+
+                StringBuilder sbEmailMsg = new StringBuilder();
+                sbEmailMsg.Append("<p>");
+                sbEmailMsg.Append("Thank you for contacting us. Please find our response below.");
+                sbEmailMsg.Append("</p>");
+
+                sbEmailMsg.Append("<br><p>");
+                sbEmailMsg.Append(Query.QueryAnswer);
+                sbEmailMsg.Append("</p>");
+
+
+                mail.Body = sbEmailMsg.ToString();
+                mail.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = sSmtpHost;
+                smtp.Port = Convert.ToInt32(sSmtpPort);
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential(sSmtpUsername, sSmtpPassword); // Enter seders User name and password  
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+
+                return "Success";
+            }
+            catch (Exception)
+            {
+                return "Error"; //ex.Message.ToString();
+            }
+        }
     }
 }

@@ -17,15 +17,17 @@
                     <center>Details</center>
                 </th>
             </tr>
-            @*@foreach (var item in Model)
-            {*@
+            @foreach (var item in Model)
+            {
                 <tr>
-                    <td><p>&nbsp;</p></td>
-                    <td><p>&nbsp;</p></td>
-                    <td><p>&nbsp;</p></td>
-                    <td><p>&nbsp;</p></td>                    
+                    <td><p>@item.FirstName, @item.LastName</p></td>
+                    <td><p>@item.Email</p></td>
+                    <td><p>@item.QueryText</p></td>
+                    <td>
+                        <p>@Html.ActionLink("Details", "QueryDetails", "Editor", new { id = @item.QueryId }, null)</p>
+                    </td>          
                 </tr>
-            @*}*@
+            }
         </table>
     </div>
 </div>

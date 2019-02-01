@@ -10,6 +10,11 @@ namespace IJERTS.DAL
     public interface IHomeRepository
     {
         int PostQuery(Queries query);
+
         List<Queries> GetQueries();
+
+        Queries GetQueriesForId(int id);
+
+        int UpdateQuery(int queryId, string response);
     }
 }

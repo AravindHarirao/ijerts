@@ -13,6 +13,7 @@ namespace IJERTS.Objects
         public string LastName { get; set; }
         public string Email { get; set; }
         public string QueryText { get; set; }
+        public string QueryAnswer { get; set; }
         public string QueryStatus { get; set; }
         public int IsActive { get; set; }
         public string CreatedBy { get; set; }

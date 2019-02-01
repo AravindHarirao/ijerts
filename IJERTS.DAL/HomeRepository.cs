@@ -45,8 +45,8 @@ namespace IJERTS.DAL
 
         public List<Queries> GetQueries()
         {
-            string queryText = "SELECT FirstName, LastName, Email, QueryText from `ijerts`.queries " +
-                                         " WHERE `QueryStatus` = 'NEW' ORDER BY CreatedOn ASC ";
+            string queryText = " select QueryId, FirstName, LastName, Email, QueryText, QueryAnswer, QueryStatus, CreatedOn from queries "
+                                        + "WHERE QueryStatus = 'New' Order by CreatedOn ASC ";
             List<Queries> queries = new List<Queries>();
             try
             {
@@ -61,9 +61,13 @@ namespace IJERTS.DAL
                     while (reader.Read())
                     {
                         Queries query = new Queries();
+                        query.QueryId = reader.GetInt32("QueryId");
                         query.FirstName = reader.GetString("FirstName");
                         query.LastName= reader.GetString("LastName");
+                        query.QueryStatus = reader.GetString("QueryStatus");
+                        query.QueryAnswer = reader.GetString("QueryAnswer");
                         query.Email = reader.GetString("Email");
+                        query.QueryText = reader.GetString("QueryText");
 
                         queries.Add(query);
 
@@ -79,7 +83,77 @@ namespace IJERTS.DAL
             return queries;
         }
 
+        public Queries GetQueriesForId(int id)
+        {
+            string queryText = " select QueryId, FirstName, LastName, Email, QueryText, QueryAnswer, QueryStatus, CreatedOn from queries " +
+                                         " WHERE QueryId = ?queryId ";
+            Queries queries = new Queries();
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Parameters.Add(new MySqlParameter("?queryId", id));
 
-        
+                using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.CommandText = queryText;
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        queries.QueryId = reader.GetInt32("QueryId");
+                        queries.FirstName = reader.GetString("FirstName");
+                        queries.LastName = reader.GetString("LastName");
+                        queries.QueryStatus = reader.GetString("QueryStatus");
+                        queries.QueryAnswer = reader.GetString("QueryAnswer");
+                        queries.Email = reader.GetString("Email");
+                        queries.QueryText = reader.GetString("QueryText");
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return queries;
+        }
+
+
+        public int UpdateQuery(int queryId, string response)
+        {
+            string queryText = "UPDATE `ijerts`.`queries` SET QueryAnswer = ?response, QueryStatus = 'Closed', UpdatedBy = 'System', UpdatedOn = now() "
+                                    + " WHERE QueryId = ?queryId";
+
+            int result = 0;
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Parameters.Add(new MySqlParameter("?queryId", queryId));
+                cmd.Parameters.Add(new MySqlParameter("?response", response));
+
+                using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.CommandText = queryText;
+                    cmd.ExecuteNonQuery();
+                }
+
+                result = 0;
+            }
+            catch (Exception ex)
+            {
+                result = 1;
+                throw ex;
+            }
+
+            return result;
+        }
+
+
+
     }
 }

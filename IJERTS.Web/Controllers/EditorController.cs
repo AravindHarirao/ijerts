@@ -127,5 +127,22 @@ namespace IJERTS.Web.Controllers
             return View();
         }
 
+        public ActionResult QueryDetails(int id)
+        {
+            Queries query = _editor.GetQueriesForId(id);
+            return View(query);
+        }
+
+        [HttpPost]
+        public ActionResult QueryDetails(int QueryId, string QueryAnswer)
+        {
+            int result = _editor.UpdateQuery(QueryId, QueryAnswer);
+            TempData["Result"] = result == 0 ? "Query updated successfully" : "Query update failed. Please try again later";
+            Queries query = _editor.GetQueriesForId(QueryId);
+            EmailHelper.AnswerQuery(query);
+
+            return View(query);
+        }
+
     }
 }

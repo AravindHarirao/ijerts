@@ -50,5 +50,19 @@ namespace IJERTS.BLL
             IHomeRepository homeRepository = new HomeRepository();
             return (homeRepository.GetQueries());
         }
+
+        public Queries GetQueriesForId(int id)
+        {
+            IHomeRepository homeRepository = new HomeRepository();
+            return (homeRepository.GetQueriesForId(id));
+        }
+
+
+
+        public int UpdateQuery(int queryId, string response)
+        {
+            IHomeRepository homeRepository = new HomeRepository();
+            return (homeRepository.UpdateQuery(queryId, response));
+        }
     }
 }

@@ -23,5 +23,9 @@ namespace IJERTS.BLL
 
         List<Queries> GetQueries();
 
+        Queries GetQueriesForId(int id);
+
+        int UpdateQuery(int queryId, string response);
+
     }
 }
