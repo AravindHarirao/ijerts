@@ -170,12 +170,11 @@ namespace IJERTS.DAL
         public List<Paper> TrackMyPaper(int userId)
         {
             List<Paper> papers = new List<Paper>();
-            string queryPaper = "SELECT * FROM papers inner join "
-                + " (SELECT PaperId, StatusId, Max(StatusId), UserID, `Status`, CreatedBy, CreatedDatetime FROM PaperStatus "
-                + " GROUP BY PaperId, UserID "
-                + " ) AA ON AA.PaperID = AA.PaperId "
-                + " WHERE AA.StatusID = ( "
-                + "SELECT MAX(StatusID) FROM PaperStatus) AND papers.UserId = ?UserId";
+            string queryPaper = "SELECT * FROM papers PAP inner join "
+                                + " (SELECT PaperId, StatusId, UserID, `Status`, CreatedBy, CreatedDatetime FROM PaperStatus "
+                                + " ) AA ON AA.PaperID = PAP.PaperId "
+                                + " WHERE AA.StatusID = ( "
+                                + " SELECT MAX(StatusID) FROM PaperStatus WHERE PAPERID = AA.PaPerID) AND PAP.UserId = ?userId";
 
 
             MySqlCommand cmd = new MySqlCommand();
@@ -193,6 +192,7 @@ namespace IJERTS.DAL
                     PaperStatus status = new PaperStatus();
                     objPaper.PaperId = Convert.ToInt32(reader["PaperId"]);
                     objPaper.MainTitle = reader["MainTitle"].ToString();
+                    objPaper.Tags = Convert.ToString(reader["Tags"]);
                     objPaper.ShortDesc = reader["ShortDesc"].ToString();
                     objPaper.CreatedBy = reader["CreatedBy"].ToString();
                     objPaper.CreatedDateTime = Convert.ToDateTime(reader["CreatedDateTime"].ToString());
@@ -215,12 +215,14 @@ namespace IJERTS.DAL
         {
             Paper paper = new Paper();
             List<PaperAuthors> lstPaperAuth = new List<PaperAuthors>();
-            string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,PAP.CreatedBy, PAP.CreatedDateTime,  CompleteFilePath, FileName, CompleteDeclarationFilePath, DeclarationFileName, "
-                                + " AuthorFirstName, AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject, comments from Papers PAP "
-                                + " INNER JOIN authors AUT ON "
-                                + " PAP.PaperId = AUT.PaperID "
-                                + " INNER JOIN papercomments CMT ON  PAP.PaperId = CMT.PaperID "
-                                + " WHERE PAP.PaperId = ?PaperId ";
+            string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,PAP.CreatedBy, PAP.CreatedDateTime,  "
+                                    + " CompleteFilePath, FileName, CompleteDeclarationFilePath, DeclarationFileName,  AuthorFirstName, AuthorLastName,  "
+                                    + " AuthorDepartment, AuthorOrganisation, AuthorSubject, comments from Papers PAP "
+                                    + " INNER JOIN authors AUT ON PAP.PaperId = AUT.PaperID "
+                                    + " LEFT OUTER JOIN papercomments COM ON PAP.PaperId = COM.PaperId "
+                                    + "  AND COM.CommentsID = (SELECT MAX(CommentsID) from papercomments WHERE PaperId = ?PaperId) "
+                                    + " WHERE PAP.PaperId = ?PaperId ";
+
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.Add(new MySqlParameter("?PaperId", id));

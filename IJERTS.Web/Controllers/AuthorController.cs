@@ -98,6 +98,10 @@ namespace IJERTS.Web.Controllers
                 return result;
             }
 
+            List<Specialisation> specialisations = _author.GetSpecialisation();
+            ViewData["Subject"] = new SelectList((System.Collections.IEnumerable)specialisations, "specialisation", "specialisation");
+
+
             try
             {
                 Paper newPaper = new Paper();
@@ -161,8 +165,6 @@ namespace IJERTS.Web.Controllers
                 PaperPath.SaveAs(Path.Combine(paper.PaperPath, paper.FileName));
                 DeclaraionPaperPath.SaveAs(Path.Combine(paper.DeclarationPaperPath, paper.DeclarationFileName));
 
-                List<Specialisation> specialisations = _author.GetSpecialisation();
-                ViewData["Subject"] = new SelectList((System.Collections.IEnumerable)specialisations, "specialisation", "specialisation");
                 ViewData["PaperPostingFailed"] = "Paper posted successfully.";
             }
             catch (Exception ex)

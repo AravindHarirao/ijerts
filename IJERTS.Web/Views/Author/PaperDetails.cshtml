@@ -119,12 +119,10 @@
         <div class="row">
             <div class="form-group">
                 <div class="col-md-2" style="padding-left:0px !important">
-                    <input type="submit" value="Update" />
-
-                    @*<input type="submit" value="Update" id="postPaper" class="btn btn-default" onclick="location.href='@Url.Action("UpdatePaper", "Editor", new { paperid = Model.PaperId }, null)'" />*@
+                    <input type="button" value="Back" id="btnBack" class="btn btn-default" onclick="location.href='@Url.Action("TrackMyPaper", "Author", new { paperid = 100 }, null)'" />
                 </div>
                 <div class="col-md-2" style="padding-left:0px !important">
-                    <input type="submit" value="Back" id="btnBack" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Editor", new { paperid = 100 }, null)'" />
+                    @*<input type="submit" value="Update" id="postPaper" class="btn btn-default" onclick="location.href='@Url.Action("UpdatePaper", "Editor", new { paperid = Model.PaperId }, null)'" />*@
                 </div>
                 <div class="col-md-10"></div>
             </div>

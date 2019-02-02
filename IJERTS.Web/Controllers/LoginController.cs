@@ -56,6 +56,8 @@ namespace IJERTS.Web.Controllers
                     HttpContext.Session["FirstName"] = objUsers.FirstName.ToString();
                     HttpContext.Session["LastName"] = objUsers.LastName.ToString();
                     HttpContext.Session["UserType"] = objUsers.UserType.ToString();
+                    HttpContext.Session["Email"] = objUsers.Email.ToString();
+
 
                     UserLoginHistory userLoginHistory = new UserLoginHistory();
                     userLoginHistory.UserId = objUsers.UserId;
@@ -94,6 +96,8 @@ namespace IJERTS.Web.Controllers
                     HttpContext.Session["FirstName"] = objUsers.FirstName.ToString();
                     HttpContext.Session["LastName"] = objUsers.LastName.ToString();
                     HttpContext.Session["UserType"] = objUsers.UserType.ToString();
+                    HttpContext.Session["Email"] = objUsers.Email.ToString();
+
 
                     UserLoginHistory userLoginHistory = new UserLoginHistory();
                     userLoginHistory.UserId = objUsers.UserId;
@@ -107,7 +111,7 @@ namespace IJERTS.Web.Controllers
             else
             {
                 TempData["UserLoginFailed"] = "Invalid Username or Password. Please try again.";
-                return View("Login");
+                return View("EditorLogin");
             }
         }
 
@@ -132,7 +136,8 @@ namespace IJERTS.Web.Controllers
                     HttpContext.Session["FirstName"] = objUsers.FirstName.ToString();
                     HttpContext.Session["LastName"] = objUsers.LastName.ToString();
                     HttpContext.Session["UserType"] = objUsers.UserType.ToString();
-                    
+                    HttpContext.Session["Email"] = objUsers.Email.ToString();
+
                     UserLoginHistory userLoginHistory = new UserLoginHistory();
                     userLoginHistory.UserId = objUsers.UserId;
                     userLoginHistory.SessionId = HttpContext.Session.SessionID;
@@ -145,7 +150,7 @@ namespace IJERTS.Web.Controllers
             else
             {
                 TempData["UserLoginFailed"] = "Invalid Username or Password. Please try again.";
-                return View("Login");
+                return View("ReviewerLogin");
             }
         }
 
@@ -168,6 +173,8 @@ namespace IJERTS.Web.Controllers
                     HttpContext.Session["UserId"] = objUsers.UserId.ToString();
                     HttpContext.Session["FirstName"] = objUsers.FirstName.ToString();
                     HttpContext.Session["LastName"] = objUsers.LastName.ToString();
+                    HttpContext.Session["Email"] = objUsers.Email.ToString();
+
                     //var claims = new List<Claim>
                     //{
                     //    new Claim(ClaimTypes.Email, objUsers.Email)
@@ -236,7 +243,7 @@ namespace IJERTS.Web.Controllers
         [HttpGet]
         public ActionResult ChangePassword()
         {
-            TempData["UserLoginFailed"] = "";
+            //TempData["UserLoginFailed"] = "";
             return View();
         }
 
@@ -261,11 +268,37 @@ namespace IJERTS.Web.Controllers
                 TempData["UserLoginFailed"] = "New password and confirm password does not match.";
                 return RedirectToAction("ChangePassword", "Login");
             }
-            users.Password = IJERTSEncryptioncs.Encrypt(CommonHelper.GenerateDynamicPassword(), CommonHelper.SaltPassword, CommonHelper.EncryptKey);
-            users.UserId = Convert.ToInt64(HttpContext.Session["UserId"]);
-            string sResults = _login.ChangePassword(users);
-            return RedirectToAction("Index", "Home");
 
+            users.Password = IJERTSEncryptioncs.Encrypt(users.CurrentPassword, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+            users.UserType = HttpContext.Session["UserType"].ToString();
+            users.UserId = Convert.ToInt32(HttpContext.Session["UserId"]);
+            users.Email = HttpContext.Session["Email"].ToString();
+
+            Users objUsers = _login.ValidateLogin(users);
+            if (string.IsNullOrEmpty(objUsers.Email))
+            {
+                TempData["UserLoginFailed"] = "Invalid current password";
+                return RedirectToAction("ChangePassword", "Login");
+
+            }
+            else
+            {
+                users.Password = IJERTSEncryptioncs.Encrypt(users.NewPassword, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+                users.UserId = Convert.ToInt64(HttpContext.Session["UserId"]);
+                string sResults = _login.ChangePassword(users);
+                if (sResults.Trim().Equals("Success"))
+                {
+                    Session.Clear();
+                    TempData["UserLoginFailed"] = "Password changed successfully. Please login again.";
+                    return RedirectToAction("ChangePassword", "Login");
+                }
+                else
+                {
+                    TempData["UserLoginFailed"] = "Password change failed. Please try again.";
+                    return RedirectToAction("ChangePassword", "Login");
+                }
+                //return RedirectToAction("Index", "Home");
+            }
         }
     }
 }
