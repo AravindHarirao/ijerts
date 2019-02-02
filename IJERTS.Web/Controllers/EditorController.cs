@@ -41,7 +41,7 @@ namespace IJERTS.Web.Controllers
         
         public ActionResult UpdatePaper(Paper paper, int txtPaperId, string txtComments, string Reviewers)
         {
-            int reviewerId = string.IsNullOrEmpty(Reviewers.Trim()) ? -1 : int.Parse(Reviewers.Trim());
+            int reviewerId = string.IsNullOrEmpty(Reviewers) ? -1 : int.Parse(Reviewers.Trim());
             _editor.PostComments(txtPaperId, txtComments, int.Parse(HttpContext.Session["UserId"].ToString()), reviewerId);
             TempData["PaperPostingFailed"] = "Comments posted successfully";
 

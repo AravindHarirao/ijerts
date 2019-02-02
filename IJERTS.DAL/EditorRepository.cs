@@ -114,12 +114,16 @@ namespace IJERTS.DAL
         public Paper GetPaperDetails(int id)
         {
             Paper paper = new Paper();
+            PaperComments comments = new PaperComments();
+
             List<PaperAuthors> lstPaperAuth = new List<PaperAuthors>();
-            string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,CreatedBy, CreatedDateTime,  CompleteFilePath, FileName, CompleteDeclarationFilePath, DeclarationFileName, "
-                                + " AuthorFirstName, AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject from Papers PAP "
-                                + " INNER JOIN authors AUT ON "
-                                + " PAP.PaperId = AUT.PaperID "
-                                + " WHERE PAP.PaperId = ?PaperId ";
+            string queryPaper = "SELECT PAP.PaperId, MainTitle, ShortDesc, Subject, Tags,PAP.CreatedBy, PAP.CreatedDateTime, "
+                                    + " CompleteFilePath, FileName, CompleteDeclarationFilePath, DeclarationFileName,  AuthorFirstName, "
+                                    + "  AuthorLastName, AuthorDepartment, AuthorOrganisation, AuthorSubject, COM.Comments from Papers PAP "
+                                     + " INNER JOIN authors AUT ON PAP.PaperId = AUT.PaperID "
+                                     + " LEFT OUTER JOIN papercomments COM ON PAP.PaperId = COM.PaperId "
+                                     + " AND COM.CommentsID = (SELECT MAX(CommentsID) from papercomments WHERE PaperId = ?PaperId) "
+                                     + " WHERE PAP.PaperId = ?PaperId";
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.Add(new MySqlParameter("?PaperId", id));
@@ -148,16 +152,17 @@ namespace IJERTS.DAL
                     paper.DeclarationPaperPath = Convert.ToString(reader["CompleteDeclarationFilePath"]);
                     paper.DeclarationPaperPath = string.Format("{0}\\{1}", paper.DeclarationPaperPath, paper.DeclarationFileName);
 
+                    comments.Comments = Convert.ToString(reader["Comments"]);
 
                     auth.AuthorFirstName = Convert.ToString(reader["AuthorFirstName"]);
                     auth.AuthorLastName = Convert.ToString(reader["AuthorLastName"]);
                     auth.Department = Convert.ToString(reader["AuthorDepartment"]);
                     auth.Organisation = Convert.ToString(reader["AuthorOrganisation"]);
                     auth.Subject = Convert.ToString(reader["AuthorSubject"]);
-
+                    
                     lstPaperAuth.Add(auth);
                 }
-
+                paper.Comments = comments;
                 paper.Authors = lstPaperAuth;
             }
 
@@ -167,8 +172,8 @@ namespace IJERTS.DAL
         public int PostComments(int paperId, string comments, int userId, int approverId)
         {
 
-            string queryComments = " INSERT INTO `ijerts`.papercomments(PaperId, UserType, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
-                + " VALUES(?paperId, 1, ?comments, 1, 1, ?userId, now()); ";
+            string queryComments = " INSERT INTO `ijerts`.papercomments(PaperId, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
+                + " VALUES(?paperId, ?comments, 1, 1, ?userId, now()); ";
 
             string queryCommentsStatusUpdate = "UPDATE `ijerts`.paperStatus SET `status` = 'COMMENTS ADDED' WHERE paperID = ?paperID";
 
@@ -203,7 +208,7 @@ namespace IJERTS.DAL
 
             using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
             {
-                if (!string.IsNullOrEmpty(comments.Trim()))
+                if (!string.IsNullOrEmpty(comments))
                 {
                     if (con.State != System.Data.ConnectionState.Closed) con.Close();
                     cmd.Connection = con;

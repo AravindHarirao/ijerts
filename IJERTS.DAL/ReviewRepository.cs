@@ -108,7 +108,7 @@ namespace IJERTS.DAL
             string queryPaper = "select us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
                                 + " us.Position, us.Department, us.UserActivated, sp.specialisation "
                                 + " from Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
-                                + " WHERE UserActivated = 1 AND UserType = 'R' AND (us.UserActivationValue is null OR us.UserActivationValue != 'False') ";
+                                + " WHERE UserType = 'R' AND (us.UserActivationValue is null OR us.UserActivationValue != 'False') ";
 
             //string queryPaper = "select us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
             //                            + " us.Position, us.Department, us.UserActivated, sp.specialisation "
