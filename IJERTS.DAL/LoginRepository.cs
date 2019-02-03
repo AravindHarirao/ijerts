@@ -14,7 +14,8 @@ namespace IJERTS.DAL
         public Users ValidateLogin(Users users)
         {
             string queryLogin = "SELECT UserId, FirstName, LastName, Email, Phone, Password, UserType, IsActive FROM users where IsActive = 1 AND Email = ?Email " +
-                "AND UserType = ?UserType AND Password = ?Password" ;
+                "AND UserType = ?UserType ";
+            //    "AND UserType = ?UserType AND Password = ?Password" ;
             Users user = new Users();
             try
             {

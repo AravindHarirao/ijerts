@@ -44,7 +44,6 @@
     <Compile Include="CommonHelper.cs" />
     <Compile Include="EmailHelper.cs" />
     <Compile Include="Enum.cs" />
-    <Compile Include="IJERTSEncryptioncs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -99,7 +99,7 @@ namespace IJERTS.Common
                 sbEmailMsg.Append(" : ");
                 sbEmailMsg.Append("</td>");
                 sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' align='left'>");
-                sbEmailMsg.Append(IJERTSEncryptioncs.Decrypt(user.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey));
+                sbEmailMsg.Append(user.Password);
                 sbEmailMsg.Append("</td>");
                 sbEmailMsg.Append("</tr>");
 
@@ -213,7 +213,7 @@ namespace IJERTS.Common
                 sbEmailMsg.Append(" : ");
                 sbEmailMsg.Append("</td>");
                 sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' align='left'>");
-                sbEmailMsg.Append(IJERTSEncryptioncs.Decrypt(user.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey));
+                sbEmailMsg.Append(user.Password);
                 sbEmailMsg.Append("</td>");
                 sbEmailMsg.Append("</tr>");
 

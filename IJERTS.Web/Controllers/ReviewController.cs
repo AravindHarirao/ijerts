@@ -101,7 +101,7 @@ namespace IJERTS.Web.Controllers
             {
                 objUser.UserActivated = true;
                 objUser.UserActivationValue = Guid.NewGuid().ToString();
-                objUser.Password = IJERTSEncryptioncs.Encrypt(CommonHelper.GenerateDynamicPassword(), CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+                objUser.Password = CommonHelper.GenerateDynamicPassword();
 
                 EmailHelper.SendWelcomeEmailtoReviewer(objUser);
 

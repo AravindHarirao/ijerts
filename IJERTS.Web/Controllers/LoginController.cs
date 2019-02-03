@@ -40,12 +40,12 @@ namespace IJERTS.Web.Controllers
         {
             //TODO - Need to pass the Session
             users.SessionId = Guid.NewGuid().ToString();
-            users.Password = IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+            //users.Password = Encryptioncs.RsaEncrypt(users.Password);
             users.UserType = "A";
             Users objUsers = _login.ValidateLogin(users);
             if (!string.IsNullOrEmpty(objUsers.Email))
             {
-                if (IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey).Equals(objUsers.Password))
+                if (!users.Password.Equals(objUsers.Password))
                 {
                     TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
                     return View("Login");
@@ -80,12 +80,12 @@ namespace IJERTS.Web.Controllers
         {
             //TODO - Need to pass the Session
             users.SessionId = Guid.NewGuid().ToString();
-            users.Password = IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+            //users.Password = IJERTSEncryptioncs.RsaEncrypt(users.Password);
             users.UserType = "E";
             Users objUsers = _login.ValidateLogin(users);
             if (!string.IsNullOrEmpty(objUsers.Email))
             {
-                if (IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey).Equals(objUsers.Password))
+                if (!users.Password.Equals(objUsers.Password))
                 {
                     TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
                     return View("Login");
@@ -120,12 +120,12 @@ namespace IJERTS.Web.Controllers
         {
             //TODO - Need to pass the Session
             users.SessionId = Guid.NewGuid().ToString();
-            users.Password = IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+            //users.Password = IJERTSEncryptioncs.RsaEncrypt(users.Password);
             users.UserType = "R";
             Users objUsers = _login.ValidateLogin(users);
             if (!string.IsNullOrEmpty(objUsers.Email))
             {
-                if (IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey).Equals(objUsers.Password))
+                if (!users.Password.Equals(objUsers.Password))
                 {
                     TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
                     return View("Login");
@@ -159,11 +159,11 @@ namespace IJERTS.Web.Controllers
         {
             //TODO - Need to pass the Session
             users.SessionId = Guid.NewGuid().ToString();
-            users.Password = IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+            //users.Password = Encryptioncs.RsaEncrypt(users.Password);
             Users objUsers = _login.ValidateLogin(users);
             if (!string.IsNullOrEmpty(objUsers.Email))
             {
-                if (IJERTSEncryptioncs.Encrypt(users.Password, CommonHelper.SaltPassword, CommonHelper.EncryptKey).Equals(objUsers.Password))
+                if (users.Password.Equals(objUsers.Password))
                 {
                     TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
                     return View("Login");
@@ -269,7 +269,7 @@ namespace IJERTS.Web.Controllers
                 return RedirectToAction("ChangePassword", "Login");
             }
 
-            users.Password = IJERTSEncryptioncs.Encrypt(users.CurrentPassword, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+            users.Password = users.CurrentPassword;
             users.UserType = HttpContext.Session["UserType"].ToString();
             users.UserId = Convert.ToInt32(HttpContext.Session["UserId"]);
             users.Email = HttpContext.Session["Email"].ToString();
@@ -283,7 +283,7 @@ namespace IJERTS.Web.Controllers
             }
             else
             {
-                users.Password = IJERTSEncryptioncs.Encrypt(users.NewPassword, CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+                users.Password = users.NewPassword;
                 users.UserId = Convert.ToInt64(HttpContext.Session["UserId"]);
                 string sResults = _login.ChangePassword(users);
                 if (sResults.Trim().Equals("Success"))

@@ -91,7 +91,7 @@ namespace IJERTS.Web.Controllers
         public ActionResult Register(Users user)
         {
             user.UserActivationValue = Guid.NewGuid().ToString();
-            user.Password = IJERTSEncryptioncs.Encrypt(CommonHelper.GenerateDynamicPassword(), CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+            user.Password = CommonHelper.GenerateDynamicPassword();
 
             _editor.Register(user);
 

@@ -49,7 +49,7 @@ namespace IJERTS.Web.Controllers
             //}
 
             user.UserActivationValue = Guid.NewGuid().ToString();
-            user.Password = IJERTSEncryptioncs.Encrypt(CommonHelper.GenerateDynamicPassword(), CommonHelper.SaltPassword, CommonHelper.EncryptKey);
+            user.Password = CommonHelper.GenerateDynamicPassword();
 
             _author.Register(user);
 
