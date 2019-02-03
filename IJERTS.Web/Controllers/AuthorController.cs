@@ -202,6 +202,17 @@ namespace IJERTS.Web.Controllers
             return View("PaperDetails", paper);
         }
 
+        [HttpPost]
+        public ActionResult GetPaperDetails(HttpPostedFileBase UpdatedPaper, int txtPaperId)
+        {
+            Paper paper = _author.GetPaperDetails(txtPaperId);
+            string uploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");
+            paper.FileName = paper.FileName;
+            paper.PaperPath = uploadedPath;
+            UpdatedPaper.SaveAs(Path.Combine(paper.PaperPath, paper.FileName));
+            return View("PaperDetails", paper);
+        }
+
         [HttpGet]
         //[ValidateAntiForgeryToken]
         public ActionResult MyProfile()
@@ -234,6 +245,7 @@ namespace IJERTS.Web.Controllers
             TempData["AuthorUpdated"] = "Record updated successfully...";
             return View("MyProfile", users);
         }
+
 
     }
 }

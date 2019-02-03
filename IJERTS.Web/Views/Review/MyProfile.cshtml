@@ -1,0 +1,237 @@
+﻿
+@{
+    @model IJERTS.Objects.Users
+    ViewBag.Title = "MyProfile";
+}
+
+<h4>My Profile</h4>
+<br />
+
+@using (Html.BeginForm("UpdateProfile", "Review", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div style="padding-left:8px">
+        <div class="row">
+            <label class="control-label col-md-3">First Name&nbsp;<span class="req">*</span></label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @maxlength = 150, @placeholder = "First Name", @name = "Password", @autocomplete = "off" })
+                @Html.HiddenFor(model => Model.UserId)
+                @Html.HiddenFor(model => Model.UpdateResumeFileName)
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="control-label col-md-3">Last Name&nbsp;<span class="req">*</span></label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @maxlength = 150, @placeholder = "Last Name", @name = "LastName", @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="control-label col-md-3">Email Address&nbsp;<span class="req">*</span></label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @maxlength = 150, @placeholder = "Email Address", @name = "Email", @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="control-label col-md-3">Mobile No&nbsp;<span class="req">*</span></label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @maxlength = 15, @placeholder = "Phone No", @name = "Phone", @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="control-label col-md-3">Organisation</label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Organisation, new { @class = "form-control", @maxlength = 150, @placeholder = "Organisation", @name = "Organisation", @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.Organisation, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="control-label col-md-3">Qualification</label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Qualification, new { @class = "form-control", @maxlength = 150, @placeholder = "Qualification", @name = "Qualification", @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.Qualification, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="control-label col-md-3">Department</label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Department, new { @class = "form-control", @maxlength = 150, @placeholder = "Department", @name = "Department", @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.Department, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="control-label col-md-3">Position</label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Position, new { @class = "form-control", @maxlength = 150, @placeholder = "Position", @name = "Position", @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="control-label col-md-3">Specialisation&nbsp;<span class="req">*</span></label>
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.SpecializationId, (IEnumerable<SelectListItem>)ViewBag.Specialization, "Select", new { @class = "form-control" })
+                @Html.HiddenFor(model => model.Specialisation)
+            </div>
+            <div class="col-sm-5"></div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-3">
+                <label id="lblUploadResume">Upload Resume</label>
+            </div>
+            <div class="col-md-6">
+                <input type="file" id="UploadResume" name="UploadResume" accept=".doc, .docx, .pdf" />
+                @if (@Model.ResumeFileName != "")
+                {
+                    <a style="color:#fff;" class="btn btn-primary btn-xs downloadResume" data-userid="@Model.UserId" data-resumefilename="@Model.ResumeFileName" href="#" title="Download Resume">
+                        Download
+                    </a>
+                }                
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button class="btn btn-mod btn-block btn-small btnCreate" id="btnCreate" style="width:75px">Update</button>
+                    <button type="submit" class="btn btn-mod btn-block btn-small hidden" id="btnSubmit">Update</button>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label id="lblError" class="text-danger"> @TempData["ReviewerUserExists"]</label>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="form-group">
+        <div class="col-md-10">
+            <label id="lblError" class="text-danger"> @TempData["ReviewerUpdated"]</label>
+        </div>
+    </div>
+</div>
+<div class="hidden">
+    @using (@Html.BeginForm("DownloadResume", "Review", FormMethod.Post))
+    {
+        @Html.Hidden("UserId");
+        @Html.Hidden("ResumeFileName");
+        <button type="submit" class="hidden" id="btnDownloadResume"></button>
+    }
+</div>
+<script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).on('click', '.downloadResume', function () {
+        $("#UserId").val($(this).attr('data-userid'));
+        $("#ResumeFileName").val($(this).attr('data-resumefilename'));
+        $('#btnDownloadResume').click();
+    });
+
+    //get file path from client system
+    function getNameFromPath(strFilepath) {
+        var objRE = new RegExp(/([^\/\\]+)$/);
+        var strName = objRE.exec(strFilepath);
+
+        if (strName == null) {
+            return null;
+        }
+        else {
+            return strName[0];
+        }
+    }
+
+    $(function () {
+        $("#UploadResume").change(function () {
+            var file = getNameFromPath($(this).val());
+            if (file != null) {
+                var extension = file.substr((file.lastIndexOf('.') + 1));
+                switch (extension) {
+                    case 'doc':
+                    case 'docx':
+                    case 'pdf':
+                        flag = true;
+                        break;
+                    default:
+                        flag = false;
+                }
+            }
+            if (flag == false) {
+                alert('You can upload only doc, docx and pdf extension file');
+                $("#UploadResume").focus();
+                return false;
+            }
+        });
+    });
+
+    $(".btnCreate").click(function (event) {
+        error = 0;
+        event.preventDefault();
+
+        var emailId = $("#Email").val();
+        var emailexpression = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+        var file = getNameFromPath($(this).val());
+
+        if ($("input[name='FirstName']").val().trim() == "") {
+            alert('Please enter the First Name');
+            $("#FirstName").focus();
+            return false;
+        }
+        else if ($("input[name='LastName']").val().trim() == "") {
+            alert('Please enter the Last Name');
+            $("#LastName").focus();
+            return false;
+        }
+        else if ($("input[name='Email']").val().trim() == "") {
+            alert('Please enter the Email Address');
+            $("#Email").focus();
+            return false;
+        }
+        else if (!emailexpression.test(emailId)) {
+            alert('Please enter the valid Email Address');
+            $("#Email").focus();
+            return false;
+        }
+        else if ($("input[name='Phone']").val().trim() == "") {
+            alert('Please enter the Phone No');
+            $("#Phone").focus();
+            return false;
+        }
+        else if ($("input[name='SpecializationId']").val() == "") {
+            alert('Please select the Specialisation');
+            $("#Specialisation").focus();
+            return false;
+        }
+        else if ($("input[name='Phone']").val().trim() == "") {
+            alert('Please enter the Phone No');
+            $("#Phone").focus();
+            return false;
+        }        
+        else {
+            $("#btnSubmit").click();
+            return true;
+        }
+    });
+</script>
