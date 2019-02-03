@@ -106,9 +106,10 @@ namespace IJERTS.DAL
             List<Users> lstReviewers = new List<Users>();
 
             string queryPaper = "select us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
-                                + " us.Position, us.Department, us.UserActivated, sp.specialisation "
+                                + " us.Position, us.Department, us.UserActivated, us.UserActivationValue, sp.specialisation "
                                 + " from Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
-                                + " WHERE UserType = 'R' AND (us.UserActivationValue is null OR us.UserActivationValue != 'False') ";
+                                + " WHERE UserType = 'R' ";
+            //+ " WHERE UserType = 'R' AND (us.UserActivationValue is null OR us.UserActivationValue != 'False') ";
 
             //string queryPaper = "select us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
             //                            + " us.Position, us.Department, us.UserActivated, sp.specialisation "
@@ -140,6 +141,7 @@ namespace IJERTS.DAL
                     objUsers.Qualification = reader["Qualification"].ToString();
                     objUsers.Position = reader["Position"].ToString();
                     objUsers.Department = reader["Department"].ToString();
+                    objUsers.UserActivationValue = reader["UserActivationValue"].ToString();
                     objUsers.Specialisation = reader["specialisation"].ToString();
                     lstReviewers.Add(objUsers);
                 }
@@ -154,10 +156,11 @@ namespace IJERTS.DAL
             List<Users> lstReviewers = new List<Users>();
 
             string queryPaper = "select us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
-                                         + " us.Position, us.Department, us.UserActivated, sp.specialisation "
+                                         + " us.Position, us.Department, us.UserActivated, us.UserActivationValue, sp.specialisation "
                                          + "from Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
                                          + "inner join papers PAP on pap.subject = sp.specialisation "
-                                         + "WHERE UserActivated = 1 AND UserType = 'R' AND(us.UserActivationValue is null OR us.UserActivationValue != 'False') "
+                                         + "WHERE UserActivated = 1 AND UserType = 'R' "
+                                         //+ "WHERE UserActivated = 1 AND UserType = 'R' AND(us.UserActivationValue is null OR us.UserActivationValue != 'False') "
                                          + "AND PAP.PaperId = ?paperId";
             
             MySqlCommand cmd = new MySqlCommand();
@@ -182,6 +185,7 @@ namespace IJERTS.DAL
                     objUsers.Qualification = reader["Qualification"].ToString();
                     objUsers.Position = reader["Position"].ToString();
                     objUsers.Department = reader["Department"].ToString();
+                    objUsers.UserActivationValue = reader["UserActivationValue"].ToString();
                     objUsers.Specialisation = reader["specialisation"].ToString();
                     lstReviewers.Add(objUsers);
                 }
@@ -224,7 +228,7 @@ namespace IJERTS.DAL
         {
             Users objUsers = new Users();
             string queryUser = "SELECT us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
-                                + " us.Position, us.Department, us.UserActivated, us.ResumeFileName, us.CreatedDateTime, us.CreatedBy, "
+                                + " us.Position, us.Department, us.UserActivated, us.UserActivationValue, us.ResumeFileName, us.CreatedDateTime, us.CreatedBy, "
                                 + " us.UpdatedDatetime, us.UpdatedBy, sp.specialisation "
                                 + " FROM Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
                                 + " WHERE us.UserId = ?UserId ";
@@ -250,6 +254,7 @@ namespace IJERTS.DAL
                     objUsers.Qualification = reader["Qualification"].ToString();
                     objUsers.Position = reader["Position"].ToString();
                     objUsers.Department = reader["Department"].ToString();
+                    objUsers.UserActivationValue = reader["UserActivationValue"].ToString();                    
                     objUsers.ResumeFileName = reader["ResumeFileName"].ToString();
                     objUsers.CreatedDateTime = Convert.ToDateTime(reader["CreatedDateTime"]);
                     objUsers.CreatedBy = reader["CreatedBy"].ToString();

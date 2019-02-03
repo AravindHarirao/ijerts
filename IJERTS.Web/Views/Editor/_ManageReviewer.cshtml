@@ -31,8 +31,11 @@
                     <td><p>@item.Organisation</p></td>
                     <td><p>@item.Specialisation</p></td>
                     <td>
-                        <p>
-                            <a href="#" class="color ActivateReviewer" data-userid="@item.UserId" data-firstname="@item.FirstName" data-lastname="@item.LastName" data-email="@item.Email">Activate</a>/
+                        <p>                            
+                            @if (item.UserActivationValue == "")
+                            {
+                                <a href="#" class="color ActivateReviewer" data-userid="@item.UserId" data-firstname="@item.FirstName" data-lastname="@item.LastName" data-email="@item.Email">Activate</a>
+                            }                            
                             <a href="#" class="color DeActivateReviewer" data-userid="@item.UserId" data-firstname="@item.FirstName" data-lastname="@item.LastName" data-email="@item.Email">De-Activate</a>
                         </p>
                     </td>
