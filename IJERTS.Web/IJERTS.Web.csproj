@@ -300,6 +300,8 @@
     <Content Include="Views\Review\Dashboard.cshtml" />
     <Content Include="Views\Review\PaperDetails.cshtml" />
     <Content Include="Views\Editor\QueryDetails.cshtml" />
+    <Content Include="Views\Author\MyProfile.cshtml" />
+    <Content Include="Views\Review\MyProfile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

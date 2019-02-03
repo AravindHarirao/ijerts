@@ -46,19 +46,22 @@ namespace IJERTS.Web.Controllers
 
             user.UserType = "R";
 
-            string uploadedPath = Server.MapPath("~/UploadedFiles/ReviewerResume");
+            if (UploadResume != null)
+            {
+                string uploadedPath = Server.MapPath("~/UploadedFiles/ReviewerResume");
 
-            bool exists = Directory.Exists(uploadedPath);
-            if (!exists)
-                Directory.CreateDirectory(uploadedPath);
+                bool exists = Directory.Exists(uploadedPath);
+                if (!exists)
+                    Directory.CreateDirectory(uploadedPath);
 
-            string sUploadFileName = DateTime.Now.Ticks.ToString();
+                string sUploadFileName = DateTime.Now.Ticks.ToString() + Path.GetFileName(UploadResume.FileName);
 
-            string filePath = Path.Combine(uploadedPath, UploadResume.FileName);
+                string filePath = Path.Combine(uploadedPath, sUploadFileName);
 
-            user.ResumeFileName = Path.GetFileName(UploadResume.FileName);
+                user.ResumeFileName = sUploadFileName;
 
-            UploadResume.SaveAs(Path.Combine(uploadedPath, user.ResumeFileName));
+                UploadResume.SaveAs(Path.Combine(uploadedPath, user.ResumeFileName));
+            }
 
             objUser = _review.Register(user);
 
@@ -250,6 +253,81 @@ namespace IJERTS.Web.Controllers
             {
                 return this.File(Path.Combine(Server.MapPath("~/UploadedFiles/"), "FileNotExists.txt"), "application/txt", "FileNotExists.txt");
             }
+        }
+
+        [HttpGet]
+        //[ValidateAntiForgeryToken]
+        public ActionResult MyProfile()
+        {
+            TempData["ReviewerUpdated"] = "";
+            Users users = new Users();
+            ActionResult result = this.ValidateAuthorToken();
+            if (result != null)
+            {
+                return result;
+            }
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("AuthorLogin", "Login");
+            }
+
+            CommonCode commonCode = new CommonCode();
+            List<Tuple<int, string>> lstSpecialization = _review.GetSpecialization(commonCode);
+            List<SelectListItem> lstSpec = new List<SelectListItem>();
+            foreach (var specialization in lstSpecialization)
+            {
+                lstSpec.Add(new SelectListItem { Value = specialization.Item1.ToString(), Text = specialization.Item2 });
+            }
+            ViewBag.Specialization = new SelectList(lstSpec, "Value", "Text");
+
+            users = _review.GetMyProfileDetails(Convert.ToInt64(Session["UserId"].ToString()));
+            return View("MyProfile", users);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateProfile(Users user, HttpPostedFileBase UploadResume)
+        {
+            Users users = new Users();
+            ActionResult result = this.ValidateAuthorToken();
+            if (result != null)
+            {
+                return result;
+            }
+
+            if(UploadResume != null)
+            {
+                string uploadedPath = Server.MapPath("~/UploadedFiles/ReviewerResume");
+
+                bool exists = Directory.Exists(uploadedPath);
+                if (!exists)
+                    Directory.CreateDirectory(uploadedPath);
+
+                string sUploadFileName = DateTime.Now.Ticks.ToString() + Path.GetFileName(UploadResume.FileName);
+
+                string filePath = Path.Combine(uploadedPath, sUploadFileName);
+
+                user.ResumeFileName = sUploadFileName;
+
+                UploadResume.SaveAs(Path.Combine(uploadedPath, user.ResumeFileName));
+            }
+            else
+            {
+                user.ResumeFileName = user.UpdateResumeFileName;
+            }
+
+            CommonCode commonCode = new CommonCode();
+            List<Tuple<int, string>> lstSpecialization = _review.GetSpecialization(commonCode);
+            List<SelectListItem> lstSpec = new List<SelectListItem>();
+            foreach (var specialization in lstSpecialization)
+            {
+                lstSpec.Add(new SelectListItem { Value = specialization.Item1.ToString(), Text = specialization.Item2 });
+            }
+            ViewBag.Specialization = new SelectList(lstSpec, "Value", "Text");
+
+            users = _review.UpdateProfile(user);
+            
+            TempData["ReviewerUpdated"] = "Record updated successfully...";
+            return View("MyProfile", users);
         }
 
     }

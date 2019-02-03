@@ -54,7 +54,15 @@ namespace IJERTS.BLL
         {
             return _reviewRepository.UpdatePaperStatus(userId, paperId, Comments, Approve);
         }
+        
+        public Users GetMyProfileDetails(Int64 UserId)
+        {
+            return _reviewRepository.GetMyProfileDetails(UserId);
+        }
 
-
+        public Users UpdateProfile(Users user)
+        {
+            return _reviewRepository.UpdateProfile(user);
+        }
     }
 }

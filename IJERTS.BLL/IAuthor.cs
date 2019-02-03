@@ -18,10 +18,11 @@ namespace IJERTS.BLL
         List<Paper> TrackMyPaper(int userId);
 
         Paper GetPaperDetails(int id);
-
-
+        
         List<Specialisation> GetSpecialisation();
 
+        Users GetMyProfileDetails(Int64 UserId);
 
+        Users UpdateProfile(Users user);
     }
 }

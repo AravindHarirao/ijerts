@@ -43,6 +43,14 @@ namespace IJERTS.BLL
             return _authorRepo.GetSpecialisation();
         }
 
+        public Users GetMyProfileDetails(Int64 UserId)
+        {
+            return _authorRepo.GetMyProfileDetails(UserId);
+        }
 
+        public Users UpdateProfile(Users user)
+        {
+            return _authorRepo.UpdateProfile(user);
+        }
     }
 }

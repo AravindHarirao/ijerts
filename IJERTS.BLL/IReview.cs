@@ -26,5 +26,8 @@ namespace IJERTS.BLL
 
         int UpdatePaperStatus(int userId, int paperId, string Comments, string Approve);
 
+        Users GetMyProfileDetails(Int64 UserId);
+
+        Users UpdateProfile(Users user);
     }
 }

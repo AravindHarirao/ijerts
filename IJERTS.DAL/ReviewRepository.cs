@@ -107,7 +107,7 @@ namespace IJERTS.DAL
 
             string queryPaper = "select us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
                                 + " us.Position, us.Department, us.UserActivated, us.UserActivationValue, sp.specialisation "
-                                + " from Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
+                                + " from Users us LEFT JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
                                 + " WHERE UserType = 'R' ";
             //+ " WHERE UserType = 'R' AND (us.UserActivationValue is null OR us.UserActivationValue != 'False') ";
 
@@ -254,7 +254,7 @@ namespace IJERTS.DAL
                     objUsers.Qualification = reader["Qualification"].ToString();
                     objUsers.Position = reader["Position"].ToString();
                     objUsers.Department = reader["Department"].ToString();
-                    objUsers.UserActivationValue = reader["UserActivationValue"].ToString();                    
+                    objUsers.UserActivationValue = reader["UserActivationValue"].ToString();
                     objUsers.ResumeFileName = reader["ResumeFileName"].ToString();
                     objUsers.CreatedDateTime = Convert.ToDateTime(reader["CreatedDateTime"]);
                     objUsers.CreatedBy = reader["CreatedBy"].ToString();
@@ -347,6 +347,92 @@ namespace IJERTS.DAL
 
             return result;
 
+        }
+
+
+        public Users GetMyProfileDetails(Int64 UserId)
+        {
+            Users users = new Users();
+            string queryUser = "SELECT us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
+                                + " us.Position, us.Department, us.UserActivated, us.UserActivationValue, us.ResumeFileName, us.CreatedDateTime, us.CreatedBy, "
+                                + " us.UpdatedDatetime, us.UpdatedBy, us.SpecializationId, sp.specialisation "
+                                + " FROM Users us LEFT JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
+                                + " WHERE us.UserId = ?UserId ";
+
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Parameters.Add(new MySqlParameter("?UserId", UserId));
+
+            using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+            {
+                cmd.Connection = con;
+                con.Open();
+                cmd.CommandText = queryUser;
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    users.UserId = Convert.ToInt32(reader["UserId"]);
+                    users.FirstName = reader["FirstName"].ToString();
+                    users.LastName = reader["LastName"].ToString();
+                    users.Email = reader["Email"].ToString();
+                    users.Phone = reader["Phone"].ToString();
+                    users.Organisation = reader["Organisation"].ToString();
+                    users.Qualification = reader["Qualification"].ToString();
+                    users.Position = reader["Position"].ToString();
+                    users.Department = reader["Department"].ToString();
+                    users.UserActivationValue = reader["UserActivationValue"].ToString();
+                    users.ResumeFileName = reader["ResumeFileName"].ToString();
+                    users.UpdateResumeFileName = reader["ResumeFileName"].ToString();
+                    users.CreatedDateTime = Convert.ToDateTime(reader["CreatedDateTime"]);
+                    users.CreatedBy = reader["CreatedBy"].ToString();
+                    users.UpdatedDatetime = Convert.ToDateTime(reader["UpdatedDatetime"]);
+                    users.UpdatedBy = reader["UpdatedBy"].ToString();
+                    users.Specialisation = reader["specialisation"].ToString();
+                    if(reader["SpecializationId"] != null)
+                    {
+                        users.SpecializationId = Convert.ToInt32(reader["SpecializationId"]);
+                    }                    
+                }
+            }
+            return users;
+        }
+
+        public Users UpdateProfile(Users user)
+        {
+            string query = "UPDATE users SET FirstName = ?FirstName, LastName = ?LastName, Email = ?Email, Phone = ?Phone, "
+                            + " Organisation = ?Organisation, Qualification = ?Qualification, Position = ?Position, Department = ?Department, "
+                            + " SpecializationId = ?SpecializationId, ResumeFileName = ?ResumeFileName, UpdatedDatetime = Now(), UpdatedBy = ?FirstName "
+                            + " WHERE UserId = ?UserId ";
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Parameters.Add(new MySqlParameter("?UserId", user.UserId));
+                cmd.Parameters.Add(new MySqlParameter("?FirstName", user.FirstName));
+                cmd.Parameters.Add(new MySqlParameter("?LastName", user.LastName));
+                cmd.Parameters.Add(new MySqlParameter("?Email", user.Email));
+                cmd.Parameters.Add(new MySqlParameter("?Phone", user.Phone));
+                cmd.Parameters.Add(new MySqlParameter("?Organisation", user.Organisation));
+                cmd.Parameters.Add(new MySqlParameter("?Qualification", user.Qualification));
+                cmd.Parameters.Add(new MySqlParameter("?Position", user.Position));
+                cmd.Parameters.Add(new MySqlParameter("?Department", user.Department));
+                cmd.Parameters.Add(new MySqlParameter("?SpecializationId", user.SpecializationId));
+                cmd.Parameters.Add(new MySqlParameter("?ResumeFileName", user.ResumeFileName));
+
+                using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                }
+
+                Users users = new Users();
+                users = GetMyProfileDetails(user.UserId);
+                return users;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }

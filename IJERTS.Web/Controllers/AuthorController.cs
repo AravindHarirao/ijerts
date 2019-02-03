@@ -202,5 +202,38 @@ namespace IJERTS.Web.Controllers
             return View("PaperDetails", paper);
         }
 
+        [HttpGet]
+        //[ValidateAntiForgeryToken]
+        public ActionResult MyProfile()
+        {
+            TempData["AuthorUpdated"] = "";
+            Users users = new Users();
+            ActionResult result = this.ValidateAuthorToken();
+            if (result != null)
+            {
+                return result;
+            }
+            if(Session["UserId"] == null)
+            {
+                return RedirectToAction("AuthorLogin", "Login");
+            }
+            users = _author.GetMyProfileDetails(Convert.ToInt64(Session["UserId"].ToString()));
+            return View("MyProfile", users);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateProfile(Users user)
+        {
+            Users users = new Users();
+            ActionResult result = this.ValidateAuthorToken();
+            if (result != null)
+            {
+                return result;
+            }
+            users = _author.UpdateProfile(user);
+            TempData["AuthorUpdated"] = "Record updated successfully...";
+            return View("MyProfile", users);
+        }
+
     }
 }

@@ -153,6 +153,21 @@
                             </ul>
                         </li>
                         }
+                        @if (Session["UserId"] != null)
+                        {
+                            if (Session["UserType"].ToString() == "A")
+                            {
+                                <li class="resources">
+                                    <a href="@Url.Action("MyProfile", "Author")" class="active">My Profile</a>
+                                </li>
+                            }
+                            else if (Session["UserType"].ToString() == "R")
+                            {
+                                <li class="resources">
+                                    <a href="@Url.Action("MyProfile", "Review")" class="active">My Profile</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
                 <div class="clr"></div>
