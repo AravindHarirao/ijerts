@@ -201,6 +201,16 @@ namespace IJERTS.Web.Controllers
             paper = _author.GetPaperDetails(id);
             return View("PaperDetails", paper);
         }
+        [HttpPost]
+        public ActionResult GetPaperDetails(HttpPostedFileBase UpdatedPaper, int txtPaperId)
+        {
+            Paper paper = _author.GetPaperDetails(txtPaperId);
+            string uploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");
+            paper.FileName = paper.FileName;
+            paper.PaperPath = uploadedPath;
+            UpdatedPaper.SaveAs(Path.Combine(paper.PaperPath, paper.FileName));
+            return View("PaperDetails", paper);
 
+        }
     }
 }
