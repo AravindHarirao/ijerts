@@ -84,7 +84,8 @@ namespace IJERTS.Web.Controllers
                 TempData["QueryStatus"] = "Error in posting Query. Please contact administrator";
 
             }
-            return View();
+            ModelState.Clear();
+            return View(new Queries());
         }
 
         public ActionResult Downloads()

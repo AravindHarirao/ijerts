@@ -171,6 +171,8 @@ namespace IJERTS.Web.Controllers
             {
                 ViewData["PaperPostingFailed"] = "Error in posting paper. Please contact administrator";
             }
+
+            ModelState.Clear();
             return View();
         }
 
