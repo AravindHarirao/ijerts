@@ -48,7 +48,7 @@ namespace IJERTS.Web.Controllers
                 if (!users.Password.Equals(objUsers.Password))
                 {
                     TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
-                    return View("Login");
+                    return View("AuthorLogin");
                 }
                 else
                 {
@@ -71,7 +71,7 @@ namespace IJERTS.Web.Controllers
             else
             {
                 TempData["UserLoginFailed"] = "Invalid Username or Password. Please try again.";
-                return View("Login");
+                return View("AuthorLogin");
             }
         }
 
@@ -88,7 +88,7 @@ namespace IJERTS.Web.Controllers
                 if (!users.Password.Equals(objUsers.Password))
                 {
                     TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
-                    return View("Login");
+                    return View("EditorLogin");
                 }
                 else
                 {
@@ -128,7 +128,7 @@ namespace IJERTS.Web.Controllers
                 if (!users.Password.Equals(objUsers.Password))
                 {
                     TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
-                    return View("Login");
+                    return View("ReviewerLogin");
                 }
                 else
                 {
@@ -166,7 +166,7 @@ namespace IJERTS.Web.Controllers
                 if (users.Password.Equals(objUsers.Password))
                 {
                     TempData["UserLoginFailed"] = "Invalid Password. Please try again.";
-                    return View("Login");
+                    return View("AuthorLogin");
                 }
                 else
                 {
@@ -196,7 +196,7 @@ namespace IJERTS.Web.Controllers
             else
             {
                 TempData["UserLoginFailed"] = "Invalid Username or Password. Please try again.";
-                return View("Login");
+                return View("AuthorLogin");
             }
         }
         
@@ -217,7 +217,7 @@ namespace IJERTS.Web.Controllers
             else
             {
                 TempData["UserLoginFailed"] = "Login Failed.Please enter correct credentials";
-                return View("Login");
+                return View("AuthorLogin");
             }
         }
 
