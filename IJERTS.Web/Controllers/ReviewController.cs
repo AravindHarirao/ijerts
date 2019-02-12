@@ -117,7 +117,7 @@ namespace IJERTS.Web.Controllers
             else
             {
                 objUser.UserActivated = false;
-                objUser.UserActivationValue = "False";
+                objUser.UserActivationValue = null;
                 objUser.Password = "";
                 //EmailHelper.SendWelcomeEmailtoReviewer(objUser);
 

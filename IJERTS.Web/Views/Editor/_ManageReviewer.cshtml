@@ -32,11 +32,14 @@
                     <td><p>@item.Specialisation</p></td>
                     <td>
                         <p>                            
-                            @if (item.UserActivationValue == "")
+                            @if (string.IsNullOrEmpty(item.UserActivationValue))
                             {
                                 <a href="#" class="color ActivateReviewer" data-userid="@item.UserId" data-firstname="@item.FirstName" data-lastname="@item.LastName" data-email="@item.Email">Activate</a>
-                            }                            
+                            }
+                            else
+                            {
                             <a href="#" class="color DeActivateReviewer" data-userid="@item.UserId" data-firstname="@item.FirstName" data-lastname="@item.LastName" data-email="@item.Email">De-Activate</a>
+                            }
                         </p>
                     </td>
                     <td>
