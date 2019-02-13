@@ -9,12 +9,12 @@
 <div style="padding-left:8px">
     @using (Html.BeginForm("UpdatePaper", "Editor", FormMethod.Post))
     {
+        <input type="text" value="@Model.PaperId" name="txtPaperId" style="visibility:hidden" />
         <div class="row">
             <div class="col-md-3">
                 @Html.LabelFor(model => model.MainTitle, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
             </div>
-            <div class="col-md-7">
-                <input type="text" value="@Model.PaperId" name="txtPaperId" style="visibility:hidden" />
+            <div class="col-md-7">                
                 @Html.DisplayTextFor(model => model.MainTitle)
             </div>
             <div class="col-md-2"></div>
