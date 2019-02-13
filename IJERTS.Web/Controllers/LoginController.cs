@@ -250,6 +250,13 @@ namespace IJERTS.Web.Controllers
         [HttpPost]
         public ActionResult ChangePassword(Users users)
         {
+
+            if (UserId == 0)
+            {
+                TempData["UserLoginFailed"] = "Please log in to use this feature.";
+                return RedirectToAction("ChangePassword", "Login");
+            }
+
             if (string.IsNullOrWhiteSpace(users.CurrentPassword) || string.IsNullOrWhiteSpace(users.NewPassword)
                 || string.IsNullOrWhiteSpace(users.ConfirmPassword))
             {
