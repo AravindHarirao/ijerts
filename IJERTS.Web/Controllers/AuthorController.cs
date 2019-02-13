@@ -248,6 +248,28 @@ namespace IJERTS.Web.Controllers
             return View("MyProfile", users);
         }
 
+        public FileResult DownloadAuthorPaper(Int32 PaperId, string PaperFileName)
+        {
+            string sUploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");
+            string sFileName = sUploadedPath + PaperFileName;
+            if (!string.IsNullOrEmpty(sFileName))
+            {
+                if (System.IO.File.Exists(sFileName))
+                {
+                    string fileExtension = Path.GetExtension(sFileName);
+                    return this.File(sFileName, "application/" + fileExtension, PaperFileName);
+                }
+                else
+                {
+                    return this.File(Path.Combine(Server.MapPath("~/UploadedFiles/"), "FileNotExists.txt"), "application/txt", "FileNotExists.txt");
+                }
+            }
+            else
+            {
+                return this.File(Path.Combine(Server.MapPath("~/UploadedFiles/"), "FileNotExists.txt"), "application/txt", "FileNotExists.txt");
+            }
+        }
+
 
     }
 }

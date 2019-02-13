@@ -52,7 +52,10 @@
                 <label id="lblFileName">Download Paper</label>
             </div>
             <div class="col-md-4">
-                <a style="color:#fff;" class="btn btn-primary btn-xs" target="_blank" href="@Url.Content(Model.PaperPath)">Download</a>
+                <a style="color:#fff;" class="btn btn-primary btn-xs downloadAuthorPaper" data-paperid="@Model.PaperId" data-paperfilename="@Model.FileName" href="#" title="Download Author Paper">
+                    Download
+                </a>
+
             </div>
         </div>
         <br />
@@ -61,7 +64,10 @@
                 <label id="lblFileName">Download Declaration</label>
             </div>
             <div class="col-md-9">
-                <a style="color:#fff;" class="btn btn-primary btn-xs" target="_blank" href="@Url.Content(Model.DeclarationPaperPath)">Download</a>
+                <a style="color:#fff;" class="btn btn-primary btn-xs downloadAuthorPaper" data-paperid="@Model.PaperId" data-paperfilename="@Model.DeclarationFileName" href="#" title="Download Declaration">
+                    Download
+                </a>
+
             </div>
         </div>
         <br />
@@ -150,3 +156,19 @@
     }
 </div>
 
+<div class="hidden">
+    @using (@Html.BeginForm("DownloadAuthorPaper", "Editor", FormMethod.Post))
+    {
+        @Html.Hidden("PaperId");
+        @Html.Hidden("PaperFileName");
+        <button type="submit" class="hidden" id="btnDownloadAuthorPaper"></button>
+    }
+</div>
+<script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
+<script>
+    $(document).on('click', '.downloadAuthorPaper', function () {
+        $("#PaperId").val($(this).attr('data-paperid'));
+        $("#PaperFileName").val($(this).attr('data-paperfilename'));
+        $('#btnDownloadAuthorPaper').click();
+    });
+</script>

@@ -66,7 +66,9 @@
                 <label id="lblFileName">Download Declaration</label>
             </div>
             <div class="col-md-9">
-                <a style="color:#fff;" class="btn btn-primary btn-xs" target="_blank" href="@Url.Content(Model.DeclarationPaperPath)">Download</a>
+                <a style="color:#fff;" class="btn btn-primary btn-xs downloadAuthorPaper" data-paperid="@Model.PaperId" data-paperfilename="@Model.DeclarationFileName" href="#" title="Download Declaration">
+                    Download
+                </a>
             </div>
         </div>
         <br />
@@ -119,11 +121,11 @@
         <div class="row">
             <div class="form-group">
                 <div class="col-md-2" style="padding-left:0px !important">
-                    <input type="submit" value="Update" />
+                    <input type="submit" value="Update" id="postPaper" class="btn btn-default" onclick="location.href='@Url.Action("GetPaperDetails", "Review", new { paperid = Model.PaperId }, null)'" />
                     @*<input type="submit" value="Update" id="postPaper" class="btn btn-default" onclick="location.href='@Url.Action("UpdatePaper", "Editor", new { paperid = Model.PaperId }, null)'" />*@
                 </div>
                 <div class="col-md-2" style="padding-left:0px !important">
-                    <input type="submit" value="Back" id="btnBack" class="btn btn-default" onclick="location.href='@Url.Action("Dashboard", "Review", new { paperid = 100 }, null)'" />
+                    <input type="button" value="Back" id="btnBack" class="btn btn-default" onclick="location.href='@Url.Action("Dashboard", "Review", new { paperid = 100 }, null)'" />
                 </div>
                 <div class="col-md-10"></div>
             </div>
