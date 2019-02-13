@@ -3,6 +3,7 @@ using IJERTS.Common;
 using IJERTS.Objects;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
@@ -51,11 +52,27 @@ namespace IJERTS.Web.Controllers
             user.UserActivationValue = Guid.NewGuid().ToString();
             user.Password = CommonHelper.GenerateDynamicPassword();
 
-            _author.Register(user);
+            ValidationContext context = new ValidationContext(user, null, null);
+            List<ValidationResult> results = new List<ValidationResult>();
+            bool valid = Validator.TryValidateObject(user, context, results, true);
 
-            EmailHelper.SendWelcomeEmailtoUser(user);
+            if (!valid)
+            {
+                foreach (ValidationResult vr in results)
+                {
+                    ViewData["ErrorMessage"] = vr.ErrorMessage;
+                    
+                }
+                return View();
+            }
+            else
+            {
+                _author.Register(user);
 
-            return View("CompleteRegister");
+                EmailHelper.SendWelcomeEmailtoUser(user);
+
+                return View("CompleteRegister");
+            }
         }
 
         [HttpGet]

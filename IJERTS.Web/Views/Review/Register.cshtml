@@ -163,7 +163,11 @@
         event.preventDefault();
 
         var emailId = $("#Email").val();
+        var phoneNo = $("#Phone").val();
+
         var emailexpression = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+        var phoneExpression = /\d{5}([- ]*)\d{6}/;
+
         var file = getNameFromPath($(this).val());
         
         if ($("input[name='FirstName']").val().trim() == "") {
@@ -188,6 +192,11 @@
         }
         else if ($("input[name='Phone']").val().trim() == "") {
             alert('Please enter the Phone No');
+            $("#Phone").focus();
+            return false;
+        }
+        else if (!phoneExpression.test(phoneNo)) {
+            alert('Please enter a valid Phone No');
             $("#Phone").focus();
             return false;
         }

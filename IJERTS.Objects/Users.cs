@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace IJERTS.Objects
 {
@@ -13,8 +14,12 @@ namespace IJERTS.Objects
 
         public string LastName { get; set; }
 
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string Email { get; set; }
 
+        [DataType(DataType.PhoneNumber)]
+        [Phone]
         public string Phone { get; set; }
 
         public string Password { get; set; }
