@@ -68,6 +68,10 @@ namespace IJERTS.Web.Controllers
 
                 return this.RedirectToAction("AuthorLogin", "Login");
             }
+            else if (!HttpContext.Session["UserType"].ToString().Equals("A"))
+            {
+                return this.RedirectToAction("AuthorLogin", "Login");
+            }
             else
             {
                 return null;
