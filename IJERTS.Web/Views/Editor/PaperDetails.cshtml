@@ -66,7 +66,7 @@
                 <label id="lblFileName">Download Declaration</label>
             </div>
             <div class="col-md-9">
-                <a style="color:#fff;" class="btn btn-primary btn-xs downloadAuthorDeclaration" data-paperid="@Model.PaperId" data-DeclarationPaperfilename="@Model.DeclarationPaperPath" href="#" title="Download Declaration">
+                <a style="color:#fff;" class="btn btn-primary btn-xs downloadAuthorDeclaration" data-paperid="@Model.PaperId" data-declarationfilename="@Model.DeclarationFileName" href="#" title="Download Declaration">
                     Download
                 </a>
             </div>
@@ -180,8 +180,7 @@
 
     $(document).on('click', '.downloadAuthorDeclaration', function () {
         $("#PaperId").val($(this).attr('data-paperid'));
-        $("#PaperFileName").val($(this).attr('data-DeclarationPaperfilename'));
-        alert($("#PaperFileName").val());
+        $("#DeclarationPaperfilename").val($(this).attr('data-declarationfilename'));
         $('#btnDownloadAuthorDeclaration').click();
     });
 </script>

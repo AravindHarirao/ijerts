@@ -150,7 +150,8 @@ namespace IJERTS.DAL
                     paper.CreatedDateTime = Convert.ToDateTime(reader["CreatedDateTime"].ToString());
                     paper.DeclarationFileName = Convert.ToString(reader["DeclarationFileName"]);
                     paper.DeclarationPaperPath = Convert.ToString(reader["CompleteDeclarationFilePath"]);
-                    paper.DeclarationPaperPath = string.Format("{0}\\{1}", paper.DeclarationPaperPath, paper.DeclarationFileName);
+                    paper.DeclarationPaperPath = paper.DeclarationPaperPath;
+                    //paper.DeclarationPaperPath = string.Format("{0}\\{1}", paper.DeclarationPaperPath, paper.DeclarationFileName);
 
                     comments.Comments = Convert.ToString(reader["Comments"]);
 
