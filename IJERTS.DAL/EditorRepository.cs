@@ -240,5 +240,33 @@ namespace IJERTS.DAL
 
             return 0;
         }
+
+        public int DeletePaper(int paperId)
+        {
+            string query = "update papers set isactive = 0 WHERE PAperID = ?PaperID";
+
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Parameters.Add(new MySqlParameter("?PaperID", paperId));
+
+
+                using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return 0;
+
+        }
     }
 }

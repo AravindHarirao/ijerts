@@ -64,5 +64,10 @@ namespace IJERTS.BLL
             IHomeRepository homeRepository = new HomeRepository();
             return (homeRepository.UpdateQuery(queryId, response));
         }
+
+        public  int DeletePaper(int paperId)
+        {
+            return _editorRepository.DeletePaper(paperId);
+        }
     }
 }

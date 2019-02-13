@@ -166,5 +166,19 @@ namespace IJERTS.Web.Controllers
             return View(query);
         }
 
+        [HttpPost]
+        public RedirectToRouteResult DeletePaper(int PaperId)
+        {
+            if (_editor.DeletePaper(PaperId) == 0)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
     }
 }
