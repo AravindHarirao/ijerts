@@ -20,6 +20,7 @@ namespace IJERTS.Objects
         public string DeclarationPaperPath { get; set; }
         public string DeclarationFileName { get; set; }
 
+        public int IsActive { get; set; }
 
         public List<PaperAuthors> Authors { get; set; }
 
