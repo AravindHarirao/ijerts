@@ -19,6 +19,9 @@
                 <th>
                     <center>Details</center>
                 </th>
+                <th>
+                    <center>Delete</center>
+                </th>
             </tr>
             @foreach (var item in Model)
             {
@@ -30,8 +33,31 @@
                     <td>
                         <p>@Html.ActionLink("Details", "GetPaperDetails", "Editor", new { id = @item.PaperId }, null)</p>
                     </td>
+                    <td>
+                        <p><a href="#" class="color DeletePaper" data-paperId="@item.PaperId">Delete</a></p>
+                    </td>
                 </tr>
             }
         </table>
     </div>
 </div>
+
+<div class="hidden">
+    @using (Html.BeginForm("DeletePaper", "Editor", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("PaperId")
+        <button class="hidden" id="btnDeletePaper" type="Submit"></button>
+    }
+</div>
+<script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
+<script>
+
+    $(document).on('click', '.DeletePaper', function () {
+        if (confirm('Are you sure you want to delet this paper?'))
+        { 
+            var paperId = $(this).attr("data-paperId");
+            $('#PaperId').val(paperId);
+            $('#btnDeletePaper').click();
+        }
+    });
+</script>

@@ -27,5 +27,7 @@ namespace IJERTS.BLL
 
         int UpdateQuery(int queryId, string response);
 
+        int DeletePaper(int paperId);
+
     }
 }
