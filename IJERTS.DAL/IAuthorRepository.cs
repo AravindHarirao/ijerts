@@ -9,7 +9,7 @@ namespace IJERTS.DAL
 {
     public interface IAuthorRepository
     {
-        void Register(Users user);
+        Users Register(Users user);
 
         void GetAllUsers(List<Users> users);
 

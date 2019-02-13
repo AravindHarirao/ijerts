@@ -37,31 +37,32 @@ namespace IJERTS.Common
 
                 sbEmailMsg.Append("</td></tr>");
 
+                //sbEmailMsg.Append("<tr><td colspan='3'><br></td></tr>");
+
+                //sbEmailMsg.Append("<tr><td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' colspan='3' align='left'>");
+
+                //sbEmailMsg.Append("To verify your account with us, Please click on the activation link given below to activate your account");
+
+                //sbEmailMsg.Append("</td></tr>");
+
+                //sbEmailMsg.Append("<tr><td colspan='3'><br></td></tr>");
+
+                //sbEmailMsg.Append("<tr><td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' colspan='3' align='left'>");
+
+                //sbEmailMsg.Append("<span style = 'background:#eaeae1;padding:15px;font-size:15px;font-family:verdana, tahoma, Arial, Helvetica, sans-serif;color:#000;font-weight:bold;border-radius:15px;'>");
+
+                //sbEmailMsg.Append("<a rel='nofollow' target='_blank' href='https://www.ijerts.org/Login/AuthenticateActivation?Id=" + user.UserActivationValue + "' style='color:#000;line-height:50px;'>Click here to activate your account</a>");
+
+                //sbEmailMsg.Append("</span>");
+
+                //sbEmailMsg.Append("</td></tr>");
+
                 sbEmailMsg.Append("<tr><td colspan='3'><br></td></tr>");
 
                 sbEmailMsg.Append("<tr><td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' colspan='3' align='left'>");
 
-                sbEmailMsg.Append("To verify your account with us, Please click on the activation link given below to activate your account");
-
-                sbEmailMsg.Append("</td></tr>");
-
-                sbEmailMsg.Append("<tr><td colspan='3'><br></td></tr>");
-
-                sbEmailMsg.Append("<tr><td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' colspan='3' align='left'>");
-
-                sbEmailMsg.Append("<span style = 'background:#eaeae1;padding:15px;font-size:15px;font-family:verdana, tahoma, Arial, Helvetica, sans-serif;color:#000;font-weight:bold;border-radius:15px;'>");
-
-                sbEmailMsg.Append("<a rel='nofollow' target='_blank' href='https://www.ijerts.org/Login/AuthenticateActivation?Id=" + user.UserActivationValue + "' style='color:#000;line-height:50px;'>Click here to activate your account</a>");
-
-                sbEmailMsg.Append("</span>");
-
-                sbEmailMsg.Append("</td></tr>");
-
-                sbEmailMsg.Append("<tr><td colspan='3'><br></td></tr>");
-
-                sbEmailMsg.Append("<tr><td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' colspan='3' align='left'>");
-
-                sbEmailMsg.Append("Your account has been setup in IJERTS application and you can login using the following details after you have activated your account with us.");
+                //sbEmailMsg.Append("Your account has been setup in IJERTS application and you can login using the following details after you have activated your account with us.");
+                sbEmailMsg.Append("Your account has been setup in IJERTS application and you can login using the following details.");
 
                 sbEmailMsg.Append("</td></tr>");
 
@@ -75,7 +76,7 @@ namespace IJERTS.Common
                 sbEmailMsg.Append(" : ");
                 sbEmailMsg.Append("</td>");
                 sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' align='left'>");
-                sbEmailMsg.Append("<a rel='nofollow' target='_blank' href='https://www.ijerts.org/Login/Authentication'>https://www.ijerts.org/Login/Authentication</a>");
+                sbEmailMsg.Append("<a rel='nofollow' target='_blank' href='http://www.ijerts.org/Login/AuthorLogin'>http://www.ijerts.org/Login/AuthorLogin</a>");
                 sbEmailMsg.Append("</td>");
                 sbEmailMsg.Append("</tr>");
 
@@ -189,7 +190,7 @@ namespace IJERTS.Common
                 sbEmailMsg.Append(" : ");
                 sbEmailMsg.Append("</td>");
                 sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' align='left'>");
-                sbEmailMsg.Append("<a rel='nofollow' target='_blank' href='https://www.ijerts.org/Login/ReviewerLogin'>https://www.ijerts.org/Login/ReviewerLogin</a>");
+                sbEmailMsg.Append("<a rel='nofollow' target='_blank' href='http://www.ijerts.org/Login/ReviewerLogin'>http://www.ijerts.org/Login/ReviewerLogin</a>");
                 sbEmailMsg.Append("</td>");
                 sbEmailMsg.Append("</tr>");
 

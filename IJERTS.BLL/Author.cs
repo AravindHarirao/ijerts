@@ -13,9 +13,9 @@ namespace IJERTS.BLL
 
         IAuthorRepository _authorRepo = new AuthorRepository();
 
-        public void Register(Users user)
+        public Users Register(Users user)
         {
-            _authorRepo.Register(user);
+            return _authorRepo.Register(user);
         }
 
         public void GetAllUsers(List<Users> users)

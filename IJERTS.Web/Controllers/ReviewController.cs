@@ -68,7 +68,7 @@ namespace IJERTS.Web.Controllers
             if(objUser.ResultMessage.ToUpper().Equals("SUCCESS"))
             {
                 TempData["ReviewerRegisterHeading"] = "Registration Completed!";
-                TempData["ReviewerRegisterMessage"] = "Thank you for registering with us. Your Registration is successfull and you can Review after approval.";
+                TempData["ReviewerRegisterMessage"] = "Thank you for registering with us. Your Registration is successfull and you can check your email for your login credentials.";
 
                 return View("CompleteRegister");
             }
@@ -83,7 +83,7 @@ namespace IJERTS.Web.Controllers
                 }
                 ViewBag.Specialization = new SelectList(lstSpec, "Value", "Text");
 
-                TempData["ReviewerUserExists"] = "Reviewer Email Address already registered with us. Please try again...";
+                TempData["ReviewerUserExists"] = "Reviewer Email Address already registered with us. Please try with another Email Address...";
                 return View();
             }
         }

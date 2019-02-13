@@ -9,7 +9,7 @@ namespace IJERTS.BLL
 {
     public interface IAuthor
     {
-        void Register(Users user);
+        Users Register(Users user);
 
         void GetAllUsers(List<Users> users);
 

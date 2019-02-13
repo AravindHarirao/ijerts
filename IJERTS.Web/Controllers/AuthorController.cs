@@ -19,11 +19,6 @@ namespace IJERTS.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            //ActionResult result = this.ValidateAuthorToken();
-            //if (result != null)
-            //{
-            //    return result;
-            //}
             ViewBag.UserType = "Author";
             return View();
         }
@@ -31,24 +26,15 @@ namespace IJERTS.Web.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            //ActionResult result = this.ValidateAuthorToken();
-            //if (result != null)
-            //{
-            //    return result;
-            //}
-
             return View();
         }
 
         [HttpPost]
         public ActionResult Register(Users user)
         {
-            //ActionResult result = this.ValidateAuthorToken();
-            //if (result != null)
-            //{
-            //    return result;
-            //}
+            Users objUser = new Users();
 
+            user.UserType = "A";
             user.UserActivationValue = Guid.NewGuid().ToString();
             user.Password = CommonHelper.GenerateDynamicPassword();
 
@@ -67,11 +53,22 @@ namespace IJERTS.Web.Controllers
             }
             else
             {
-                _author.Register(user);
+                objUser = _author.Register(user);
 
-                EmailHelper.SendWelcomeEmailtoUser(user);
+                if (objUser.ResultMessage.ToUpper().Equals("SUCCESS"))
+                {
+                    EmailHelper.SendWelcomeEmailtoUser(user);
 
-                return View("CompleteRegister");
+                    TempData["AuthorRegisterHeading"] = "Registration Completed!";
+                    TempData["AuthorRegisterMessage"] = "Thank you for registering with us. Your Registration is successfull and you can check your email for your login credentials.";
+
+                    return View("CompleteRegister");
+                }
+                else
+                {
+                    TempData["AuthorUserExists"] = "Author Email Address already registered with us. Please try with another Email Address...";
+                    return View();
+                }
             }
         }
 

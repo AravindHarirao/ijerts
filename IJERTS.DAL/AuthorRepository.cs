@@ -12,31 +12,63 @@ namespace IJERTS.DAL
     {
         string conString = "server=localhost;user id=root;database=ijerts;password=Oracle2018!";
 
-        public void Register(Users user)
+        public Users Register(Users user)
         {
-            string query = "INSERT  INTO users (FirstName, LastName, Email, Password, Phone, UserType, UserActivationValue, IsActive, CreatedDateTime, CreatedBy, UpdatedDatetime, UpdatedBy) "
-                                + " Values "
-                                + " (?FirstName, ?LastName, ?Email, ?Password, ?Phone, ?UserType, ?UserActivationValue, 1, Now(), 'System', Now(), 'System')";
-            
+            Int32 iUserCount = 0;
             try
             {
-                MySqlCommand cmd = new MySqlCommand();
-                
-                cmd.Parameters.Add(new MySqlParameter("?FirstName", user.FirstName));
-                cmd.Parameters.Add(new MySqlParameter("?LastName", user.LastName));
-                cmd.Parameters.Add(new MySqlParameter("?Email", user.Email));
-                cmd.Parameters.Add(new MySqlParameter("?Phone", user.Phone));
-                cmd.Parameters.Add(new MySqlParameter("?Password", user.Password));
-                cmd.Parameters.Add(new MySqlParameter("?UserType", "A"));
-                cmd.Parameters.Add(new MySqlParameter("?UserActivationValue", user.UserActivationValue));
-
-                using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+                //Check if Reviewer already exists
+                string qryCheck = "SELECT COUNT(*) FROM `Users` WHERE Email = ?Email AND UserType = ?UserType ";
+                using (MySqlConnection conCheck = new MySqlConnection(DBConnection.ConnectionString))
                 {
-                    cmd.Connection = con;
-                    con.Open();
-                    cmd.CommandText = query;
-                    cmd.ExecuteNonQuery();
+                    MySqlCommand cmdCheck = new MySqlCommand();
+                    cmdCheck.Parameters.Add(new MySqlParameter("?Email", user.Email));
+                    cmdCheck.Parameters.Add(new MySqlParameter("?UserType", user.UserType));
+
+                    cmdCheck.Connection = conCheck;
+                    conCheck.Open();
+                    cmdCheck.CommandText = qryCheck;
+                    iUserCount = (Int32)(long)(cmdCheck.ExecuteScalar());
+                    cmdCheck.Dispose();
+                    conCheck.Close();
                 }
+
+                if (iUserCount == 0)
+                {
+                    string query = "INSERT  INTO users (FirstName, LastName, Email, Password, Phone, UserType, UserActivationValue, IsActive, CreatedDateTime, CreatedBy, UpdatedDatetime, UpdatedBy) "
+                                    + " Values "
+                                    + " (?FirstName, ?LastName, ?Email, ?Password, ?Phone, ?UserType, ?UserActivationValue, 1, Now(), 'System', Now(), 'System')";
+
+                    MySqlCommand cmd = new MySqlCommand();
+
+                    cmd.Parameters.Add(new MySqlParameter("?FirstName", user.FirstName));
+                    cmd.Parameters.Add(new MySqlParameter("?LastName", user.LastName));
+                    cmd.Parameters.Add(new MySqlParameter("?Email", user.Email));
+                    cmd.Parameters.Add(new MySqlParameter("?Phone", user.Phone));
+                    cmd.Parameters.Add(new MySqlParameter("?Password", user.Password));
+                    cmd.Parameters.Add(new MySqlParameter("?UserType", "A"));
+                    cmd.Parameters.Add(new MySqlParameter("?UserActivationValue", user.UserActivationValue));
+
+                    using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+                    {
+                        cmd.Connection = con;
+                        con.Open();
+                        cmd.CommandText = query;
+                        cmd.ExecuteNonQuery();
+
+                        cmd.Dispose();
+                        con.Close();
+
+                        user.ResultCode = 1;
+                        user.ResultMessage = "SUCCESS";
+                    }
+                }
+                else
+                {
+                    user.ResultCode = -1;
+                    user.ResultMessage = "EXISTS";
+                }
+                return user;
             }
             catch (Exception ex)
             {
