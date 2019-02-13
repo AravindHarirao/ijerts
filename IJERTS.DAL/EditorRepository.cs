@@ -85,7 +85,7 @@ namespace IJERTS.DAL
             //string queryPaper = "select PAP.PaperId, MainTitle, ShortDesc, CreatedBy, CreatedDateTime from Papers PAP "
             //                        + "INNER JOIN authors AUT ON "
             //                        + "PAP.PaperId = AUT.PaperID WHERFE PAP.IsActive = 1";
-            string queryPaper = "select PaperId, MainTitle, ShortDesc, CreatedBy, CreatedDateTime from Papers WHERE PAP.IsActive = 1";
+            string queryPaper = "select PaperId, MainTitle, ShortDesc, CreatedBy, CreatedDateTime from Papers WHERE IsActive = 1";
             MySqlCommand cmd = new MySqlCommand();
 
             using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
