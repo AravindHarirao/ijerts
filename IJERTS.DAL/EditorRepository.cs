@@ -84,8 +84,8 @@ namespace IJERTS.DAL
 
             //string queryPaper = "select PAP.PaperId, MainTitle, ShortDesc, CreatedBy, CreatedDateTime from Papers PAP "
             //                        + "INNER JOIN authors AUT ON "
-            //                        + "PAP.PaperId = AUT.PaperID";
-            string queryPaper = "select PaperId, MainTitle, ShortDesc, CreatedBy, CreatedDateTime from Papers";
+            //                        + "PAP.PaperId = AUT.PaperID WHERFE PAP.IsActive = 1";
+            string queryPaper = "select PaperId, MainTitle, ShortDesc, CreatedBy, CreatedDateTime from Papers WHERE PAP.IsActive = 1";
             MySqlCommand cmd = new MySqlCommand();
 
             using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
@@ -123,7 +123,7 @@ namespace IJERTS.DAL
                                      + " INNER JOIN authors AUT ON PAP.PaperId = AUT.PaperID "
                                      + " LEFT OUTER JOIN papercomments COM ON PAP.PaperId = COM.PaperId "
                                      + " AND COM.CommentsID = (SELECT MAX(CommentsID) from papercomments WHERE PaperId = ?PaperId) "
-                                     + " WHERE PAP.PaperId = ?PaperId";
+                                     + " WHERE PAP.IsActive = 1 AND PAP.PaperId = ?PaperId";
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.Add(new MySqlParameter("?PaperId", id));
@@ -172,18 +172,18 @@ namespace IJERTS.DAL
         public int PostComments(int paperId, string comments, int userId, int approverId)
         {
 
-            string queryComments = " INSERT INTO `ijerts`.papercomments(PaperId, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
+            string queryComments = " INSERT INTO papercomments(PaperId, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
                 + " VALUES(?paperId, ?comments, 1, 1, ?userId, now()); ";
 
-            string queryCommentsStatusUpdate = "UPDATE `ijerts`.paperStatus SET `status` = 'COMMENTS ADDED' WHERE paperID = ?paperID";
+            string queryCommentsStatusUpdate = "UPDATE paperStatus SET `status` = 'COMMENTS ADDED' WHERE paperID = ?paperID";
 
 
-            string queryApprover = "INSERT INTO `ijerts`.`papersapprovers`  " +
+            string queryApprover = "INSERT INTO `papersapprovers`  " +
                                     "(PaperId, ApproverId, IsActive, CreatedDateTime, CreatedBy, UpdatedDatetime, UpdatedBy) " +
                                     " VALUES " +
                                     "(?PaperId, ?ApproverId, 1, now(), ?UserId, now(), ?UserId); ";
 
-            string queryApproverStatusUpdate = "UPDATE `ijerts`.paperStatus SET `status` = 'REVIEW IN PROGRESS' WHERE paperID = ?paperID";
+            string queryApproverStatusUpdate = "UPDATE paperStatus SET `status` = 'REVIEW IN PROGRESS' WHERE paperID = ?paperID";
 
 
             MySqlCommand cmd = new MySqlCommand();

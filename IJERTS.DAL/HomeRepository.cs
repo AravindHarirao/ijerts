@@ -12,7 +12,7 @@ namespace IJERTS.DAL
     {
         public int PostQuery(Queries query)
         {
-            string queryText = "INSERT INTO `ijerts`.Queries (FirstName, LastName, Email, QueryText, QueryStatus, IsActive, CreatedBy, CreatedOn) " +
+            string queryText = "INSERT INTO Queries (FirstName, LastName, Email, QueryText, QueryStatus, IsActive, CreatedBy, CreatedOn) " +
                                 " VALUES" +
                                 " (?FirstName, ?LastName, ?Email, ?QueryText, 'New', 1, 'System', now() ); ";
             int result = 0;
@@ -124,7 +124,7 @@ namespace IJERTS.DAL
 
         public int UpdateQuery(int queryId, string response)
         {
-            string queryText = "UPDATE `ijerts`.`queries` SET QueryAnswer = ?response, QueryStatus = 'Closed', UpdatedBy = 'System', UpdatedOn = now() "
+            string queryText = "UPDATE `queries` SET QueryAnswer = ?response, QueryStatus = 'Closed', UpdatedBy = 'System', UpdatedOn = now() "
                                     + " WHERE QueryId = ?queryId";
 
             int result = 0;

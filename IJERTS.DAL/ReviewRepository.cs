@@ -116,7 +116,7 @@ namespace IJERTS.DAL
             //                            + "from Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
             //                            + "inner join papers PAP on pap.subject = sp.specialisation "
             //                            + "WHERE UserActivated = 1 AND UserType = 'R' AND(us.UserActivationValue is null OR us.UserActivationValue != 'False') "
-            //                            + "AND PAP.PaperId = ?paperId";
+            //                            + "AND PAP.IsActive = 1 AND PAP.PaperId = ?paperId";
 
 
 
@@ -161,7 +161,7 @@ namespace IJERTS.DAL
                                          + "inner join papers PAP on pap.subject = sp.specialisation "
                                          + "WHERE UserActivated = 1 AND UserType = 'R' "
                                          //+ "WHERE UserActivated = 1 AND UserType = 'R' AND(us.UserActivationValue is null OR us.UserActivationValue != 'False') "
-                                         + "AND PAP.PaperId = ?paperId";
+                                         + "AND PAP.IsActive = 1 AND PAP.PaperId = ?paperId";
             
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.Add(new MySqlParameter("?PaperId", paperId));
@@ -272,10 +272,10 @@ namespace IJERTS.DAL
 
             //string queryPaper = "select PAP.PaperId, MainTitle, ShortDesc, CreatedBy, CreatedDateTime from Papers PAP "
             //                        + "INNER JOIN authors AUT ON "
-            //                        + "PAP.PaperId = AUT.PaperID";
-            string queryPaper = "SELECT * FROM `ijerts`.`papers` PAP INNER JOIN papersapprovers APP" +
+            //                        + "PAP.PaperId = AUT.PaperID WHERE PAP.IsActive = 1 ";
+            string queryPaper = "SELECT * FROM `papers` PAP INNER JOIN papersapprovers APP" +
                                     " ON PAP.PaperID = APP.PaperId " +
-                                    " WHERE ApproverID = ?UserId ";
+                                    " WHERE PAP.IsActive = 1 AND ApproverID = ?UserId ";
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.Add(new MySqlParameter("?UserId", UserId));
@@ -310,7 +310,7 @@ namespace IJERTS.DAL
 
             if (!string.IsNullOrEmpty(Approve))
             {
-                string queryPaperStatus = "UPDATE `ijerts`.paperStatus SET `status` = ?Approve WHERE paperID = ?PaperID";
+                string queryPaperStatus = "UPDATE paperStatus SET `status` = ?Approve WHERE paperID = ?PaperID";
 
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Parameters.Add(new MySqlParameter("?PaperId", paperId));
@@ -327,7 +327,7 @@ namespace IJERTS.DAL
             }
             if (!string.IsNullOrEmpty(Comments.Trim()))
             {
-                string queryPaper = " INSERT INTO `ijerts`.papercomments(PaperId, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
+                string queryPaper = " INSERT INTO papercomments(PaperId, Comments, IsEditorComments, IsActive, CreatedBy, CreatedDateTime) "
                                 + " VALUES(?paperId, ?comments, 1, 1, ?userId, now()); ";
 
                 MySqlCommand cmd = new MySqlCommand();

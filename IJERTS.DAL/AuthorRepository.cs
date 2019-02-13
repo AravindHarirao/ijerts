@@ -207,7 +207,7 @@ namespace IJERTS.DAL
                                 + " (SELECT PaperId, StatusId, UserID, `Status`, CreatedBy, CreatedDatetime FROM PaperStatus "
                                 + " ) AA ON AA.PaperID = PAP.PaperId "
                                 + " WHERE AA.StatusID = ( "
-                                + " SELECT MAX(StatusID) FROM PaperStatus WHERE PAPERID = AA.PaPerID) AND PAP.UserId = ?userId";
+                                + " SELECT MAX(StatusID) FROM PaperStatus WHERE PAPERID = AA.PaPerID) AND PAP.IsActive = 1 AND PAP.UserId = ?userId";
 
 
             MySqlCommand cmd = new MySqlCommand();
@@ -254,7 +254,7 @@ namespace IJERTS.DAL
                                     + " INNER JOIN authors AUT ON PAP.PaperId = AUT.PaperID "
                                     + " LEFT OUTER JOIN papercomments COM ON PAP.PaperId = COM.PaperId "
                                     + "  AND COM.CommentsID = (SELECT MAX(CommentsID) from papercomments WHERE PaperId = ?PaperId) "
-                                    + " WHERE PAP.PaperId = ?PaperId ";
+                                    + " WHERE PAP.IsActive = 1 AND PAP.PaperId = ?PaperId ";
 
 
             MySqlCommand cmd = new MySqlCommand();
