@@ -255,6 +255,28 @@ namespace IJERTS.Web.Controllers
             }
         }
 
+        public FileResult DownloadDeclaration(Int32 PaperId, string DeclarationPaperfilename)
+        {
+            string sUploadedPath = Server.MapPath("~/UploadedFiles/Declaration/");
+            string sFileName = sUploadedPath + DeclarationPaperfilename;
+            if (!string.IsNullOrEmpty(sFileName))
+            {
+                if (System.IO.File.Exists(sFileName))
+                {
+                    string fileExtension = Path.GetExtension(sFileName);
+                    return this.File(sFileName, "application/" + fileExtension, DeclarationPaperfilename);
+                }
+                else
+                {
+                    return this.File(Path.Combine(Server.MapPath("~/UploadedFiles/"), "FileNotExists.txt"), "application/txt", "FileNotExists.txt");
+                }
+            }
+            else
+            {
+                return this.File(Path.Combine(Server.MapPath("~/UploadedFiles/"), "FileNotExists.txt"), "application/txt", "FileNotExists.txt");
+            }
+        }
+
         [HttpGet]
         //[ValidateAntiForgeryToken]
         public ActionResult MyProfile()
