@@ -11,9 +11,7 @@
     @Html.AntiForgeryToken()
     <div style="padding-left:8px">
         <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.MainTitle, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
-            </div>
+            <div class="col-md-3">Main Title&nbsp;<span class="req">*</span></div>
             <div class="col-md-4">
                 @Html.EditorFor(model => model.MainTitle, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MainTitle, "", new { @class = "text-danger" })
@@ -21,9 +19,7 @@
         </div>
         <br />
         <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.ShortDesc, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
-            </div>
+            <div class="col-md-3">Short Description&nbsp;<span class="req">*</span></div>
             <div class="col-md-4">
                 @Html.EditorFor(model => model.ShortDesc, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ShortDesc, "", new { @class = "text-danger" })
@@ -31,9 +27,7 @@
         </div>
         <br />
         <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
-            </div>
+            <div class="col-md-3">Subject&nbsp;<span class="req">*</span></div>
             <div class="col-md-4">
                 @Html.DropDownList("Subject", null, String.Empty, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
@@ -41,9 +35,7 @@
         </div>
         <br />
         <div class="row">
-            <div class="col-md-3">
-                @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left:0px !important" })
-            </div>
+            <div class="col-md-3">Tags</div>
             <div class="col-md-4">
                 @Html.EditorFor(model => model.Tags, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Tags, "", new { @class = "text-danger" })
@@ -52,19 +44,19 @@
         <br />
         <div class="row">
             <div class="col-md-3">
-                <label id="lblFileName">Upload Declaration</label>
+                Upload Declaration&nbsp;<span class="req">*</span>
             </div>
             <div class="col-md-4">
-                <input type="file" id="DeclarationPaperPath" name="DeclaraionPaperPath" />
+                <input type="file" id="DeclarationPaperPath" name="DeclarationPaperPath" accept=".doc, .docx, .pdf, .rtf"/>
             </div>
         </div>
         <br />
         <div class="row">
             <div class="col-md-3">
-                <label id="lblFileName">Upload Article</label>
+                Upload Article&nbsp;<span class="req">*</span>
             </div>
             <div class="col-md-4">
-                <input type="file" id="PaperPath" name="PaperPath" />
+                <input type="file" id="PaperPath" name="PaperPath" accept=".doc, .docx, .pdf, .rtf"/>
             </div>
         </div>
         <br />
@@ -93,16 +85,16 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" name="AuthorFirstName1" class="form-control text-box single-line " style="width:130px" />
+                            <input type="text" name="AuthorFirstName1" id="AuthorFirstName1"  class="form-control text-box single-line " style="width:130px" />&nbsp;<span class="req">*</span>
                         </td>
                         <td>
-                            <input type="text" name="AuthorLastName1" id="AuthorLastName1" class="form-control text-box single-line " style="width:130px" />
+                            <input type="text" name="AuthorLastName1" id="AuthorLastName1" class="form-control text-box single-line " style="width:130px" />&nbsp;<span class="req">*</span>
                         </td>
                         <td>
-                            <input type="text" name="AuthorDepartment1" id="AuthorDepartment1" class="form-control text-box single-line " style="width:170px" />
+                            <input type="text" name="AuthorDepartment1" id="AuthorDepartment1" class="form-control text-box single-line " style="width:170px" />&nbsp;<span class="req">*</span>
                         </td>
                         <td>
-                            <input type="text" name="AuthorOrganisation1" id="AuthorOrganisation1" class="form-control text-box single-line " style="width:200px" />
+                            <input type="text" name="AuthorOrganisation1" id="AuthorOrganisation1" class="form-control text-box single-line " style="width:200px" />&nbsp;<span class="req">*</span>
                         </td>
                     </tr>
                     <tr>
@@ -154,7 +146,8 @@
         <div class="row">
             <div class="form-group">
                 <div class="col-md-1" style="padding-left:0px !important">
-                    <input type="submit" value="Post Paper" id="postPaper" class="btn btn-default" onclick="location.href='@Url.Action("Author", "PostPaper")'" />
+                    <button class="btn btn-mod btn-block btn-small btnPostPaper" id="btnPostPaper" style="width:95px">Post Paper</button>
+                    <button type="submit" class="btn btn-mod btn-block btn-small hidden" id="btnSubmit">Submit</button>
                 </div>
                 <div class="col-md-11"></div>
             </div>
@@ -167,3 +160,120 @@
         </div>
     </div>
 }
+<script type="text/javascript">
+
+    //get file path from client system
+    function getNameFromPath(strFilepath) {
+        var objRE = new RegExp(/([^\/\\]+)$/);
+        var strName = objRE.exec(strFilepath);
+
+        if (strName == null) {
+            return null;
+        }
+        else {
+            return strName[0];
+        }
+    }
+
+    $(function () {
+
+        $("#DeclarationPaperPath").change(function () {
+            var file = getNameFromPath($(this).val());
+            if (file != null) {
+                var extension = file.substr((file.lastIndexOf('.') + 1));
+                switch (extension) {
+                    case 'doc':
+                    case 'docx':
+                    case 'pdf':
+                        flag = true;
+                        break;
+                    default:
+                        flag = false;
+                }
+            }
+            if (flag == false) {
+                alert('You can upload only doc, docx and pdf extension file');
+                $("#DeclarationPaperPath").focus();
+                return false;
+            }
+        });
+
+        $("#PaperPath").change(function () {
+            var file = getNameFromPath($(this).val());
+            if (file != null) {
+                var extension = file.substr((file.lastIndexOf('.') + 1));
+                switch (extension) {
+                    case 'doc':
+                    case 'docx':
+                    case 'pdf':
+                        flag = true;
+                        break;
+                    default:
+                        flag = false;
+                }
+            }
+            if (flag == false) {
+                alert('You can upload only doc, docx and pdf extension file');
+                $("#PaperPath").focus();
+                return false;
+            }
+        });
+
+    });
+
+    $(".btnPostPaper").click(function (event) {
+        error = 0;
+        event.preventDefault();
+        
+        if ($("#MainTitle").val().trim() == "") {
+            alert('Please enter the Main Title');
+            $("#MainTitle").focus();
+            return false;
+        }
+        else if ($("#ShortDesc").val().trim() == "") {
+            alert('Please enter the Short Description');
+            $("#ShortDesc").focus();
+            return false;
+        }
+        else if ($("#Subject").val().trim() == "") {
+            alert('Please enter the Subject');
+            $("#Subject").focus();
+            return false;
+        }
+        else if ($("#DeclarationPaperPath")[0].files.length == 0) {
+            alert('Please upload the Declaration');
+            $("#DeclarationPaperPath").focus();
+            return false;
+        }
+        else if ($("#PaperPath")[0].files.length == 0) {
+            alert('Please upload the Article');
+            $("#PaperPath").focus();
+            return false;
+        }
+        else if ($("#AuthorFirstName1").val().trim() == "") {
+            alert('Please enter the Author FirstName1');
+            $("#AuthorFirstName1").focus();
+            return false;
+        }
+        else if ($("#AuthorLastName1").val().trim() == "") {
+            alert('Please enter the Author LastName1');
+            $("#AuthorLastName1").focus();
+            return false;
+        }
+        else if ($("#AuthorDepartment1").val().trim() == "") {
+            alert('Please enter the Author Department1');
+            $("#AuthorDepartment1").focus();
+            return false;
+        }
+        else if ($("#AuthorOrganisation1").val().trim() == "") {
+            alert('Please enter the Author Organisation1');
+            $("#AuthorOrganisation1").focus();
+            return false;
+        }
+        else
+        {
+            $("#btnSubmit").click();
+            return true;
+        }
+    });
+</script>

@@ -284,7 +284,7 @@ namespace IJERTS.DAL
                     paper.CreatedDateTime = Convert.ToDateTime(reader["CreatedDateTime"].ToString());
                     paper.DeclarationFileName = Convert.ToString(reader["DeclarationFileName"]);
                     paper.DeclarationPaperPath = Convert.ToString(reader["CompleteDeclarationFilePath"]);
-                    paper.DeclarationPaperPath = string.Format("{0}\\{1}", paper.DeclarationPaperPath, paper.DeclarationFileName);
+                    //paper.DeclarationPaperPath = string.Format("{0}\\{1}", paper.DeclarationPaperPath, paper.DeclarationFileName);
 
                     auth.AuthorFirstName = Convert.ToString(reader["AuthorFirstName"]);
                     auth.AuthorLastName = Convert.ToString(reader["AuthorLastName"]);

@@ -97,7 +97,7 @@
                 <label id="lblUploadResume">Upload Resume&nbsp;<span class="req">*</span></label>
             </div>
             <div class="col-md-6">
-                <input type="file" id="UploadResume" name="UploadResume" accept=".doc, .docx, .pdf"/>
+                <input type="file" id="UploadResume" name="UploadResume" accept=".doc, .docx, .pdf, .rtf"/>
             </div>
         </div>
         <br />
@@ -167,9 +167,7 @@
 
         var emailexpression = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
         var phoneExpression = /\d{5}([- ]*)\d{6}/;
-
-        var file = getNameFromPath($(this).val());
-        
+                
         if ($("input[name='FirstName']").val().trim() == "") {
             alert('Please enter the First Name');
             $("#FirstName").focus();
@@ -210,7 +208,7 @@
             $("#Phone").focus();
             return false;
         }
-        else if (file != null) {
+        else if ($("#UploadResume")[0].files.length == 0) {
             alert('Please upload the Resume');
             $("#UploadResume").focus();
             return false;

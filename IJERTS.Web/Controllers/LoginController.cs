@@ -243,7 +243,7 @@ namespace IJERTS.Web.Controllers
         [HttpGet]
         public ActionResult ChangePassword()
         {
-            //TempData["UserLoginFailed"] = "";
+            //TempData["PasswordChangedMessage"] = "";
             return View();
         }
 
@@ -253,26 +253,26 @@ namespace IJERTS.Web.Controllers
 
             if (UserId == 0)
             {
-                TempData["UserLoginFailed"] = "Please log in to use this feature.";
+                TempData["PasswordChangedMessage"] = "Please log in to use this feature.";
                 return RedirectToAction("ChangePassword", "Login");
             }
 
             if (string.IsNullOrWhiteSpace(users.CurrentPassword) || string.IsNullOrWhiteSpace(users.NewPassword)
                 || string.IsNullOrWhiteSpace(users.ConfirmPassword))
             {
-                TempData["UserLoginFailed"] = "Password is mandatory";
+                TempData["PasswordChangedMessage"] = "Password is mandatory";
                 return RedirectToAction("ChangePassword", "Login");
             }
 
             if (users.CurrentPassword.Equals(users.NewPassword))
             {
-                TempData["UserLoginFailed"] = "Please enter the New Password. Can't update the last Password.";
+                TempData["PasswordChangedMessage"] = "Please enter the New Password. Can't update the last Password.";
                 return RedirectToAction("ChangePassword", "Login");
             }
 
             if (!users.ConfirmPassword.Equals(users.NewPassword))
             {
-                TempData["UserLoginFailed"] = "New password and confirm password does not match.";
+                TempData["PasswordChangedMessage"] = "New password and confirm password does not match.";
                 return RedirectToAction("ChangePassword", "Login");
             }
 
@@ -284,7 +284,7 @@ namespace IJERTS.Web.Controllers
             Users objUsers = _login.ValidateLogin(users);
             if (string.IsNullOrEmpty(objUsers.Email))
             {
-                TempData["UserLoginFailed"] = "Invalid current password";
+                TempData["PasswordChangedMessage"] = "Invalid current password";
                 return RedirectToAction("ChangePassword", "Login");
 
             }
@@ -296,12 +296,12 @@ namespace IJERTS.Web.Controllers
                 if (sResults.Trim().Equals("Success"))
                 {
                     Session.Clear();
-                    TempData["UserLoginFailed"] = "Password changed successfully. Please login again.";
+                    TempData["PasswordChangedMessage"] = "Password changed successfully. Please login again.";
                     return RedirectToAction("ChangePassword", "Login");
                 }
                 else
                 {
-                    TempData["UserLoginFailed"] = "Password change failed. Please try again.";
+                    TempData["PasswordChangedMessage"] = "Password change failed. Please try again.";
                     return RedirectToAction("ChangePassword", "Login");
                 }
                 //return RedirectToAction("Index", "Home");

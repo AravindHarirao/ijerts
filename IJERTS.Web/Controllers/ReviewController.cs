@@ -54,7 +54,8 @@ namespace IJERTS.Web.Controllers
                 if (!exists)
                     Directory.CreateDirectory(uploadedPath);
 
-                string sUploadFileName = DateTime.Now.Ticks.ToString() + Path.GetFileName(UploadResume.FileName);
+                string sFileName = Path.GetFileName(UploadResume.FileName);
+                string sUploadFileName = string.Format("{0}-{1}{2}", Path.GetFileNameWithoutExtension(sFileName), Guid.NewGuid().ToString("N"), Path.GetExtension(sFileName));
 
                 string filePath = Path.Combine(uploadedPath, sUploadFileName);
 
@@ -283,7 +284,7 @@ namespace IJERTS.Web.Controllers
         {
             TempData["ReviewerUpdated"] = "";
             Users users = new Users();
-            ActionResult result = this.ValidateAuthorToken();
+            ActionResult result = this.ValidateReviewerToken();
             if (result != null)
             {
                 return result;
@@ -324,7 +325,8 @@ namespace IJERTS.Web.Controllers
                 if (!exists)
                     Directory.CreateDirectory(uploadedPath);
 
-                string sUploadFileName = DateTime.Now.Ticks.ToString() + Path.GetFileName(UploadResume.FileName);
+                string sFileName = Path.GetFileName(UploadResume.FileName);
+                string sUploadFileName = string.Format("{0}-{1}{2}", Path.GetFileNameWithoutExtension(sFileName), Guid.NewGuid().ToString("N"), Path.GetExtension(sFileName));
 
                 string filePath = Path.Combine(uploadedPath, sUploadFileName);
 

@@ -64,7 +64,7 @@
                 <label id="lblFileName">Download Declaration</label>
             </div>
             <div class="col-md-9">
-                <a style="color:#fff;" class="btn btn-primary btn-xs downloadAuthorDeclaration" data-paperid="@Model.PaperId" data-DeclarationPaperfilename="@Model.DeclarationPaperPath" href="#" title="Download Declaration">
+                <a style="color:#fff;" class="btn btn-primary btn-xs downloadAuthorDeclaration" data-paperid="@Model.PaperId" data-declarationfilename="@Model.DeclarationFileName" href="#" title="Download Declaration">
                     Download
                 </a>
 
@@ -124,18 +124,18 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">
-                <label id="lblFileName">Upload Article</label>
+            <div class="col-md-3">Upload Article&nbsp;<span class="req">*</span>
             </div>
             <div class="col-md-4">
-                <input type="file" id="UpdatedPaper" name="UpdatedPaper" />
+                <input type="file" id="UpdatedPaper" name="UpdatedPaper" accept=".doc, .docx, .pdf, .rtf" />
             </div>
         </div>
         <br />
         <div class="row">
             <div class="form-group">
                 <div class="col-md-2" style="padding-left:0px !important">
-                    <input type="submit" value="Update" id="postPaper" class="btn btn-default" onclick="location.href='@Url.Action("GetPaperDetails", "Author", new { paperid = Model.PaperId }, null)'" />
+                    <button class="btn btn-mod btn-block btn-small btnPostPaper" id="btnPostPaper" style="width:75px">Update</button>
+                    <button type="submit" class="btn btn-mod btn-block btn-small hidden" id="btnSubmit">Submit</button>
                 </div>
                 <div class="col-md-10"></div>
                 <div class="col-md-2" style="padding-left:0px !important">
@@ -183,8 +183,47 @@
 
     $(document).on('click', '.downloadAuthorDeclaration', function () {
         $("#PaperId").val($(this).attr('data-paperid'));
-        $("#PaperFileName").val($(this).attr('data-DeclarationPaperfilename'));
-        alert($("#PaperFileName").val());
+        $("#DeclarationPaperfilename").val($(this).attr('data-declarationfilename'));
         $('#btnDownloadAuthorDeclaration').click();
+    });
+
+    $(function () {
+        
+        $("#UpdatedPaper").change(function () {
+            var file = getNameFromPath($(this).val());
+            if (file != null) {
+                var extension = file.substr((file.lastIndexOf('.') + 1));
+                switch (extension) {
+                    case 'doc':
+                    case 'docx':
+                    case 'pdf':
+                        flag = true;
+                        break;
+                    default:
+                        flag = false;
+                }
+            }
+            if (flag == false) {
+                alert('You can upload only doc, docx and pdf extension file');
+                $("#UpdatedPaper").focus();
+                return false;
+            }
+        });
+
+    });
+
+    $(".btnPostPaper").click(function (event) {
+        error = 0;
+        event.preventDefault();
+
+        if ($("#UpdatedPaper")[0].files.length == 0) {
+            alert('Please upload the Paper');
+            $("#UpdatedPaper").focus();
+            return false;
+        }
+        else {
+            $("#btnSubmit").click();
+            return true;
+        }
     });
 </script>

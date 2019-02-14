@@ -100,7 +100,7 @@ namespace IJERTS.Web.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult PostPaper(Paper paper, HttpPostedFileBase PaperPath, HttpPostedFileBase DeclaraionPaperPath,
+        public ActionResult PostPaper(Paper paper, HttpPostedFileBase PaperPath, HttpPostedFileBase DeclarationPaperPath,
             string AuthorFirstName1, string AuthorLastName1, string AuthorDepartment1, string AuthorOrganisation1,
             string AuthorFirstName2, string AuthorLastName2, string AuthorDepartment2, string AuthorOrganisation2,
             string AuthorFirstName3, string AuthorLastName3, string AuthorDepartment3, string AuthorOrganisation3,
@@ -124,14 +124,15 @@ namespace IJERTS.Web.Controllers
                 paper.UpdatedBy = HttpContext.Session["FirstName"].ToString();
                 newPaper = paper;
 
-                string uploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");
-                paper.FileName = Path.GetFileName(PaperPath.FileName);
+                string uploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");                
+                string sPaperPathName = Path.GetFileName(PaperPath.FileName);
+                paper.FileName = string.Format("{0}-{1}{2}", Path.GetFileNameWithoutExtension(sPaperPathName), Guid.NewGuid().ToString("N"), Path.GetExtension(sPaperPathName));
                 paper.PaperPath = uploadedPath;
 
                 string declarationPath = Server.MapPath("~/UploadedFiles/Declaration/");
-                paper.DeclarationFileName = string.Format("Declaration_{0}", Path.GetFileName(DeclaraionPaperPath.FileName));
+                string sDecFileName = Path.GetFileName(DeclarationPaperPath.FileName);
+                paper.DeclarationFileName = string.Format("{0}-{1}{2}", Path.GetFileNameWithoutExtension(sDecFileName), Guid.NewGuid().ToString("N"), Path.GetExtension(sDecFileName));
                 paper.DeclarationPaperPath = declarationPath;
-
 
                 if (!string.IsNullOrEmpty(AuthorFirstName1))
                 {
@@ -176,8 +177,16 @@ namespace IJERTS.Web.Controllers
                 newPaper.Authors = authors;
                 newPaper.UserId = int.Parse(HttpContext.Session["UserId"].ToString());
                 _author.PostPapers(paper);
-                PaperPath.SaveAs(Path.Combine(paper.PaperPath, paper.FileName));
-                DeclaraionPaperPath.SaveAs(Path.Combine(paper.DeclarationPaperPath, paper.DeclarationFileName));
+
+                if(!string.IsNullOrEmpty(paper.PaperPath))
+                {
+                    PaperPath.SaveAs(Path.Combine(paper.PaperPath, paper.FileName));
+                }
+
+                if (!string.IsNullOrEmpty(paper.DeclarationPaperPath))
+                {
+                    DeclarationPaperPath.SaveAs(Path.Combine(paper.DeclarationPaperPath, paper.DeclarationFileName));
+                }
 
                 ViewData["PaperPostingFailed"] = "Paper posted successfully.";
             }
@@ -221,11 +230,25 @@ namespace IJERTS.Web.Controllers
         [HttpPost]
         public ActionResult GetPaperDetails(HttpPostedFileBase UpdatedPaper, int txtPaperId)
         {
-            Paper paper = _author.GetPaperDetails(txtPaperId);
-            string uploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");
-            paper.FileName = paper.FileName;
-            paper.PaperPath = uploadedPath;
-            UpdatedPaper.SaveAs(Path.Combine(paper.PaperPath, paper.FileName));
+            Paper paper = null;
+            try
+            {
+                paper = _author.GetPaperDetails(txtPaperId);
+                string uploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");
+                string sFileName = paper.FileName;
+                paper.FileName = string.Format("{0}-{1}{2}", Path.GetFileNameWithoutExtension(sFileName), Guid.NewGuid().ToString("N"), Path.GetExtension(sFileName));
+
+                paper.PaperPath = uploadedPath;
+                if (!string.IsNullOrEmpty(paper.PaperPath))
+                {
+                    UpdatedPaper.SaveAs(Path.Combine(paper.PaperPath, paper.FileName));
+                }
+                ViewData["PaperPostingFailed"] = "Paper posted successfully.";                
+            }
+            catch (Exception ex)
+            {
+                ViewData["PaperPostingFailed"] = "Error in posting paper. Please contact administrator";
+            }
             return View("PaperDetails", paper);
         }
 
