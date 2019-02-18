@@ -307,5 +307,35 @@ namespace IJERTS.Web.Controllers
                 //return RedirectToAction("Index", "Home");
             }
         }
+
+        [HttpPost]
+        public ActionResult ForgotPassword(Users users)
+        {
+            TempData["ForgotPasswordFailed"] = "";
+            var ForgotPasswordFlag = users.ForgotPasswordFlag;
+            ViewBag.ForgotPasswordFlag = ForgotPasswordFlag;
+            return View("ForgotPassword", users);
+        }
+
+        [HttpPost]
+        public ActionResult SaveForgotPassword(Users users)
+        {
+            Users objUsers = _login.ValidateLogin(users);
+            if (!string.IsNullOrEmpty(objUsers.Email))
+            {
+                objUsers.UserType = users.UserType;
+                EmailHelper.SendForgotPassword(objUsers);
+
+                TempData["ForgotPasswordFailed"] = "Your password has been sent to the email address registered with us.";
+
+                return View("ForgotPassword", objUsers);
+            }
+            else
+            {
+                TempData["ForgotPasswordFailed"] = "Invalid email address. Please try again.";
+                return View("ForgotPassword", users);
+            }           
+        }
+
     }
 }

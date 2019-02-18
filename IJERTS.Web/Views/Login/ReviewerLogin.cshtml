@@ -36,6 +36,7 @@
                     <button class="btn btn-mod btn-block btn-small btnLogin" id="btnLogin" style="width:75px">Login</button>
                     <button type="submit" class="btn btn-mod btn-block btn-small hidden" id="btnSubmit">Login</button>
                     <p>Still not Registered? Click <a href="@Url.Action("Register", "Review")" class="active">here</a> to Register</p>
+                    <p><a href="#" class="active CallForgotPassword">Forgot password?</a></p>
                 </div>
             </div>
         </div>
@@ -49,7 +50,20 @@
         </div>
     </div>
 }
+
+@using (@Html.BeginForm("ForgotPassword", "Login", FormMethod.Post, new { @class = "frmForgotPassword" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UserType", "R")
+    <button type="submit" class="hidden" id="btnFPSubmit"></button>
+}
+
 <script type="text/javascript">
+
+    $(".CallForgotPassword").click(function (event) {
+        $("#btnFPSubmit").click();
+    });
+
     $(".btnLogin").click(function (event) {
         error = 0;
         event.preventDefault();

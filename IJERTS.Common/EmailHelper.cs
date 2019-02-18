@@ -373,5 +373,119 @@ namespace IJERTS.Common
                 return "Error"; //ex.Message.ToString();
             }
         }
+
+
+        public static string SendForgotPassword(Users user)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.To.Add(user.Email);
+                mail.From = new MailAddress(sFromEmailAddress);
+                mail.Subject = "Forgot Password";
+
+                StringBuilder sbEmailMsg = new StringBuilder();
+                sbEmailMsg.Append("<table>");
+
+                sbEmailMsg.Append("<tr><td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' colspan='3' align='left'>");
+                sbEmailMsg.Append("Dear " + user.FirstName + " " + user.LastName + ",");
+                sbEmailMsg.Append("</td></tr>");
+
+                sbEmailMsg.Append("<tr><td colspan='3'><br></td></tr>");
+
+                sbEmailMsg.Append("<tr><td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' colspan='3' align='left'>");
+
+                sbEmailMsg.Append("As per your request, we are sending your password created in ijerts.org.");
+
+                sbEmailMsg.Append("</td></tr>");
+                
+                sbEmailMsg.Append("<tr><td colspan='3'><br></td></tr>");
+
+                sbEmailMsg.Append("<tr>");
+                sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; color: #06489c;' width='15%' align='left'>");
+                sbEmailMsg.Append("Login Url");
+                sbEmailMsg.Append("</td>");
+                sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; color: #06489c;' width='2%' align='center'>");
+                sbEmailMsg.Append(" : ");
+                sbEmailMsg.Append("</td>");
+                sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' align='left'>");
+                if(user.UserType.ToString().Equals("A"))
+                {
+                    sbEmailMsg.Append("<a rel='nofollow' target='_blank' href='http://www.ijerts.org/Login/AuthorLogin'>http://www.ijerts.org/Login/AuthorLogin</a>");
+                }
+                else
+                {
+                    sbEmailMsg.Append("<a rel='nofollow' target='_blank' href='http://www.ijerts.org/Login/ReviewerLogin'>http://www.ijerts.org/Login/ReviewerLogin</a>");
+                }
+                sbEmailMsg.Append("</td>");
+                sbEmailMsg.Append("</tr>");
+
+                sbEmailMsg.Append("<tr>");
+                sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; color: #06489c;' width='15%' align='left'>");
+                sbEmailMsg.Append("Username");
+                sbEmailMsg.Append("</td>");
+                sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; color: #06489c;' width='2%' align='center'>");
+                sbEmailMsg.Append(" : ");
+                sbEmailMsg.Append("</td>");
+                sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' align='left'>");
+                sbEmailMsg.Append(user.Email);
+                sbEmailMsg.Append("</td>");
+                sbEmailMsg.Append("</tr>");
+
+                sbEmailMsg.Append("<tr>");
+                sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; color: #06489c;' width='15%' align='left'>");
+                sbEmailMsg.Append("Password");
+                sbEmailMsg.Append("</td>");
+                sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; color: #06489c;' width='2%' align='center'>");
+                sbEmailMsg.Append(" : ");
+                sbEmailMsg.Append("</td>");
+                sbEmailMsg.Append("<td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' align='left'>");
+                sbEmailMsg.Append(user.Password);
+                sbEmailMsg.Append("</td>");
+                sbEmailMsg.Append("</tr>");
+
+                sbEmailMsg.Append("<tr><td colspan='3'><br></td></tr>");
+
+                sbEmailMsg.Append("<tr><td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' colspan='3' align='left'>");
+
+                sbEmailMsg.Append("Once you have logged in, please ensure that you visit the Change Password screen and change your password.");
+
+                sbEmailMsg.Append("</td></tr>");
+
+                sbEmailMsg.Append("<tr><td colspan='3'><br></td></tr>");
+
+                sbEmailMsg.Append("<tr><td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' colspan='3' align='left'>");
+                sbEmailMsg.Append("Thank You,");
+                sbEmailMsg.Append("</td></tr>");
+                sbEmailMsg.Append("<tr><td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' colspan='3' align='left'>");
+                sbEmailMsg.Append("IJERTS Admin Team.");
+                sbEmailMsg.Append("</td></tr>");
+
+                sbEmailMsg.Append("<tr><td colspan='3'><br></td></tr>");
+
+                sbEmailMsg.Append("<tr><td style='family:verdana, tahoma, Arial, Helvetica, sans-serif; font-size:15px; font-weight:normal; color: #06489c;' colspan='3' align='left'>");
+                sbEmailMsg.Append("Please note this is a system generated message and reply to the above email address is not monitored. For any queries, please contact our Admin team. ");
+                sbEmailMsg.Append("</td></tr>");
+
+                sbEmailMsg.Append("</table>");
+
+                mail.Body = sbEmailMsg.ToString();
+                mail.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = sSmtpHost;
+                smtp.Port = Convert.ToInt32(sSmtpPort);
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new System.Net.NetworkCredential(sSmtpUsername, sSmtpPassword); // Enter seders User name and password  
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.ToString();
+            }
+        }        
+
     }
 }

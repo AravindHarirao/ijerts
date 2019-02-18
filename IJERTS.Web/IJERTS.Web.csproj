@@ -187,6 +187,7 @@
     <Content Include="Downloads\IJERTS-ManuscriptTemplate_v1.0.doc" />
     <None Include="Properties\PublishProfiles\IJERTS.Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\IJERTS.Publish.pubxml" />
+    <None Include="Properties\PublishProfiles\IJERTS.Release.pubxml" />
     <None Include="Properties\PublishProfiles\JournalEditor.Release.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -302,6 +303,7 @@
     <Content Include="Views\Editor\QueryDetails.cshtml" />
     <Content Include="Views\Author\MyProfile.cshtml" />
     <Content Include="Views\Review\MyProfile.cshtml" />
+    <Content Include="Views\Login\ForgotPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

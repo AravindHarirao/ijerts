@@ -55,5 +55,7 @@ namespace IJERTS.Objects
         public string ResumeFileName { get; set; }
 
         public string UpdateResumeFileName { get; set; }
+
+        public string ForgotPasswordFlag { get; set; }
     }
 }
