@@ -22,6 +22,9 @@
                 <th>
                     <center>Details</center>
                 </th>
+                <th>
+                    <center>Delete</center>
+                </th>
             </tr>
             @foreach (var item in Model)
             {
@@ -45,6 +48,9 @@
                     <td>
                         <p>@Html.ActionLink("Details", "GetReviewerDetails", "Review", new { userId = @item.UserId }, null)</p>
                     </td>
+                    <td>
+                        <p><a href="#" class="color DeleteReviewer" data-userid="@item.UserId">Delete</a></p>
+                    </td>
                 </tr>
             }
         </table>
@@ -59,10 +65,24 @@
         @Html.Hidden("Email")
         @Html.Hidden("Type")
         <button class="hidden" id="btnActivateReviewer" type="Submit"></button>
-    }    
+    }
+    
+    @using (Html.BeginForm("DeleteReviewer", "Editor", FormMethod.Post, new { @class = "frmReviewer", enctype = "multipart/form-data" }))
+    {
+        @Html.Hidden("UserId")
+        <button class="hidden" id="btnDeleteReviewer" type="Submit"></button>
+    }
 </div>
 <script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
 <script>
+
+    $(document).on('click', '.DeleteReviewer', function () {
+        if (confirm('Are you sure you want to delete the Reviewer?')) {
+            var userid = $(this).attr("data-userid");
+            $(".frmReviewer > #UserId").val(userid);
+            $('#btnDeleteReviewer').click();
+        }
+    });
 
     $(document).on('click', '.ActivateReviewer', function () {
         var userid = $(this).attr("data-userid");

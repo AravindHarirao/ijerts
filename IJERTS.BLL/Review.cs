@@ -64,5 +64,10 @@ namespace IJERTS.BLL
         {
             return _reviewRepository.UpdateProfile(user);
         }
+
+        public int DeleteReviewer(int UserId)
+        {
+            return _reviewRepository.DeleteReviewer(UserId);
+        }
     }
 }

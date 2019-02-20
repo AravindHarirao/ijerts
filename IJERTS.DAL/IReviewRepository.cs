@@ -28,5 +28,7 @@ namespace IJERTS.DAL
         Users GetMyProfileDetails(Int64 UserId);
 
         Users UpdateProfile(Users user);
+
+        int DeleteReviewer(int UserId);
     }
 }

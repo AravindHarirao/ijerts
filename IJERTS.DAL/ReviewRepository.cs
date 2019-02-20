@@ -16,7 +16,7 @@ namespace IJERTS.DAL
             try
             {
                 //Check if Reviewer already exists
-                string qryCheck = "SELECT COUNT(*) FROM `Users` WHERE Email = ?Email AND UserType = ?UserType ";
+                string qryCheck = "SELECT COUNT(*) FROM `Users` WHERE IsActive = 1 AND Email = ?Email AND UserType = ?UserType ";
                 using (MySqlConnection conCheck = new MySqlConnection(DBConnection.ConnectionString))
                 {
                     MySqlCommand cmdCheck = new MySqlCommand();
@@ -108,7 +108,7 @@ namespace IJERTS.DAL
             string queryPaper = "select us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
                                 + " us.Position, us.Department, us.UserActivated, us.UserActivationValue, sp.specialisation "
                                 + " from Users us LEFT JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
-                                + " WHERE UserType = 'R' ";
+                                + " WHERE us.UserType = 'R' AND us.IsActive = 1";
             //+ " WHERE UserType = 'R' AND (us.UserActivationValue is null OR us.UserActivationValue != 'False') ";
 
             //string queryPaper = "select us.UserId, us.FirstName, us.LastName, us.Email, us.Phone, us.Organisation, us.Qualification, "
@@ -159,7 +159,7 @@ namespace IJERTS.DAL
                                          + " us.Position, us.Department, us.UserActivated, us.UserActivationValue, sp.specialisation "
                                          + "from Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
                                          + "inner join papers PAP on pap.subject = sp.specialisation "
-                                         + "WHERE UserActivated = 1 AND UserType = 'R' "
+                                         + "WHERE us.UserActivated = 1 AND us.UserType = 'R' AND us.IsActive = 1 "
                                          //+ "WHERE UserActivated = 1 AND UserType = 'R' AND(us.UserActivationValue is null OR us.UserActivationValue != 'False') "
                                          + "AND PAP.IsActive = 1 AND PAP.PaperId = ?paperId";
             
@@ -231,7 +231,7 @@ namespace IJERTS.DAL
                                 + " us.Position, us.Department, us.UserActivated, us.UserActivationValue, us.ResumeFileName, us.CreatedDateTime, us.CreatedBy, "
                                 + " us.UpdatedDatetime, us.UpdatedBy, sp.specialisation "
                                 + " FROM Users us INNER JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
-                                + " WHERE us.UserId = ?UserId ";
+                                + " WHERE us.IsActive = 1 AND us.UserId = ?UserId ";
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.Add(new MySqlParameter("?UserId", userId));
@@ -357,7 +357,7 @@ namespace IJERTS.DAL
                                 + " us.Position, us.Department, us.UserActivated, us.UserActivationValue, us.ResumeFileName, us.CreatedDateTime, us.CreatedBy, "
                                 + " us.UpdatedDatetime, us.UpdatedBy, us.SpecializationId, sp.specialisation "
                                 + " FROM Users us LEFT JOIN specialisation sp on sp.specialisationId = us.SpecializationId "
-                                + " WHERE us.UserId = ?UserId ";
+                                + " WHERE us.IsActive = 1 AND us.UserId = ?UserId ";
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.Add(new MySqlParameter("?UserId", UserId));
@@ -433,6 +433,28 @@ namespace IJERTS.DAL
             {
                 throw ex;
             }
+        }
+
+        public int DeleteReviewer(int UserId)
+        {
+            string query = "UPDATE users SET IsActive = 0 WHERE UserId = ?UserId";
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Parameters.Add(new MySqlParameter("?UserId", UserId));
+                using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return 0;
         }
 
     }

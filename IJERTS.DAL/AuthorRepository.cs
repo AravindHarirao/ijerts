@@ -18,7 +18,7 @@ namespace IJERTS.DAL
             try
             {
                 //Check if Reviewer already exists
-                string qryCheck = "SELECT COUNT(*) FROM `Users` WHERE Email = ?Email AND UserType = ?UserType ";
+                string qryCheck = "SELECT COUNT(*) FROM `Users` WHERE IsActive = 1 AND Email = ?Email AND UserType = ?UserType ";
                 using (MySqlConnection conCheck = new MySqlConnection(DBConnection.ConnectionString))
                 {
                     MySqlCommand cmdCheck = new MySqlCommand();
@@ -78,7 +78,7 @@ namespace IJERTS.DAL
 
         public Users AuthorLogin(LoginRequest loginReq)
         {
-            string queryLogin = "SELECT UserId, FirstName, LastName, Email, Phone, Password, IsActive FROM users where IsActive = 0 AND Email = ?Email and Password = ?Password";
+            string queryLogin = "SELECT UserId, FirstName, LastName, Email, Phone, Password, IsActive FROM users where IsActive = 1 AND Email = ?Email and Password = ?Password";
             Users loggedInUser = new Users();
             try
             {
@@ -332,7 +332,7 @@ namespace IJERTS.DAL
         public Users GetMyProfileDetails(Int64 UserId)
         {
             Users users = new Users();
-            string queryPaper = "SELECT UserId, FirstName, LastName, Email, Phone, UserType, UserActivationValue FROM users WHERE UserId = ?UserId ";
+            string queryPaper = "SELECT UserId, FirstName, LastName, Email, Phone, UserType, UserActivationValue FROM users WHERE IsActive = 1 AND UserId = ?UserId ";
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.Parameters.Add(new MySqlParameter("?UserId", UserId));

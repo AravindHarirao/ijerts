@@ -177,7 +177,19 @@ namespace IJERTS.Web.Controllers
             {
                 return null;
             }
+        }
 
+        [HttpPost]
+        public RedirectToRouteResult DeleteReviewer(int UserId)
+        {
+            if (_review.DeleteReviewer(UserId) == 0)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }
