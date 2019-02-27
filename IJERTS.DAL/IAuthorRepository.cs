@@ -24,5 +24,7 @@ namespace IJERTS.DAL
         Users GetMyProfileDetails(Int64 UserId);
 
         Users UpdateProfile(Users user);
+
+        Paper UpdatePaperDetails(Paper paper);
     }
 }

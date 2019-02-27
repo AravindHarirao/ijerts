@@ -386,5 +386,42 @@ namespace IJERTS.DAL
                 throw ex;
             }
         }
+                
+        public Paper UpdatePaperDetails(Paper paper)
+        {
+            Int32 iUserCount = 0;
+            try
+            {
+                //Check if Reviewer already exists
+                string query = "UPDATE Papers SET CompleteFilePath = ?CompleteFilePath, FileName = ?FileName, UpdatedBy = ?UpdatedBy WHERE PaperId = ?PaperId ";
+                using (MySqlConnection con = new MySqlConnection(DBConnection.ConnectionString))
+                {
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Parameters.Add(new MySqlParameter("?PaperId", paper.PaperId));
+                    cmd.Parameters.Add(new MySqlParameter("?CompleteFilePath", paper.PaperPath));
+                    cmd.Parameters.Add(new MySqlParameter("?FileName", paper.FileName));
+                    cmd.Parameters.Add(new MySqlParameter("?UpdatedBy", paper.UpdatedBy));
+
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.CommandText = query;
+                    cmd.ExecuteNonQuery();
+
+                    cmd.Dispose();
+                    con.Close();
+
+                    paper = GetPaperDetails(paper.PaperId);
+
+                    paper.ResultCode = 1;
+                    paper.ResultMessage = "SUCCESS";
+                }
+               
+                return paper;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

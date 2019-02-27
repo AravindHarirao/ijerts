@@ -157,14 +157,14 @@
 </div>
 
 <div class="hidden">
-    @using (@Html.BeginForm("DownloadAuthorPaper", "Author", FormMethod.Post))
+    @using (@Html.BeginForm("DownloadAuthorPaper", "Author", FormMethod.Post, new { @class = "frmDownloadAuthorPaper" }))
     {
         @Html.Hidden("PaperId");
         @Html.Hidden("PaperFileName");
         <button type="submit" class="hidden" id="btnDownloadAuthorPaper"></button>
     }
 
-    @using (@Html.BeginForm("DownloadDeclaration", "Author", FormMethod.Post))
+    @using (@Html.BeginForm("DownloadDeclaration", "Author", FormMethod.Post, new { @class = "frmDownloadDeclaration" }))
     {
         @Html.Hidden("PaperId");
         @Html.Hidden("DeclarationPaperfilename");
@@ -176,14 +176,14 @@
 <script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")" type="text/javascript"></script>
 <script>
     $(document).on('click', '.downloadAuthorPaper', function () {
-        $("#PaperId").val($(this).attr('data-paperid'));
-        $("#PaperFileName").val($(this).attr('data-paperfilename'));
+        $(".frmDownloadAuthorPaper > #PaperId").val($(this).attr('data-paperid'));
+        $(".frmDownloadAuthorPaper > #PaperFileName").val($(this).attr('data-paperfilename'));
         $('#btnDownloadAuthorPaper').click();
     });
 
     $(document).on('click', '.downloadAuthorDeclaration', function () {
-        $("#PaperId").val($(this).attr('data-paperid'));
-        $("#DeclarationPaperfilename").val($(this).attr('data-declarationfilename'));
+        $(".frmDownloadDeclaration > #PaperId").val($(this).attr('data-paperid'));
+        $(".frmDownloadDeclaration > #DeclarationPaperfilename").val($(this).attr('data-declarationfilename'));
         $('#btnDownloadAuthorDeclaration').click();
     });
 

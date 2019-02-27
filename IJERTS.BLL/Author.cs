@@ -52,5 +52,10 @@ namespace IJERTS.BLL
         {
             return _authorRepo.UpdateProfile(user);
         }
+
+        public Paper UpdatePaperDetails(Paper paper)
+        {
+            return _authorRepo.UpdatePaperDetails(paper);
+        }
     }
 }

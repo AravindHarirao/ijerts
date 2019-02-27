@@ -230,19 +230,23 @@ namespace IJERTS.Web.Controllers
         [HttpPost]
         public ActionResult GetPaperDetails(HttpPostedFileBase UpdatedPaper, int txtPaperId)
         {
-            Paper paper = null;
+            Paper paper = new Paper();
             try
             {
-                paper = _author.GetPaperDetails(txtPaperId);
+                paper.PaperId = txtPaperId;
                 string uploadedPath = Server.MapPath("~/UploadedFiles/AuthorPapers/");
-                string sFileName = paper.FileName;
+                string sFileName = Path.GetFileName(UpdatedPaper.FileName);
                 paper.FileName = string.Format("{0}-{1}{2}", Path.GetFileNameWithoutExtension(sFileName), Guid.NewGuid().ToString("N"), Path.GetExtension(sFileName));
-
                 paper.PaperPath = uploadedPath;
+                paper.CreatedBy = HttpContext.Session["FirstName"].ToString();
+                paper.UpdatedBy = HttpContext.Session["FirstName"].ToString();
+
                 if (!string.IsNullOrEmpty(paper.PaperPath))
                 {
                     UpdatedPaper.SaveAs(Path.Combine(paper.PaperPath, paper.FileName));
                 }
+
+                paper = _author.UpdatePaperDetails(paper);               
                 ViewData["PaperPostingFailed"] = "Paper posted successfully.";                
             }
             catch (Exception ex)
